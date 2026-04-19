@@ -1198,6 +1198,8 @@ public sealed class StaticSiteGenerator
         var css = """
 :root {
   --layout-shell-max: 1680px;
+  /* 与顶栏 .site-topbar-inner 一致：三栏左右缘与「思维导图博客」「夜间」按钮对齐，中间栏可用宽度固定 */
+  --layout-shell-pad-x: clamp(0.85rem, 2vw, 1.35rem);
   --layout-col-tags-max: 234px;
 
   font-family: "Noto Sans SC", "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
@@ -1274,7 +1276,7 @@ body.site-body {
   justify-content: space-between;
   gap: 0.65rem;
   flex-wrap: wrap;
-  padding: 0.35rem clamp(0.85rem, 2vw, 1.35rem);
+  padding: 0.35rem var(--layout-shell-pad-x);
   min-height: var(--site-topbar-h);
 }
 
@@ -1424,7 +1426,7 @@ html.theme-dark .site-topbar-chip:hover {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 0.45rem 0.85rem;
-  padding: 0.38rem clamp(0.85rem, 2vw, 1.35rem);
+  padding: 0.38rem var(--layout-shell-pad-x);
   min-height: var(--site-footer-h);
 }
 
@@ -1763,6 +1765,8 @@ html.theme-dark .bm-pill:hover {
   min-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-h));
   max-width: var(--layout-shell-max);
   margin: 0 auto;
+  padding-left: var(--layout-shell-pad-x);
+  padding-right: var(--layout-shell-pad-x);
 }
 
 .layout-nav {
@@ -3350,7 +3354,9 @@ td.gen-history-empty {
   flex-direction: column-reverse;
   align-items: stretch;
   bottom: 1.75rem;
-  right: calc(max(0px, (100vw - var(--layout-shell-max)) / 2) + var(--layout-col-tags-max) + 0.85rem);
+  right: calc(
+    max(0px, (100vw - var(--layout-shell-max)) / 2) + var(--layout-shell-pad-x) + var(--layout-col-tags-max) + 0.85rem
+  );
   width: min(320px, calc(100vw - 280px));
   max-width: min(320px, calc(100vw - 280px));
   filter: drop-shadow(0 8px 22px rgba(21, 28, 40, 0.1));
