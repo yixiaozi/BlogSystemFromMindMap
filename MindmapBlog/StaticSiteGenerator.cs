@@ -1201,6 +1201,8 @@ public sealed class StaticSiteGenerator
   /* 与顶栏 .site-topbar-inner 一致：三栏左右缘与「思维导图博客」「夜间」按钮对齐，中间栏可用宽度固定 */
   --layout-shell-pad-x: clamp(0.85rem, 2vw, 1.35rem);
   --layout-col-tags-max: 234px;
+  /* 主栏在网格列内尽量用满宽度（100% 即父列允许的最大值）；若需封顶可改为 min(72rem, 100%) 等 */
+  --layout-main-max: 100%;
 
   font-family: "Noto Sans SC", "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   line-height: 1.68;
@@ -1790,6 +1792,11 @@ html.theme-dark .bm-pill:hover {
 }
 
 .layout-main {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  max-width: var(--layout-main-max);
+  justify-self: stretch;
   padding: 1.55rem clamp(1.15rem, 3vw, 2.1rem) 3.25rem;
   overflow: hidden;
   background: var(--surface-main);
