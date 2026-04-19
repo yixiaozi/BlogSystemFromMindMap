@@ -1240,6 +1240,8 @@ public sealed class StaticSiteGenerator
 
   --site-topbar-h: 44px;
   --site-footer-h: 46px;
+  /* 固定底栏总占位（与 .site-footer-inner 的上下 padding + min-height 一致），侧栏可视高度与正文底部留白共用 */
+  --site-footer-occupy: calc(var(--site-footer-h) + 0.76rem);
 }
 
 * { box-sizing: border-box; }
@@ -1252,6 +1254,8 @@ html {
 body.site-body {
   margin: 0;
   min-height: 100vh;
+  /* 固定 footbar 不占文档流，留出底部避免正文滚到栏下；安全区计入 iPhone 横条 */
+  padding-bottom: calc(var(--site-footer-occupy) + env(safe-area-inset-bottom, 0px));
   background: var(--surface-page);
   color: var(--text-primary);
   display: flex;
@@ -1410,13 +1414,18 @@ html.theme-dark .site-topbar-chip:hover {
 }
 
 .site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   flex-shrink: 0;
-  margin-top: auto;
+  margin-top: 0;
   z-index: 295;
   background: rgba(250, 249, 247, 0.94);
   border-top: 1px solid var(--border);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .site-footer-inner {
@@ -1762,7 +1771,7 @@ html.theme-dark .bm-pill:hover {
   display: grid;
   grid-template-columns: minmax(234px, 272px) minmax(0, 1fr) minmax(196px, 234px);
   flex: 1 1 auto;
-  min-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-h));
+  min-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   max-width: var(--layout-shell-max);
   margin: 0 auto;
   padding-left: var(--layout-shell-pad-x);
@@ -1774,7 +1783,7 @@ html.theme-dark .bm-pill:hover {
   border-right: 1px solid var(--border);
   padding: 1rem 0.65rem 1.75rem 0.95rem;
   overflow: auto;
-  max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-h));
+  max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   position: sticky;
   top: var(--site-topbar-h);
   box-shadow: var(--shadow-nav);
@@ -1791,12 +1800,12 @@ html.theme-dark .bm-pill:hover {
   border-left: 1px solid var(--border);
   padding: 1rem 0.85rem 1.6rem 0.85rem;
   overflow: auto;
-  max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-h));
+  max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   position: sticky;
   top: var(--site-topbar-h);
   display: flex;
   flex-direction: column;
-  min-height: min(calc(100vh - var(--site-topbar-h) - var(--site-footer-h)), 100%);
+  min-height: min(calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy)), 100%);
   box-shadow: var(--shadow-aside);
 }
 
@@ -3353,7 +3362,7 @@ td.gen-history-empty {
   display: flex;
   flex-direction: column-reverse;
   align-items: stretch;
-  bottom: 1.75rem;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--site-footer-occupy) + 1.75rem);
   right: calc(
     max(0px, (100vw - var(--layout-shell-max)) / 2) + var(--layout-shell-pad-x) + var(--layout-col-tags-max) + 0.85rem
   );
@@ -3589,6 +3598,11 @@ td.gen-history-empty {
 }
 
 @media (max-width: 960px) {
+  /* 页脚栅格纵向更松，占位高于桌面，避免内容被固定底栏挡住 */
+  body.site-body {
+    --site-footer-occupy: calc(var(--site-footer-h) + 1.24rem);
+  }
+
   .site-footer-inner {
     grid-template-columns: 1fr;
     gap: 0.55rem;
@@ -3633,13 +3647,23 @@ td.gen-history-empty {
     right: 1rem;
     width: auto;
     max-width: none;
-    bottom: max(1rem, env(safe-area-inset-bottom));
+    bottom: calc(var(--site-footer-occupy) + max(1rem, env(safe-area-inset-bottom)));
   }
 }
 
 @media print {
   html {
     scrollbar-gutter: auto;
+  }
+  body.site-body {
+    padding-bottom: 0 !important;
+  }
+  .site-footer {
+    position: static;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    padding-bottom: 0;
   }
   .rev-dock {
     display: none !important;
