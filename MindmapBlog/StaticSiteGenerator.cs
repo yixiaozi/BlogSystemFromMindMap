@@ -373,7 +373,7 @@ public sealed class StaticSiteGenerator
         inner.AppendLine("<div class=\"gen-history-pager-left\">");
         inner.AppendLine("<label class=\"gen-history-pager-label\" for=\"gen-history-page-size\">每页</label>");
         inner.AppendLine(
-            "<select id=\"gen-history-page-size\" class=\"gen-history-page-size\"><option value=\"10\">10</option><option value=\"20\" selected>20</option><option value=\"50\">50</option><option value=\"100\">100</option></select>");
+            "<select id=\"gen-history-page-size\" class=\"gen-history-page-size\"><option value=\"10\" selected>10</option><option value=\"20\">20</option><option value=\"50\">50</option><option value=\"100\">100</option></select>");
         inner.AppendLine("<span class=\"gen-history-pager-label\">条</span>");
         inner.AppendLine("</div>");
         inner.AppendLine("<div class=\"gen-history-pager-right\">");
@@ -753,7 +753,6 @@ public sealed class StaticSiteGenerator
         var c = article.Created.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
         var m = article.Modified.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
         var revAside = BuildRevisionAside(versionDoc);
-
         var sb = new StringBuilder();
         sb.AppendLine("<div class=\"article-page\">");
         sb.AppendLine("<div class=\"article-header\">");
@@ -1200,9 +1199,14 @@ public sealed class StaticSiteGenerator
   --layout-shell-max: 1680px;
   /* 与顶栏 .site-topbar-inner 一致：三栏左右缘与「思维导图博客」「夜间」按钮对齐，中间栏可用宽度固定 */
   --layout-shell-pad-x: clamp(0.85rem, 2vw, 1.35rem);
+  /* 与 .layout-shell 三列 minmax 一致；主栏上限 = shell 最大宽度 − 左列上限 − 右列上限，三者之和等于 --layout-shell-max */
+  --layout-col-nav-min: 234px;
+  --layout-col-nav-max: 272px;
+  --layout-col-tags-min: 196px;
   --layout-col-tags-max: 234px;
-  /* 主栏内容区最大 1138px，列更窄时随列宽 */
-  --layout-main-max: min(1138px, 100%);
+  --layout-main-max: calc(var(--layout-shell-max) - var(--layout-col-nav-max) - var(--layout-col-tags-max));
+  /* 与 .layout-tags 横向 padding 一致（修订面板右缘与侧栏内容区右缘对齐） */
+  --layout-tags-pad-x: 0.85rem;
 
   font-family: "Noto Sans SC", "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   line-height: 1.68;
@@ -1771,7 +1775,7 @@ html.theme-dark .bm-pill:hover {
 
 .layout-shell {
   display: grid;
-  grid-template-columns: minmax(234px, 272px) minmax(0, 1fr) minmax(196px, 234px);
+  grid-template-columns: minmax(var(--layout-col-nav-min), var(--layout-col-nav-max)) minmax(0, 1fr) minmax(var(--layout-col-tags-min), var(--layout-col-tags-max));
   flex: 1 1 auto;
   min-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   max-width: var(--layout-shell-max);
@@ -1805,7 +1809,7 @@ html.theme-dark .bm-pill:hover {
 .layout-tags {
   background: var(--surface-aside);
   border-left: 1px solid var(--border);
-  padding: 1rem 0.85rem 1.6rem 0.85rem;
+  padding: 1rem var(--layout-tags-pad-x) 1.6rem var(--layout-tags-pad-x);
   overflow: auto;
   max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   position: sticky;
@@ -3281,9 +3285,19 @@ td.gen-history-empty {
 }
 
 .article-header {
-  margin-bottom: 0.75rem;
-  font-size: 0.88rem;
-  line-height: 1.5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.12rem 0.35rem;
+  margin-bottom: 1.05rem;
+  padding: 0.48rem 0.62rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.48);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
 }
 
 .crumb {
@@ -3298,43 +3312,108 @@ td.gen-history-empty {
   text-decoration: none;
 }
 
-.crumb-sep { color: #94a3b8; margin: 0 0.2rem; }
+.crumb-sep {
+  color: var(--text-soft);
+  margin: 0 0.12rem;
+  opacity: 0.85;
+}
+
+.article-title-block {
+  margin: 0 0 1.35rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
 
 .article-title-block h1 {
   margin: 0;
-  font-size: clamp(1.45rem, 3vw, 1.92rem);
+  font-size: clamp(1.5rem, 3.2vw, 2.05rem);
   font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.22;
+  letter-spacing: -0.038em;
+  line-height: 1.18;
+  text-wrap: balance;
+  color: var(--text-primary);
+}
+
+.article-title-block h1::after {
+  content: "";
+  display: block;
+  width: min(5.25rem, 34%);
+  height: 3px;
+  margin-top: 0.72rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), transparent);
 }
 
 .article-meta-line {
-  margin: 0.42rem 0 1.05rem;
+  margin: 0.65rem 0 0;
+  padding: 0.55rem 0.78rem;
   color: var(--text-muted);
-  font-size: 0.86rem;
-  line-height: 1.5;
-  white-space: nowrap;
-  overflow-x: auto;
+  font-size: 0.84rem;
+  line-height: 1.62;
+  white-space: normal;
+  word-break: break-word;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset;
 }
 
 .article-meta-line .article-plan-time {
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--accent-deep);
 }
 
-.content p { margin: 0.75rem 0; }
+article.content {
+  font-size: clamp(0.97rem, 0.35vw + 0.92rem, 1.07rem);
+  line-height: 1.82;
+  letter-spacing: 0.018em;
+}
 
-.content figure { margin: 1rem 0; }
+article.content > p:first-of-type {
+  margin-top: 0;
+  font-size: 1.04em;
+}
+
+article.content p {
+  margin: 0.92rem 0;
+}
+
+article.content p.missing {
+  margin: 1rem 0;
+  padding: 0.62rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(185, 28, 28, 0.42);
+  background: rgba(254, 242, 242, 0.65);
+  color: #991b1b;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.content figure {
+  margin: 1rem 0;
+}
 
 .article-figure {
   scroll-margin-top: 1rem;
 }
 
+/* 正文配图：轻量嵌入，避免粗边框与卡片阴影抢戏 */
+article.content figure.article-figure {
+  margin: 1.12rem 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 .content img {
   max-width: 100%;
   height: auto;
-  border-radius: var(--radius-md);
-  box-shadow: 0 10px 36px rgba(21, 28, 40, 0.09);
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  vertical-align: middle;
 }
 
 /* 降低拖动另存、长按菜单（无法杜绝截图或手动下载 URL） */
@@ -3348,20 +3427,59 @@ td.gen-history-empty {
   -webkit-touch-callout: none;
 }
 
-.content figcaption {
-  font-size: 0.85rem;
-  color: #64748b;
-  margin-top: 0.35rem;
+article.content figcaption {
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--text-soft);
+  margin-top: 0.38rem;
+  padding-top: 0;
+  border: none;
+  text-align: left;
+  line-height: 1.45;
 }
 
 .article-page {
   position: relative;
   min-width: 0;
+  padding: 1rem 1.08rem calc(1.35rem + 4.75rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: var(--shadow-sm);
+}
+
+html.theme-dark .article-page {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-sm);
+}
+
+html.theme-dark .article-header {
+  background: rgba(22, 27, 38, 0.72);
+  box-shadow: var(--shadow-sm);
+}
+
+html.theme-dark .article-title-block h1::after {
+  background: linear-gradient(
+    90deg,
+    rgba(165, 180, 252, 0.95),
+    color-mix(in srgb, rgba(165, 180, 252, 0.95) 28%, transparent)
+  );
+}
+
+html.theme-dark .article-meta-line {
+  background: rgba(30, 36, 51, 0.72);
+  box-shadow: none;
+}
+
+html.theme-dark article.content p.missing {
+  border-color: rgba(248, 113, 113, 0.38);
+  background: rgba(127, 29, 29, 0.28);
+  color: #fecaca;
 }
 
 /*
-  收起条固定在视口：纵向可与页脚/右侧栏底部大致对齐，
-  横向紧贴主栏右缘（约在第三栏左侧），不随正文长度上下移动。
+  修订与对比：固定在视口，与「主栏 / 正文区」右下角对齐。
+  right = shell 居中偏置 + shell 右内边距 + 第三栏栅格宽度 → 与本栏（主栏）右竖线重合；底栏贴近页脚占位之上。
 */
 .rev-dock {
   position: fixed;
@@ -3369,13 +3487,13 @@ td.gen-history-empty {
   display: flex;
   flex-direction: column-reverse;
   align-items: stretch;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--site-footer-occupy) + 1.75rem);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--site-footer-occupy) + 1.35rem);
   right: calc(
-    max(0px, (100vw - var(--layout-shell-max)) / 2) + var(--layout-shell-pad-x) + var(--layout-col-tags-max) + 0.85rem
+    max(0px, (100vw - var(--layout-shell-max)) / 2) + var(--layout-shell-pad-x) + var(--layout-col-tags-max)
   );
-  width: min(320px, calc(100vw - 280px));
-  max-width: min(320px, calc(100vw - 280px));
-  filter: drop-shadow(0 8px 22px rgba(21, 28, 40, 0.1));
+  width: min(320px, calc(var(--layout-main-max) - 2rem));
+  max-width: min(320px, calc(var(--layout-main-max) - 2rem));
+  filter: drop-shadow(0 8px 22px rgba(21, 28, 40, 0.11));
 }
 
 .rev-dock-panel-wrap {
