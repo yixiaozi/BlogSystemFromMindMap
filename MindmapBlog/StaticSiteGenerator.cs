@@ -2036,8 +2036,34 @@ html.theme-dark .bm-pill:hover {
 }
 
 .nav-cal-section > .aside-module-title,
+.nav-cal-fold-summary > .aside-module-title,
 .nav-filetree-section > .aside-module-title {
   margin-bottom: 0.5rem;
+}
+
+.nav-cal-fold {
+  margin: 0;
+}
+
+.nav-cal-fold-summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.nav-cal-fold-summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-cal-fold-summary::after {
+  content: "展开";
+  float: right;
+  color: var(--text-soft);
+  font-size: 0.74rem;
+  margin-top: -1.45rem;
+}
+
+.nav-cal-fold[open] > .nav-cal-fold-summary::after {
+  content: "收起";
 }
 
 .nav-major-divider {
@@ -3511,6 +3537,9 @@ td.gen-history-empty {
   line-height: 1.18;
   text-wrap: balance;
   color: var(--text-primary);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .article-title-block h1::after {
@@ -4002,6 +4031,9 @@ html.theme-dark article.content .note-box {
   .layout-main {
     padding: 1.25rem 1rem 2.5rem;
   }
+  .nav-cal-fold-summary::after {
+    margin-top: -1.38rem;
+  }
   .timeline::before { display: none; }
   .timeline-item {
     grid-template-columns: 1fr;
@@ -4019,6 +4051,15 @@ html.theme-dark article.content .note-box {
     width: auto;
     max-width: none;
     bottom: calc(var(--site-footer-occupy) + max(1rem, env(safe-area-inset-bottom)));
+  }
+}
+
+@media (min-width: 961px) {
+  .nav-cal-fold-summary {
+    display: none;
+  }
+  .nav-cal-fold > .nav-cal-fold-body {
+    display: block !important;
   }
 }
 

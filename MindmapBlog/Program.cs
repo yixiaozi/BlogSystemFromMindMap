@@ -42,7 +42,10 @@ internal static class Program
             return 2;
         }
 
-        var mmFiles = Directory.GetFiles(scanDir, "*.mm", SearchOption.AllDirectories);
+        var mmFiles = Directory
+            .GetFiles(scanDir, "*.mm", SearchOption.AllDirectories)
+            .Where(f => !Path.GetFileName(f).StartsWith("~", StringComparison.Ordinal))
+            .ToArray();
         if (mmFiles.Length == 0)
         {
             Console.WriteLine($"未在 {scanDir} 下找到任何 .mm 文件。");

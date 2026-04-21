@@ -465,7 +465,9 @@ internal static class HtmlLayout
             return;
 
         sb.AppendLine("<section class=\"nav-cal-section\" aria-label=\"计划日期\">");
-        sb.AppendLine("<h3 class=\"aside-module-title\">计划日期（提醒）</h3>");
+        sb.AppendLine("<details class=\"nav-cal-fold\" open>");
+        sb.AppendLine("<summary class=\"nav-cal-fold-summary\"><h3 class=\"aside-module-title\">计划日期（提醒）</h3></summary>");
+        sb.AppendLine("<div class=\"nav-cal-fold-body\">");
         sb.AppendLine("<div class=\"nav-cal-root\">");
 
         foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Year).OrderBy(g => g.Key))
@@ -539,7 +541,26 @@ internal static class HtmlLayout
 
         sb.AppendLine("</div>");
         AppendCalendarVisualNav(sb, planned, currentPageWebPath, names);
+        sb.AppendLine("</div>");
+        sb.AppendLine("</details>");
         sb.AppendLine("</section>");
+        sb.AppendLine(
+            """
+            <script>
+            (function () {
+              var fold = document.querySelector(".nav-cal-fold");
+              if (!fold) return;
+              try {
+                if (window.matchMedia && window.matchMedia("(max-width: 960px)").matches) {
+                  fold.open = false;
+                } else {
+                  fold.open = true;
+                }
+              } catch (e) {}
+            })();
+            </script>
+            """
+        );
     }
 
     private static void AppendCalendarVisualNav(

@@ -1,6 +1,80 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-04-21T14:44:08.2599269+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 3,
+      "totalPlainChars": 1004,
+      "mindmapFileCount": 3,
+      "distinctBookmarkCount": 3,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-04-21T14:38:35.5660564+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 433,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 3,
+      "totalPlainChars": 1004,
+      "mindmapFileCount": 3,
+      "distinctBookmarkCount": 3,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "过程大于结果，纯敲字版"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-04-21T14:05:38.3526211+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 2,
+      "totalPlainChars": 571,
+      "mindmapFileCount": 2,
+      "distinctBookmarkCount": 2,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-04-21T14:00:28.5302203+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 2,
+      "totalPlainChars": 571,
+      "mindmapFileCount": 2,
+      "distinctBookmarkCount": 2,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-04-21T13:47:19.975031+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -2107,6 +2181,11 @@
     }
   ],
   "lastSnapshot": {
+    "d9aadc03deba76fca5ae2ec0": {
+      "title": "过程大于结果，纯敲字版",
+      "plainChars": 433,
+      "contentHash8": "9ba6c979723a2118"
+    },
     "6a3835ba542d742d71941c3c": {
       "title": "20260421开始发布第一版",
       "plainChars": 128,
