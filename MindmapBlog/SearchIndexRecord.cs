@@ -20,7 +20,15 @@ internal sealed class SearchIndexRecord
     {
         var body = string.Join(
             "\n",
-            article.Blocks.OfType<ParagraphBlock>().Select(p => p.Text.Trim()).Where(t => t.Length > 0));
+            article.Blocks
+                .Where(b => b is ParagraphBlock or NoteBoxBlock)
+                .Select(b => b switch
+                {
+                    ParagraphBlock p => p.Text.Trim(),
+                    NoteBoxBlock n => n.Text.Trim(),
+                    _ => "",
+                })
+                .Where(t => t.Length > 0));
 
         var imageAlts = article.Blocks
             .OfType<ImageBlock>()

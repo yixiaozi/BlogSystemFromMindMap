@@ -8,6 +8,7 @@ namespace MindmapBlog;
 internal static class WordFrequencyService
 {
     private static readonly Regex LatinLetters = new(@"[a-zA-Z]", RegexOptions.Compiled);
+    private static readonly Regex SentenceSplitter = new(@"(?<=[。！？!?；;])\s*|\r?\n+", RegexOptions.Compiled);
 
     /// <summary>聚合全部文章正文、标题、书签等文本后的词频（jieba 精确模式分词）。</summary>
     public static WordFrequencyResult Compute(IReadOnlyList<BlogArticle> articles, int maxTerms)
@@ -51,6 +52,39 @@ internal static class WordFrequencyService
             minCount);
     }
 
+    public static Dictionary<string, List<WordFrequencyArticleHit>> BuildTopTermHits(
+        IReadOnlyList<BlogArticle> articles,
+        IReadOnlyList<WordFrequencyItem> topTerms,
+        int maxSnippetsPerArticle = 2)
+    {
+        var termSet = new HashSet<string>(topTerms.Select(t => t.Token), StringComparer.Ordinal);
+        var result = topTerms.ToDictionary(t => t.Token, _ => new List<WordFrequencyArticleHit>(), StringComparer.Ordinal);
+
+        foreach (var article in articles)
+        {
+            var snippets = CollectCandidateSnippets(article);
+            foreach (var term in termSet)
+            {
+                var hitSnippets = new List<string>();
+                foreach (var s in snippets)
+                {
+                    if (!ContainsToken(s, term))
+                        continue;
+                    hitSnippets.Add(s);
+                    if (hitSnippets.Count >= Math.Max(1, maxSnippetsPerArticle))
+                        break;
+                }
+
+                if (hitSnippets.Count == 0)
+                    continue;
+
+                result[term].Add(new WordFrequencyArticleHit(article.Title, article.HtmlFileName, hitSnippets));
+            }
+        }
+
+        return result;
+    }
+
     private static string CollectPlainText(BlogArticle article)
     {
         var sb = new StringBuilder();
@@ -66,6 +100,9 @@ internal static class WordFrequencyService
             {
                 case ParagraphBlock p:
                     sb.Append(p.Text).Append('\n');
+                    break;
+                case NoteBoxBlock n:
+                    sb.Append(n.Text).Append('\n');
                     break;
                 case ImageBlock img when !string.IsNullOrWhiteSpace(img.AltText):
                     sb.Append(img.AltText.Trim()).Append('\n');
@@ -129,6 +166,58 @@ internal static class WordFrequencyService
         key = w;
         return true;
     }
+
+    private static List<string> CollectCandidateSnippets(BlogArticle article)
+    {
+        var list = new List<string>();
+        void Add(string? text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return;
+            foreach (var part in SentenceSplitter.Split(text))
+            {
+                var s = part.Trim();
+                if (s.Length < 4)
+                    continue;
+                if (s.Length > 120)
+                    s = s[..120] + "…";
+                list.Add(s);
+            }
+        }
+
+        Add(article.Title);
+        Add(article.StructuralSection);
+        foreach (var bm in article.Bookmarks)
+            Add(bm);
+
+        foreach (var block in article.Blocks)
+        {
+            switch (block)
+            {
+                case ParagraphBlock p:
+                    Add(p.Text);
+                    break;
+                case NoteBoxBlock n:
+                    Add(n.Text);
+                    break;
+                case ImageBlock img when !string.IsNullOrWhiteSpace(img.AltText):
+                    Add(img.AltText);
+                    break;
+            }
+        }
+
+        return list;
+    }
+
+    private static bool ContainsToken(string text, string token)
+    {
+        if (string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(token))
+            return false;
+        var hasHan = token.Any(static c => c is >= '\u4e00' and <= '\u9fff');
+        return hasHan
+            ? text.Contains(token, StringComparison.Ordinal)
+            : text.Contains(token, StringComparison.OrdinalIgnoreCase);
+    }
 }
 
 internal sealed record WordFrequencyItem(string Token, int Count);
@@ -140,3 +229,8 @@ internal sealed record WordFrequencyResult(
     int ArticleCount,
     int MaxCount,
     int MinCount);
+
+internal sealed record WordFrequencyArticleHit(
+    string Title,
+    string HtmlFileName,
+    IReadOnlyList<string> Snippets);

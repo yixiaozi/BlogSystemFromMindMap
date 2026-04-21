@@ -1,4 +1,4 @@
-<map version="docear 1.1" project="17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99" project_last_home="file:/D:/Dropbox/yixiaozi/" dcr_id="1776565710990_8g38p74vj9o419nr0gbuht7o9">
+<map version="docear 1.1" dcr_id="1776565710990_8g38p74vj9o419nr0gbuht7o9" project="17DAB3A24CC7NGK3HWY5ERX3AURZZAJ2PT99" project_last_home="file:/D:/Dropbox/yixiaozi/">
 <!--To view this file, download Docear - The Academic Literature Suite from http://www.docear.org -->
 <node TEXT="&#x65e5;&#x8bb0;" FOLDED="false" ID="ID_1447002406" CREATED="1776565699466" MODIFIED="1776565699467">
 <hook NAME="AutomaticEdgeColor" COUNTER="1"/>
@@ -68,12 +68,27 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <node TEXT="&#x8fd9;&#x91cc;&#x662f;&#x535a;&#x5ba2;&#x5185;&#x5bb9;" ID="ID_979909386" CREATED="1776565750745" MODIFIED="1776565757876"/>
 <node TEXT="&#x8fd9;&#x91cc;&#x662f;&#x4e00;&#x526f;&#x56fe;&#x7247;&#xff0c;&#x7528;&#x6765;&#x89e3;&#x91ca;&#x8fd9;&#x53e5;&#x8bdd;&#xff0c;&#x5e2e;&#x6211;&#x6dfb;&#x52a0;&#x5230;&#x8fd9;&#x53e5;&#x8bdd;&#x4e0b;&#x9762;&#x3002;" ID="ID_7615583" CREATED="1776565758114" MODIFIED="1776600465152">
 <node TEXT="&#x7f8e;&#x4e3d;&#x7684;&#x56fe;&#x7247;" ID="ID_943258576" CREATED="1776565800597" MODIFIED="1776565812566">
 <hook URI=".images/&#x65e5;&#x8bb0;_1125195576184653402.png" SIZE="1.0" NAME="ExternalObject"/>
+</node>
+<node TEXT="&#x56fe;&#x7247;&#x4e0b;&#x6dfb;&#x52a0;&#x4e00;&#x884c;&#xff0c;&#x6d4b;&#x8bd5;&#x663e;&#x793a;&#x5728;&#x54ea;&#x91cc;" ID="ID_1167484800" CREATED="1776767981036" MODIFIED="1776768059080"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      &#27880;&#37322;&#20869;&#23481;
+    </p>
+  </body>
+</html>
+
+</richcontent>
+<node TEXT="&#x7136;&#x540e;&#x518d;&#x4e00;&#x5c42;&#x3002;" ID="ID_630107911" CREATED="1776767992254" MODIFIED="1776768009290"/>
 </node>
 </node>
 <node TEXT="&#x6dfb;&#x52a0;&#x4e00;&#x884c;&#x5185;&#x5bb9;" ID="ID_561942280" CREATED="1776599860119" MODIFIED="1776600484295"/>

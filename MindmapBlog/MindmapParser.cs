@@ -18,6 +18,7 @@ public static class MindmapParser
     private static readonly XName MapName = XName.Get("map");
     private static readonly XName RichContentName = XName.Get("richcontent");
     private static readonly XName IconName = XName.Get("icon");
+    private static readonly Regex SentenceCountRegex = new(@"[。！？!?；;]+", RegexOptions.Compiled);
 
     public static IReadOnlyList<BlogArticle> ExtractArticles(string mmFilePath)
     {
@@ -166,33 +167,83 @@ public static class MindmapParser
 
     private static void AppendNodeBlocks(XElement node, string mmDirectory, List<BodyBlock> list)
     {
+        var selfText = DecodeText(node.Attribute("TEXT")?.Value);
+        var noteText = ExtractNodeNoteText(node);
+        var hasLongNote = !string.IsNullOrWhiteSpace(noteText) && CountSentences(noteText) > 2;
+        var shortNote = !hasLongNote ? noteText : null;
         var hook = node.Elements(HookName)
             .FirstOrDefault(h => string.Equals(h.Attribute("NAME")?.Value, "ExternalObject", StringComparison.OrdinalIgnoreCase));
 
+        var hasImage = false;
         if (hook != null)
         {
             var uri = hook.Attribute("URI")?.Value ?? "";
-            var alt = DecodeText(node.Attribute("TEXT")?.Value) ?? "";
+            var alt = selfText ?? "";
             var resolved = ResolveUri(mmDirectory, uri);
             list.Add(new ImageBlock(uri, alt, resolved));
-            return;
+            hasImage = true;
         }
 
         var childNodes = node.Elements(NodeName).ToList();
         if (childNodes.Count == 0)
         {
-            var text = DecodeText(node.Attribute("TEXT")?.Value);
-            if (!string.IsNullOrWhiteSpace(text))
-                list.Add(new ParagraphBlock(text.Trim()));
+            if (!hasImage && !string.IsNullOrWhiteSpace(selfText))
+                list.Add(new ParagraphBlock(AppendInlineNote(selfText.Trim(), shortNote)));
+            else if (!hasImage && string.IsNullOrWhiteSpace(selfText) && !string.IsNullOrWhiteSpace(shortNote))
+                list.Add(new ParagraphBlock($"（{shortNote!.Trim()}）"));
+            if (hasLongNote)
+                list.Add(new NoteBoxBlock(noteText!.Trim()));
             return;
         }
 
-        var selfText = DecodeText(node.Attribute("TEXT")?.Value);
-        if (!string.IsNullOrWhiteSpace(selfText))
-            list.Add(new ParagraphBlock(selfText.Trim()));
+        if (!hasImage && !string.IsNullOrWhiteSpace(selfText))
+            list.Add(new ParagraphBlock(AppendInlineNote(selfText.Trim(), shortNote)));
+        else if (!hasImage && string.IsNullOrWhiteSpace(selfText) && !string.IsNullOrWhiteSpace(shortNote))
+            list.Add(new ParagraphBlock($"（{shortNote!.Trim()}）"));
 
         foreach (var child in childNodes)
             AppendNodeBlocks(child, mmDirectory, list);
+
+        if (hasLongNote)
+            list.Add(new NoteBoxBlock(noteText!.Trim()));
+    }
+
+    private static string? ExtractNodeNoteText(XElement node)
+    {
+        foreach (var rc in node.Elements(RichContentName))
+        {
+            var type = rc.Attribute("TYPE")?.Value ?? "";
+            if (!type.Equals("NOTE", StringComparison.OrdinalIgnoreCase)
+                && !type.Equals("DETAILS", StringComparison.OrdinalIgnoreCase))
+                continue;
+            var text = rc.Value?.Trim();
+            if (string.IsNullOrWhiteSpace(text))
+                continue;
+            return text;
+        }
+
+        return null;
+    }
+
+    private static int CountSentences(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return 0;
+        var parts = SentenceCountRegex.Split(text)
+            .Select(s => s.Trim())
+            .Where(s => s.Length > 0)
+            .ToList();
+        if (parts.Count == 0)
+            return 0;
+        return parts.Count;
+    }
+
+    private static string AppendInlineNote(string mainText, string? shortNote)
+    {
+        if (string.IsNullOrWhiteSpace(shortNote))
+            return mainText;
+        var note = shortNote.Trim();
+        return $"{mainText}（{note}）";
     }
 
     internal static string? DecodeText(string? raw)

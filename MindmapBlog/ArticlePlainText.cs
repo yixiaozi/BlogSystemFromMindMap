@@ -15,6 +15,10 @@ internal static class ArticlePlainText
                 case ParagraphBlock p:
                     sb.AppendLine(p.Text);
                     break;
+                case NoteBoxBlock n:
+                    sb.AppendLine("[注释]");
+                    sb.AppendLine(n.Text);
+                    break;
                 case ImageBlock img:
                     sb.Append("[图片: ");
                     sb.Append(string.IsNullOrEmpty(img.AltText) ? img.RelativeUri : img.AltText);

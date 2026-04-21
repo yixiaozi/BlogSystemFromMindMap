@@ -1060,13 +1060,17 @@ public sealed class StaticSiteGenerator
         var webPath = names.WordFrequencyPageWebPath;
         var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, webPath, names);
         var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, webPath, galleryEntries, avatarSitePath);
-        var stats = WordFrequencyService.Compute(sortedArticles, maxTerms: 180);
-        var inner = BuildWordFrequencyInner(stats);
+        var stats = WordFrequencyService.Compute(sortedArticles, maxTerms: 50);
+        var hits = WordFrequencyService.BuildTopTermHits(sortedArticles, stats.TopTerms);
+        var inner = BuildWordFrequencyInner(stats, hits, webPath);
         var page = HtmlLayout.BuildDocument("词频", "", inner, nav, aside, webPath, names.RssFeedWebPath, names);
         WriteUtf8Web(outDir, webPath, page);
     }
 
-    private static string BuildWordFrequencyInner(WordFrequencyResult stats)
+    private static string BuildWordFrequencyInner(
+        WordFrequencyResult stats,
+        IReadOnlyDictionary<string, List<WordFrequencyArticleHit>> hitsByTerm,
+        string currentPageWebPath)
     {
         var sb = new StringBuilder();
         sb.AppendLine("<div class=\"page-wordfreq\">");
@@ -1103,30 +1107,105 @@ public sealed class StaticSiteGenerator
         foreach (var t in stats.TopTerms)
         {
             var wf = Weight(t.Count, stats.MinCount, stats.MaxCount).ToString("0.###", CultureInfo.InvariantCulture);
-            sb.Append("<span class=\"wordfreq-chip\" style=\"--wf:").Append(wf).Append("\">")
-                .Append(WebUtility.HtmlEncode(t.Token)).AppendLine("</span>");
+            sb.Append("<button type=\"button\" class=\"wordfreq-chip\" data-token=\"")
+                .Append(WebUtility.HtmlEncode(t.Token))
+                .Append("\" style=\"--wf:")
+                .Append(wf)
+                .Append("\">")
+                .Append(WebUtility.HtmlEncode(t.Token))
+                .AppendLine("</button>");
         }
 
         sb.AppendLine("</div>");
 
-        sb.AppendLine("<section class=\"wordfreq-chart\" aria-label=\"高频词条形图\">");
-        sb.AppendLine("<h2 class=\"wordfreq-chart-title\">高频词排行</h2>");
-        var chart = stats.TopTerms.Take(28).ToList();
-        var maxBar = chart[0].Count;
-        foreach (var t in chart)
-        {
-            var pct = maxBar <= 0
-                ? 0
-                : Math.Min(100, Math.Max(3, (int)Math.Round(100.0 * t.Count / maxBar)));
-            sb.AppendLine("<div class=\"wordfreq-row\">");
-            sb.Append("<span class=\"wordfreq-label\">").Append(WebUtility.HtmlEncode(t.Token)).AppendLine("</span>");
-            sb.Append("<span class=\"wordfreq-bar-wrap\"><span class=\"wordfreq-bar\" style=\"width:")
-                .Append(pct.ToString(CultureInfo.InvariantCulture)).Append("%\"></span></span>");
-            sb.Append("<span class=\"wordfreq-n\">").Append(t.Count.ToString(CultureInfo.InvariantCulture))
-                .AppendLine("</span></div>");
-        }
-
+        sb.AppendLine("<section class=\"wordfreq-hits\" aria-live=\"polite\" aria-label=\"词条关联文章\">");
+        sb.AppendLine("<h2 class=\"wordfreq-chart-title\">关联文章与句子</h2>");
+        sb.AppendLine("<p id=\"wordfreq-hits-empty\" class=\"wordfreq-hits-empty\">点击上方词条，查看它出现在哪些文章里，以及对应句子。</p>");
+        sb.AppendLine("<div id=\"wordfreq-hits-list\" class=\"wordfreq-hits-list\" hidden></div>");
         sb.AppendLine("</section>");
+
+        var payload = hitsByTerm.ToDictionary(
+            kv => kv.Key,
+            kv => kv.Value.Select(h => new
+            {
+                title = h.Title,
+                href = SitePathHelper.RelFromTo(currentPageWebPath, h.HtmlFileName),
+                snippets = h.Snippets,
+            }).ToList(),
+            StringComparer.Ordinal);
+        var jsonUtf8 = JsonSerializer.SerializeToUtf8Bytes(payload, new JsonSerializerOptions
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        });
+        var b64 = Convert.ToBase64String(jsonUtf8);
+        sb.AppendLine("<textarea id=\"wordfreq-hits-b64\" hidden readonly>");
+        sb.Append(b64);
+        sb.AppendLine("</textarea>");
+        sb.AppendLine("""
+<script>
+(function () {
+  var ta = document.getElementById("wordfreq-hits-b64");
+  var empty = document.getElementById("wordfreq-hits-empty");
+  var list = document.getElementById("wordfreq-hits-list");
+  var triggers = Array.prototype.slice.call(document.querySelectorAll("[data-token]"));
+  if (!ta || !empty || !list || !triggers.length) return;
+  var map = {};
+  try {
+    var bin = atob((ta.value || ta.textContent || "").trim());
+    var u8 = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    map = JSON.parse(new TextDecoder("utf-8").decode(u8));
+  } catch (e) {
+    return;
+  }
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function escReg(s) {
+    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+  function mark(text, token) {
+    if (!token) return esc(text);
+    var isLatin = /[a-zA-Z]/.test(token);
+    var re = new RegExp("(" + escReg(token) + ")", isLatin ? "ig" : "g");
+    return esc(text).replace(re, '<mark class="wordfreq-hit">$1</mark>');
+  }
+  function activate(token) {
+    triggers.forEach(function (el) {
+      var on = (el.getAttribute("data-token") || "") === token;
+      el.classList.toggle("is-active", on);
+    });
+    var rows = map[token] || [];
+    if (!rows.length) {
+      list.setAttribute("hidden", "hidden");
+      list.innerHTML = "";
+      empty.textContent = "“" + token + "” 暂无关联文章。";
+      empty.removeAttribute("hidden");
+      return;
+    }
+    var h = rows.map(function (r) {
+      var snippets = (r.snippets || []).map(function (s) {
+        return '<p class="wordfreq-snippet">' + mark(s, token) + "</p>";
+      }).join("");
+      return '<article class="wordfreq-hit-item"><h3 class="wordfreq-hit-title"><a href="' + esc(r.href || "") + '">' + esc(r.title || "") + '</a></h3>' + snippets + "</article>";
+    }).join("");
+    list.innerHTML = h;
+    list.removeAttribute("hidden");
+    empty.setAttribute("hidden", "hidden");
+    list.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  triggers.forEach(function (el) {
+    el.addEventListener("click", function () {
+      activate(el.getAttribute("data-token") || "");
+    });
+  });
+})();
+</script>
+""");
         sb.AppendLine("</div>");
         return sb.ToString();
     }
@@ -1165,6 +1244,11 @@ public sealed class StaticSiteGenerator
             {
                 case ParagraphBlock p:
                     sb.Append("<p>").Append(WebUtility.HtmlEncode(p.Text)).AppendLine("</p>");
+                    break;
+                case NoteBoxBlock n:
+                    sb.Append("<pre class=\"note-box\">")
+                        .Append(WebUtility.HtmlEncode(n.Text))
+                        .AppendLine("</pre>");
                     break;
                 case ImageBlock img:
                     var match = imageRefs.FirstOrDefault(t => ReferenceEquals(t.Block, img));
@@ -2553,11 +2637,19 @@ details.nav-mmnod[open] > .nav-mmnod-summary::before {
   color: var(--accent-deep);
   font-size: calc(0.62rem + var(--wf, 0.45) * 0.82rem);
   transition: transform 0.14s ease, border-color 0.14s ease;
+  cursor: pointer;
 }
 
 .wordfreq-chip:hover {
   transform: translateY(-1px);
   border-color: rgba(67, 56, 202, 0.35);
+}
+
+.wordfreq-chip.is-active,
+.wordfreq-label.is-active {
+  border-color: #ef4444;
+  color: #b91c1c;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.14);
 }
 
 .wordfreq-chart {
@@ -2589,6 +2681,13 @@ details.nav-mmnod[open] > .nav-mmnod-summary::before {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  padding: 0.08rem 0.22rem;
+  border-radius: 7px;
+  cursor: pointer;
 }
 
 .wordfreq-bar-wrap {
@@ -2612,6 +2711,55 @@ details.nav-mmnod[open] > .nav-mmnod-summary::before {
   font-size: 0.78rem;
 }
 
+.wordfreq-hits {
+  margin-top: 1.2rem;
+}
+
+.wordfreq-hits-empty {
+  margin: 0.42rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.wordfreq-hits-list {
+  margin-top: 0.72rem;
+  display: grid;
+  gap: 0.62rem;
+}
+
+.wordfreq-hit-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.6rem 0.72rem;
+}
+
+.wordfreq-hit-title {
+  margin: 0 0 0.34rem;
+  font-size: 0.92rem;
+}
+
+.wordfreq-hit-title a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.wordfreq-hit-title a:hover { text-decoration: underline; }
+
+.wordfreq-snippet {
+  margin: 0.2rem 0;
+  color: var(--text-primary);
+  font-size: 0.84rem;
+  line-height: 1.52;
+}
+
+.wordfreq-hit {
+  color: #b91c1c;
+  background: rgba(248, 113, 113, 0.14);
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
 html.theme-dark .wordfreq-cloud {
   background:
     radial-gradient(ellipse 90% 120% at 50% -10%, rgba(129, 140, 248, 0.22) 0%, transparent 55%),
@@ -2629,6 +2777,15 @@ html.theme-dark .wordfreq-bar-wrap {
 
 html.theme-dark .wordfreq-row {
   border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+html.theme-dark .wordfreq-hit-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+html.theme-dark .wordfreq-hit {
+  color: #fca5a5;
+  background: rgba(248, 113, 113, 0.2);
 }
 
 .gallery-empty {
@@ -3379,6 +3536,20 @@ article.content p {
   margin: 0.92rem 0;
 }
 
+article.content .note-box {
+  margin: 0.9rem 0 1rem;
+  padding: 0.62rem 0.72rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.04);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 article.content p.missing {
   margin: 1rem 0;
   padding: 0.62rem 0.85rem;
@@ -3475,6 +3646,10 @@ html.theme-dark article.content p.missing {
   border-color: rgba(248, 113, 113, 0.38);
   background: rgba(127, 29, 29, 0.28);
   color: #fecaca;
+}
+
+html.theme-dark article.content .note-box {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /*
