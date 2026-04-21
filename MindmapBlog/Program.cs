@@ -56,7 +56,8 @@ internal static class Program
             {
                 var list = MindmapParser.ExtractArticles(file);
                 articles.AddRange(list);
-                Console.WriteLine($"{file} → {list.Count} 篇文章");
+                if (list.Count > 0)
+                    Console.WriteLine($"{file} → {list.Count} 篇文章");
             }
             catch (Exception ex)
             {

@@ -1,0 +1,27 @@
+{
+  "storageKey": "6a3835ba542d742d71941c3c",
+  "articleNodeId": "ID_885658647",
+  "sourceMmRelativePath": "02目标发展/07创作达人/00开源作者/00个人网址/重新搭建个人系统.mm",
+  "htmlFileName": "02目标发展/07创作达人/00开源作者/00个人网址/20260421开始发布第一版.html",
+  "modifyCount": 1,
+  "versions": [
+    {
+      "generatedAtUtc": "2026-04-21T13:38:04.8487346+00:00",
+      "mindmapModifiedUtc": "2026-04-21T13:36:00.573+00:00",
+      "charsAdded": 126,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "经历了几个小时的开发主要由AI编写代码，这个我一直构想的思维导图直接发布博客的系统总算完成了。\n目标包含以下几个模块：导图节点发布，计划发布，书签，图册，搜索，网站生成，词频，RSS等。\n网站目前托管于Github,未来看情况添加评论系统后再往外迁移。",
+      "diffHtmlAgainstPrevious": ""
+    },
+    {
+      "generatedAtUtc": "2026-04-21T13:40:25.2654888+00:00",
+      "mindmapModifiedUtc": "2026-04-21T13:36:00.573+00:00",
+      "charsAdded": 2,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "经历了几个小时的开发(主要由AI编写代码)，这个我一直构想的思维导图直接发布博客的系统总算完成了。\n目标包含以下几个模块：导图节点发布，计划发布，书签，图册，搜索，网站生成，词频，RSS等。\n网站目前托管于Github,未来看情况添加评论系统后再往外迁移。",
+      "diffHtmlAgainstPrevious": "<div class=\"diff-inline\" role=\"region\" aria-label=\"文本差异\"><span class=\"diff-same\">经</span><span class=\"diff-same\">历</span><span class=\"diff-same\">了</span><span class=\"diff-same\">几</span><span class=\"diff-same\">个</span><span class=\"diff-same\">小</span><span class=\"diff-same\">时</span><span class=\"diff-same\">的</span><span class=\"diff-same\">开</span><span class=\"diff-same\">发</span><ins class=\"diff-ins\">(</ins><span class=\"diff-same\">主</span><span class=\"diff-same\">要</span><span class=\"diff-same\">由</span><span class=\"diff-same\">A</span><span class=\"diff-same\">I</span><span class=\"diff-same\">编</span><span class=\"diff-same\">写</span><span class=\"diff-same\">代</span><span class=\"diff-same\">码</span><ins class=\"diff-ins\">)</ins><span class=\"diff-same\">，</span><span class=\"diff-same\">这</span><span class=\"diff-same\">个</span><span class=\"diff-same\">我</span><span class=\"diff-same\">一</span><span class=\"diff-same\">直</span><span class=\"diff-same\">构</span><span class=\"diff-same\">想</span><span class=\"diff-same\">的</span><span class=\"diff-same\">思</span><span class=\"diff-same\">维</span><span class=\"diff-same\">导</span><span class=\"diff-same\">图</span><span class=\"diff-same\">直</span><span class=\"diff-same\">接</span><span class=\"diff-same\">发</span><span class=\"diff-same\">布</span><span class=\"diff-same\">博</span><span class=\"diff-same\">客</span><span class=\"diff-same\">的</span><span class=\"diff-same\">系</span><span class=\"diff-same\">统</span><span class=\"diff-same\">总</span><span class=\"diff-same\">算</span><span class=\"diff-same\">完</span><span class=\"diff-same\">成</span><span class=\"diff-same\">了</span><span class=\"diff-same\">。</span><span class=\"diff-same\">\n</span><span class=\"diff-same\">目</span><span class=\"diff-same\">标</span><span class=\"diff-same\">包</span><span class=\"diff-same\">含</span><span class=\"diff-same\">以</span><span class=\"diff-same\">下</span><span class=\"diff-same\">几</span><span class=\"diff-same\">个</span><span class=\"diff-same\">模</span><span class=\"diff-same\">块</span><span class=\"diff-same\">：</span><span class=\"diff-same\">导</span><span class=\"diff-same\">图</span><span class=\"diff-same\">节</span><span class=\"diff-same\">点</span><span class=\"diff-same\">发</span><span class=\"diff-same\">布</span><span class=\"diff-same\">，</span><span class=\"diff-same\">计</span><span class=\"diff-same\">划</span><span class=\"diff-same\">发</span><span class=\"diff-same\">布</span><span class=\"diff-same\">，</span><span class=\"diff-same\">书</span><span class=\"diff-same\">签</span><span class=\"diff-same\">，</span><span class=\"diff-same\">图</span><span class=\"diff-same\">册</span><span class=\"diff-same\">，</span><span class=\"diff-same\">搜</span><span class=\"diff-same\">索</span><span class=\"diff-same\">，</span><span class=\"diff-same\">网</span><span class=\"diff-same\">站</span><span class=\"diff-same\">生</span><span class=\"diff-same\">成</span><span class=\"diff-same\">，</span><span class=\"diff-same\">词</span><span class=\"diff-same\">频</span><span class=\"diff-same\">，</span><span class=\"diff-same\">R</span><span class=\"diff-same\">S</span><span class=\"diff-same\">S</span><span class=\"diff-same\">等</span><span class=\"diff-same\">。</span><span class=\"diff-same\">\n</span><span class=\"diff-same\">网</span><span class=\"diff-same\">站</span><span class=\"diff-same\">目</span><span class=\"diff-same\">前</span><span class=\"diff-same\">托</span><span class=\"diff-same\">管</span><span class=\"diff-same\">于</span><span class=\"diff-same\">G</span><span class=\"diff-same\">i</span><span class=\"diff-same\">t</span><span class=\"diff-same\">h</span><span class=\"diff-same\">u</span><span class=\"diff-same\">b</span><span class=\"diff-same\">,</span><span class=\"diff-same\">未</span><span class=\"diff-same\">来</span><span class=\"diff-same\">看</span><span class=\"diff-same\">情</span><span class=\"diff-same\">况</span><span class=\"diff-same\">添</span><span class=\"diff-same\">加</span><span class=\"diff-same\">评</span><span class=\"diff-same\">论</span><span class=\"diff-same\">系</span><span class=\"diff-same\">统</span><span class=\"diff-same\">后</span><span class=\"diff-same\">再</span><span class=\"diff-same\">往</span><span class=\"diff-same\">外</span><span class=\"diff-same\">迁</span><span class=\"diff-same\">移</span><span class=\"diff-same\">。</span></div>"
+    }
+  ]
+}

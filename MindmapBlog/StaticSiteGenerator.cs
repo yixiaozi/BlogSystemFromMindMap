@@ -407,6 +407,12 @@ public sealed class StaticSiteGenerator
                 }).ToList(),
             removedTitles = r.RemovedTitles ?? [],
             modifiedTitles = r.ModifiedTitles ?? [],
+            modifiedLinks = (r.ModifiedTitles ?? [])
+                .Select(t => new
+                {
+                    title = t,
+                    href = titleHrefLookup.TryGetValue(t, out var h) ? h : "",
+                }).ToList(),
         }).ToList();
 
         var jsonUtf8 = JsonSerializer.SerializeToUtf8Bytes(payload, new JsonSerializerOptions
@@ -504,7 +510,7 @@ public sealed class StaticSiteGenerator
       "</h3>" +
       renderAddedBlock("新增", r.addedLinks, r.addedTitles) +
       renderTitles("移除", r.removedTitles) +
-      renderTitles("改动", r.modifiedTitles);
+      renderAddedBlock("改动", r.modifiedLinks, r.modifiedTitles);
     if (
       (!r.addedTitles || !r.addedTitles.length) &&
       (!r.removedTitles || !r.removedTitles.length) &&

@@ -44,10 +44,10 @@ internal static class SlugUtility
     {
         if (string.IsNullOrWhiteSpace(stem))
             return "";
-        var s = stem.Trim();
-        s = Regex.Replace(s, @"[\x00-\x1f\\/:*?""<>|]", "");
-        s = Regex.Replace(s, @"\s+", "-");
-        s = Regex.Replace(s, "-{2,}", "-").Trim('-');
+
+        // 用更严格的 URL 安全规则，避免 IIS 对特殊字符触发 404.11（双重转义拦截）。
+        // 保留：中文、英文字母、数字、连字符。
+        var s = Create(stem);
         if (s.Length > 120)
             s = s[..120].TrimEnd('-');
         return s;

@@ -1,6 +1,125 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-04-21T13:47:19.975031+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 2,
+      "totalPlainChars": 571,
+      "mindmapFileCount": 2,
+      "distinctBookmarkCount": 2,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-04-21T13:40:25.2654888+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 1,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 2,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 2,
+      "totalPlainChars": 571,
+      "mindmapFileCount": 2,
+      "distinctBookmarkCount": 2,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "20260421开始发布第一版"
+      ]
+    },
+    {
+      "generatedAtUtc": "2026-04-21T13:38:04.8487346+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 126,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 2,
+      "totalPlainChars": 569,
+      "mindmapFileCount": 2,
+      "distinctBookmarkCount": 2,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "20260421开始发布第一版"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-04-21T13:31:14.6964054+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 1,
+      "totalPlainChars": 443,
+      "mindmapFileCount": 1,
+      "distinctBookmarkCount": 1,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-04-21T13:28:53.297935+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 1,
+      "totalPlainChars": 443,
+      "mindmapFileCount": 1,
+      "distinctBookmarkCount": 1,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-04-21T13:23:46.5327645+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 4,
+      "articlesModified": 0,
+      "charsInNewArticles": 443,
+      "charsInRemovedArticles": 406,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 1,
+      "totalPlainChars": 443,
+      "mindmapFileCount": 1,
+      "distinctBookmarkCount": 1,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫"
+      ],
+      "removedTitles": [
+        "测试加密节点",
+        "我喜欢美国",
+        "西安或者香港",
+        "这是我的第一篇博客"
+      ],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-04-21T13:02:28.5019732+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -1988,25 +2107,15 @@
     }
   ],
   "lastSnapshot": {
-    "48a79d1ffc02006edfcb2f01": {
-      "title": "测试加密节点",
-      "plainChars": 0,
-      "contentHash8": "e3b0c44298fc1c14"
+    "6a3835ba542d742d71941c3c": {
+      "title": "20260421开始发布第一版",
+      "plainChars": 128,
+      "contentHash8": "7245846770ef0512"
     },
-    "52382d15c55e7e182776eb76": {
-      "title": "我喜欢美国",
-      "plainChars": 55,
-      "contentHash8": "b06e81df79123f65"
-    },
-    "344b39d624e0f01b92c2520f": {
-      "title": "西安或者香港",
-      "plainChars": 22,
-      "contentHash8": "43171b588c3a1098"
-    },
-    "be828739d0a9ee75100ba53c": {
-      "title": "这是我的第一篇博客",
-      "plainChars": 329,
-      "contentHash8": "1a687e8ff675344b"
+    "ac42c73a72a2e4e0a3913806": {
+      "title": "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫",
+      "plainChars": 443,
+      "contentHash8": "7ff6eb72f7f12065"
     }
   }
 }
