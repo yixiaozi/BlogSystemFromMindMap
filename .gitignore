@@ -9,5 +9,5 @@
 *.userosscache
 *.suo
 
-# Generated / local output (adjust if you version dist)
-dist/
+# Generated / local output
+# dist/ is intentionally tracked for GitHub Pages deployment.

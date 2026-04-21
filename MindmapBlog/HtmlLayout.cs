@@ -31,6 +31,16 @@ internal static class HtmlLayout
             "<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap\" rel=\"stylesheet\"/>");
         sb.Append("<title>").Append(WebUtility.HtmlEncode(pageTitle)).AppendLine("</title>");
         sb.Append("<link rel=\"stylesheet\" href=\"").Append(WebUtility.HtmlEncode(cssHref)).AppendLine("\"/>");
+        // 站点图标：优先使用生成阶段发布到 media/site-avatar.* 的头像文件。
+        foreach (var ext in new[] { "png", "jpg", "jpeg", "webp", "gif", "avif" })
+        {
+            var iconHref = SitePathHelper.RelFromTo(currentPageWebPath, $"media/site-avatar.{ext}");
+            sb.Append("<link rel=\"icon\" href=\"")
+                .Append(WebUtility.HtmlEncode(iconHref))
+                .Append("\" type=\"image/")
+                .Append(ext is "jpg" ? "jpeg" : ext)
+                .AppendLine("\"/>");
+        }
         if (!string.IsNullOrEmpty(rssFeedWebPath))
         {
             var rssHref = SitePathHelper.RelFromTo(currentPageWebPath, rssFeedWebPath);

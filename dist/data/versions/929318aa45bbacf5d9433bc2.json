@@ -1,0 +1,27 @@
+{
+  "storageKey": "929318aa45bbacf5d9433bc2",
+  "articleNodeId": "ID_1582215500",
+  "sourceMmRelativePath": "日程/规划/行程安排.mm",
+  "htmlFileName": "日程/规划/西安或者香港.html",
+  "modifyCount": 1,
+  "versions": [
+    {
+      "generatedAtUtc": "2026-04-19T12:28:11.5812153+00:00",
+      "mindmapModifiedUtc": "2026-04-19T12:24:37.335+00:00",
+      "charsAdded": 9,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "我还没想好去哪里。",
+      "diffHtmlAgainstPrevious": ""
+    },
+    {
+      "generatedAtUtc": "2026-04-19T12:35:10.4320641+00:00",
+      "mindmapModifiedUtc": "2026-04-19T12:24:37.335+00:00",
+      "charsAdded": 18,
+      "charsRemoved": 5,
+      "charsModifiedEstimate": 5,
+      "plainTextSnapshot": "我未考虑想好去\n添加一行内容，看看有什么区别",
+      "diffHtmlAgainstPrevious": "<div class=\"diff-inline\" role=\"region\" aria-label=\"文本差异\"><span class=\"diff-same\">我</span><del class=\"diff-del\">还</del><del class=\"diff-del\">没</del><ins class=\"diff-ins\">未</ins><ins class=\"diff-ins\">考</ins><ins class=\"diff-ins\">虑</ins><span class=\"diff-same\">想</span><span class=\"diff-same\">好</span><span class=\"diff-same\">去</span><del class=\"diff-del\">哪</del><del class=\"diff-del\">里</del><del class=\"diff-del\">。</del><ins class=\"diff-ins\">\n</ins><ins class=\"diff-ins\">添</ins><ins class=\"diff-ins\">加</ins><ins class=\"diff-ins\">一</ins><ins class=\"diff-ins\">行</ins><ins class=\"diff-ins\">内</ins><ins class=\"diff-ins\">容</ins><ins class=\"diff-ins\">，</ins><ins class=\"diff-ins\">看</ins><ins class=\"diff-ins\">看</ins><ins class=\"diff-ins\">有</ins><ins class=\"diff-ins\">什</ins><ins class=\"diff-ins\">么</ins><ins class=\"diff-ins\">区</ins><ins class=\"diff-ins\">别</ins></div>"
+    }
+  ]
+}

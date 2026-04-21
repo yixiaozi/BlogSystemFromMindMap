@@ -1,0 +1,27 @@
+{
+  "storageKey": "87770670a0ece0d8adc94b33",
+  "articleNodeId": "ID_1166877629",
+  "sourceMmRelativePath": "日程/规划/行程安排.mm",
+  "htmlFileName": "日程/规划/我喜欢美国.html",
+  "modifyCount": 1,
+  "versions": [
+    {
+      "generatedAtUtc": "2026-04-19T13:49:50.2345379+00:00",
+      "mindmapModifiedUtc": "2026-04-19T13:49:43.395+00:00",
+      "charsAdded": 0,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "",
+      "diffHtmlAgainstPrevious": ""
+    },
+    {
+      "generatedAtUtc": "2026-04-19T14:02:04.1298408+00:00",
+      "mindmapModifiedUtc": "2026-04-19T13:49:43.395+00:00",
+      "charsAdded": 55,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "[图片: 南海子地图 | .images/行程安排_1647322911958844864.png]\n详细计划",
+      "diffHtmlAgainstPrevious": "<div class=\"diff-inline\" role=\"region\" aria-label=\"文本差异\"><ins class=\"diff-ins\">[</ins><ins class=\"diff-ins\">图</ins><ins class=\"diff-ins\">片</ins><ins class=\"diff-ins\">:</ins><ins class=\"diff-ins\"> </ins><ins class=\"diff-ins\">南</ins><ins class=\"diff-ins\">海</ins><ins class=\"diff-ins\">子</ins><ins class=\"diff-ins\">地</ins><ins class=\"diff-ins\">图</ins><ins class=\"diff-ins\"> </ins><ins class=\"diff-ins\">|</ins><ins class=\"diff-ins\"> </ins><ins class=\"diff-ins\">.</ins><ins class=\"diff-ins\">i</ins><ins class=\"diff-ins\">m</ins><ins class=\"diff-ins\">a</ins><ins class=\"diff-ins\">g</ins><ins class=\"diff-ins\">e</ins><ins class=\"diff-ins\">s</ins><ins class=\"diff-ins\">/</ins><ins class=\"diff-ins\">行</ins><ins class=\"diff-ins\">程</ins><ins class=\"diff-ins\">安</ins><ins class=\"diff-ins\">排</ins><ins class=\"diff-ins\">_</ins><ins class=\"diff-ins\">1</ins><ins class=\"diff-ins\">6</ins><ins class=\"diff-ins\">4</ins><ins class=\"diff-ins\">7</ins><ins class=\"diff-ins\">3</ins><ins class=\"diff-ins\">2</ins><ins class=\"diff-ins\">2</ins><ins class=\"diff-ins\">9</ins><ins class=\"diff-ins\">1</ins><ins class=\"diff-ins\">1</ins><ins class=\"diff-ins\">9</ins><ins class=\"diff-ins\">5</ins><ins class=\"diff-ins\">8</ins><ins class=\"diff-ins\">8</ins><ins class=\"diff-ins\">4</ins><ins class=\"diff-ins\">4</ins><ins class=\"diff-ins\">8</ins><ins class=\"diff-ins\">6</ins><ins class=\"diff-ins\">4</ins><ins class=\"diff-ins\">.</ins><ins class=\"diff-ins\">p</ins><ins class=\"diff-ins\">n</ins><ins class=\"diff-ins\">g</ins><ins class=\"diff-ins\">]</ins><ins class=\"diff-ins\">\n</ins><ins class=\"diff-ins\">详</ins><ins class=\"diff-ins\">细</ins><ins class=\"diff-ins\">计</ins><ins class=\"diff-ins\">划</ins></div>"
+    }
+  ]
+}

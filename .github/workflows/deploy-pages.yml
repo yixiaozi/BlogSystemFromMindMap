@@ -1,4 +1,4 @@
-name: Build and Deploy Pages
+name: Deploy Pages From Dist
 
 on:
   push:
@@ -15,19 +15,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  upload:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Generate static site
-        run: dotnet run --project MindmapBlog -- --scan DemoMindmapSystem --out dist
+      - name: Ensure dist exists
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "dist directory not found in repository."
+            echo "Please generate locally and commit dist before pushing."
+            exit 1
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -36,7 +36,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: upload
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
