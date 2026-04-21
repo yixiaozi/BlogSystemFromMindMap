@@ -43,12 +43,14 @@ internal static class GenerationHistoryStore
         File.WriteAllText(path, json);
     }
 
-    public static Dictionary<string, ArticleFingerDto> BuildFingerprints(IReadOnlyList<BlogArticle> articles)
+    public static Dictionary<string, ArticleFingerDto> BuildFingerprints(
+        IReadOnlyList<BlogArticle> articles,
+        string scanRootFullPath)
     {
         var dict = new Dictionary<string, ArticleFingerDto>(StringComparer.OrdinalIgnoreCase);
         foreach (var a in articles)
         {
-            var key = ArticleIdentity.ComputeStorageKey(a.SourceMmPath, a.ArticleNodeId);
+            var key = ArticleIdentity.ComputeStorageKey(scanRootFullPath, a.SourceMmPath, a.ArticleNodeId);
             var plain = ArticlePlainText.Build(a);
             var hash = SHA256.HashData(Encoding.UTF8.GetBytes(plain));
             var h8 = Convert.ToHexString(hash[..8]).ToLowerInvariant();

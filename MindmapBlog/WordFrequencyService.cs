@@ -101,8 +101,11 @@ internal static class WordFrequencyService
                 case ParagraphBlock p:
                     sb.Append(p.Text).Append('\n');
                     break;
-                case NoteBoxBlock n:
-                    sb.Append(n.Text).Append('\n');
+                case RichParagraphBlock rp:
+                    sb.Append(rp.PlainText).Append('\n');
+                    break;
+                case NoteBlock n:
+                    sb.Append(n.PlainText).Append('\n');
                     break;
                 case ImageBlock img when !string.IsNullOrWhiteSpace(img.AltText):
                     sb.Append(img.AltText.Trim()).Append('\n');
@@ -197,8 +200,11 @@ internal static class WordFrequencyService
                 case ParagraphBlock p:
                     Add(p.Text);
                     break;
-                case NoteBoxBlock n:
-                    Add(n.Text);
+                case RichParagraphBlock rp:
+                    Add(rp.PlainText);
+                    break;
+                case NoteBlock n:
+                    Add(n.PlainText);
                     break;
                 case ImageBlock img when !string.IsNullOrWhiteSpace(img.AltText):
                     Add(img.AltText);

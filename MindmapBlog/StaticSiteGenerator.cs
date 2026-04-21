@@ -102,7 +102,7 @@ public sealed class StaticSiteGenerator
 
         var historyPath = GenerationHistoryStore.HistoryFilePath(outDir);
         var historyFile = GenerationHistoryStore.LoadOrEmpty(historyPath);
-        var fingerprints = GenerationHistoryStore.BuildFingerprints(sortedArticles);
+        var fingerprints = GenerationHistoryStore.BuildFingerprints(sortedArticles, scanRoot);
         var runRecord = GenerationHistoryStore.BuildRunRecord(
             historyFile.LastSnapshot.Count > 0 ? historyFile.LastSnapshot : null,
             fingerprints,
@@ -118,12 +118,12 @@ public sealed class StaticSiteGenerator
         foreach (var article in sortedArticles)
         {
             var doc = VersionHistoryStore.UpdateForArticle(article, scanRoot, outDir, generatedAt);
-            versionDocs[ArticleIdentity.ComputeStorageKey(article.SourceMmPath, article.ArticleNodeId)] = doc;
+            versionDocs[ArticleIdentity.ComputeStorageKey(scanRoot, article.SourceMmPath, article.ArticleNodeId)] = doc;
         }
 
         foreach (var article in sortedArticles)
         {
-            var key = ArticleIdentity.ComputeStorageKey(article.SourceMmPath, article.ArticleNodeId);
+            var key = ArticleIdentity.ComputeStorageKey(scanRoot, article.SourceMmPath, article.ArticleNodeId);
             var doc = versionDocs[key];
             var htmlName = article.HtmlFileName;
 
@@ -1245,10 +1245,26 @@ public sealed class StaticSiteGenerator
                 case ParagraphBlock p:
                     sb.Append("<p>").Append(WebUtility.HtmlEncode(p.Text)).AppendLine("</p>");
                     break;
-                case NoteBoxBlock n:
-                    sb.Append("<pre class=\"note-box\">")
-                        .Append(WebUtility.HtmlEncode(n.Text))
-                        .AppendLine("</pre>");
+                case RichParagraphBlock rp:
+                    sb.Append("<div class=\"rich-paragraph\">").Append(rp.Html).AppendLine("</div>");
+                    break;
+                case NoteBlock n:
+                    if (n.Inline)
+                    {
+                        sb.Append("<p class=\"note-inline-wrap\">");
+                        if (!string.IsNullOrWhiteSpace(n.PrefixText))
+                            sb.Append(WebUtility.HtmlEncode(n.PrefixText)).Append("（");
+                        sb.Append("<span class=\"note-inline\">").Append(n.Html).Append("</span>");
+                        if (!string.IsNullOrWhiteSpace(n.PrefixText))
+                            sb.Append("）");
+                        sb.AppendLine("</p>");
+                    }
+                    else
+                    {
+                        sb.Append("<div class=\"note-box\">")
+                            .Append(n.Html)
+                            .AppendLine("</div>");
+                    }
                     break;
                 case ImageBlock img:
                     var match = imageRefs.FirstOrDefault(t => ReferenceEquals(t.Block, img));
@@ -3533,21 +3549,69 @@ article.content > p:first-of-type {
 }
 
 article.content p {
-  margin: 0.92rem 0;
+  margin: 0.62rem 0;
+}
+
+article.content .rich-paragraph {
+  margin: 0.62rem 0;
+}
+
+article.content .rich-paragraph :is(p, div) {
+  margin: 0;
+  padding: 0;
+}
+
+article.content .rich-paragraph :is(p, div):not(:last-child) {
+  margin-bottom: 0.02rem;
 }
 
 article.content .note-box {
-  margin: 0.9rem 0 1rem;
-  padding: 0.62rem 0.72rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: rgba(15, 23, 42, 0.04);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.82rem;
-  line-height: 1.55;
+  margin: 0.32rem 0 0.46rem;
+  padding: 0.14rem 0.26rem;
+  border-radius: 6px;
+  border: 1px solid rgba(21, 28, 40, 0.1);
+  background: rgba(15, 23, 42, 0.025);
+  font-family: inherit;
+  font-size: 0.96rem;
+  line-height: 1.68;
   color: var(--text-primary);
-  white-space: pre-wrap;
+  white-space: normal;
   word-break: break-word;
+}
+
+article.content .note-inline-wrap {
+  display: inline;
+  margin: 0;
+}
+
+article.content .note-inline {
+  color: inherit;
+  white-space: nowrap;
+}
+
+/* 短注释内联显示：保留红色/加粗等样式，但强制不换行、不保留块级段间距 */
+article.content .note-inline :is(p, div, section, article, li, ul, ol) {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+article.content .note-inline :is(p, div, section, article, li):not(:last-child)::after {
+  content: " ";
+}
+
+article.content .note-inline br {
+  display: none;
+}
+
+article.content .note-box :is(p, div) {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: inherit !important;
+}
+
+article.content .note-box > :not(:first-child) {
+  margin-top: 0.12rem !important;
 }
 
 article.content p.missing {
@@ -3649,7 +3713,8 @@ html.theme-dark article.content p.missing {
 }
 
 html.theme-dark article.content .note-box {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /*

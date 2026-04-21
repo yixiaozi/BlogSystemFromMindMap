@@ -21,11 +21,12 @@ internal sealed class SearchIndexRecord
         var body = string.Join(
             "\n",
             article.Blocks
-                .Where(b => b is ParagraphBlock or NoteBoxBlock)
+                .Where(b => b is ParagraphBlock or RichParagraphBlock or NoteBlock)
                 .Select(b => b switch
                 {
                     ParagraphBlock p => p.Text.Trim(),
-                    NoteBoxBlock n => n.Text.Trim(),
+                    RichParagraphBlock rp => rp.PlainText.Trim(),
+                    NoteBlock n => n.PlainText.Trim(),
                     _ => "",
                 })
                 .Where(t => t.Length > 0));

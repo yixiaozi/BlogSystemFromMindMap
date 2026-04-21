@@ -9,11 +9,16 @@ namespace MindmapBlog;
 /// </summary>
 internal static class ArticleIdentity
 {
-    public static string ComputeStorageKey(string sourceMmFullPath, string articleNodeId)
+    public static string ComputeStorageKey(string scanRootFullPath, string sourceMmFullPath, string articleNodeId)
     {
-        var payload = $"{sourceMmFullPath}\x1E{articleNodeId}";
+        var payload = (articleNodeId ?? "").Trim();
         var hash = SHA256.HashData(Encoding.UTF8.GetBytes(payload));
         return Convert.ToHexString(hash[..12]).ToLowerInvariant();
+    }
+
+    public static string ComputeStorageKey(string sourceMmFullPath, string articleNodeId)
+    {
+        return ComputeStorageKey("", sourceMmFullPath, articleNodeId);
     }
 
     /// <summary>生成阶段填好 <see cref="BlogArticle.PublishWebPath"/> 后返回该路径，否则回退为根目录哈希名。</summary>

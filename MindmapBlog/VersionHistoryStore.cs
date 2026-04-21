@@ -59,7 +59,7 @@ internal static class VersionHistoryStore
         string outputRoot,
         DateTimeOffset generatedAtUtc)
     {
-        var key = ArticleIdentity.ComputeStorageKey(article.SourceMmPath, article.ArticleNodeId);
+        var key = ArticleIdentity.ComputeStorageKey(scanRoot, article.SourceMmPath, article.ArticleNodeId);
         var path = GetVersionFilePath(outputRoot, key);
         var relMm = NormalizeRelPath(Path.GetRelativePath(scanRoot, article.SourceMmPath));
         var htmlName = ArticleIdentity.ResolveHtmlFileName(article);

@@ -19,6 +19,14 @@ public static class MindmapParser
     private static readonly XName RichContentName = XName.Get("richcontent");
     private static readonly XName IconName = XName.Get("icon");
     private static readonly Regex SentenceCountRegex = new(@"[。！？!?；;]+", RegexOptions.Compiled);
+    private static readonly Regex ScriptTagRegex = new(@"<script\b[\s\S]*?</script>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex VisualStyleRegex = new(
+        @"(<font\b)|(<span\b)|color\s*:|font-weight\s*:|font-style\s*:|text-decoration\s*:|background\s*:",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex InlineBlockOpenRegex = new(@"<(p|div|section|article|li|ul|ol)\b[^>]*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex InlineBlockCloseRegex = new(@"</(p|div|section|article|li|ul|ol)>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex InlineBrRegex = new(@"<br\s*/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex MultiWhitespaceRegex = new(@"\s{2,}", RegexOptions.Compiled);
 
     public static IReadOnlyList<BlogArticle> ExtractArticles(string mmFilePath)
     {
@@ -167,10 +175,9 @@ public static class MindmapParser
 
     private static void AppendNodeBlocks(XElement node, string mmDirectory, List<BodyBlock> list)
     {
-        var selfText = DecodeText(node.Attribute("TEXT")?.Value);
-        var noteText = ExtractNodeNoteText(node);
-        var hasLongNote = !string.IsNullOrWhiteSpace(noteText) && CountSentences(noteText) > 2;
-        var shortNote = !hasLongNote ? noteText : null;
+        var nodeText = ExtractNodeText(node);
+        var note = ExtractNodeNote(node);
+        var hasLongNote = note != null && (CountSentences(note.PlainText) > 2 || note.PlainText.Contains('\n'));
         var hook = node.Elements(HookName)
             .FirstOrDefault(h => string.Equals(h.Attribute("NAME")?.Value, "ExternalObject", StringComparison.OrdinalIgnoreCase));
 
@@ -178,7 +185,7 @@ public static class MindmapParser
         if (hook != null)
         {
             var uri = hook.Attribute("URI")?.Value ?? "";
-            var alt = selfText ?? "";
+            var alt = nodeText?.PlainText ?? "";
             var resolved = ResolveUri(mmDirectory, uri);
             list.Add(new ImageBlock(uri, alt, resolved));
             hasImage = true;
@@ -187,39 +194,76 @@ public static class MindmapParser
         var childNodes = node.Elements(NodeName).ToList();
         if (childNodes.Count == 0)
         {
-            if (!hasImage && !string.IsNullOrWhiteSpace(selfText))
-                list.Add(new ParagraphBlock(AppendInlineNote(selfText.Trim(), shortNote)));
-            else if (!hasImage && string.IsNullOrWhiteSpace(selfText) && !string.IsNullOrWhiteSpace(shortNote))
-                list.Add(new ParagraphBlock($"（{shortNote!.Trim()}）"));
-            if (hasLongNote)
-                list.Add(new NoteBoxBlock(noteText!.Trim()));
+            if (!hasImage && nodeText != null)
+                AppendNoteAwareTextBlocks(list, nodeText, note, hasLongNote, hasImage);
+            else if (!hasImage && note != null)
+                AppendNoteAwareTextBlocks(list, null, note, hasLongNote, hasImage);
             return;
         }
 
-        if (!hasImage && !string.IsNullOrWhiteSpace(selfText))
-            list.Add(new ParagraphBlock(AppendInlineNote(selfText.Trim(), shortNote)));
-        else if (!hasImage && string.IsNullOrWhiteSpace(selfText) && !string.IsNullOrWhiteSpace(shortNote))
-            list.Add(new ParagraphBlock($"（{shortNote!.Trim()}）"));
+        if (!hasImage && nodeText != null)
+            AppendNoteAwareTextBlocks(list, nodeText, note, hasLongNote, hasImage);
+        else if (!hasImage && note != null)
+            AppendNoteAwareTextBlocks(list, null, note, hasLongNote, hasImage);
 
         foreach (var child in childNodes)
             AppendNodeBlocks(child, mmDirectory, list);
-
-        if (hasLongNote)
-            list.Add(new NoteBoxBlock(noteText!.Trim()));
     }
 
-    private static string? ExtractNodeNoteText(XElement node)
+    private static void AppendNoteAwareTextBlocks(
+        List<BodyBlock> list,
+        NodeText? nodeText,
+        NodeNote? note,
+        bool hasLongNote,
+        bool hasImage)
+    {
+        if (hasImage)
+            return;
+        if (note == null || string.IsNullOrWhiteSpace(note.PlainText))
+        {
+            if (nodeText != null)
+                AddNodeTextBlock(list, nodeText);
+            return;
+        }
+
+        if (!hasLongNote)
+        {
+            var inlineHtml = NormalizeInlineHtml(note.Html);
+            if (nodeText != null)
+                AddNodeTextBlock(
+                    list,
+                    nodeText,
+                    plainSuffix: $"（{note.PlainText.Trim()}）",
+                    htmlSuffix: $"（<span class=\"note-inline\">{inlineHtml}</span>）");
+            else
+                list.Add(new NoteBlock(note.PlainText.Trim(), inlineHtml, Inline: true, PrefixText: null));
+            return;
+        }
+
+        if (nodeText != null)
+            AddNodeTextBlock(list, nodeText);
+        list.Add(new NoteBlock(note.PlainText.Trim(), note.Html, Inline: !hasLongNote, PrefixText: null));
+    }
+
+    private static NodeNote? ExtractNodeNote(XElement node)
     {
         foreach (var rc in node.Elements(RichContentName))
         {
             var type = rc.Attribute("TYPE")?.Value ?? "";
-            if (!type.Equals("NOTE", StringComparison.OrdinalIgnoreCase)
-                && !type.Equals("DETAILS", StringComparison.OrdinalIgnoreCase))
+            if (!type.Equals("NOTE", StringComparison.OrdinalIgnoreCase))
                 continue;
-            var text = rc.Value?.Trim();
-            if (string.IsNullOrWhiteSpace(text))
+
+            var plain = DecodeText(rc.Value)?.Trim();
+            if (string.IsNullOrWhiteSpace(plain))
                 continue;
-            return text;
+
+            var html = ExtractRichContentHtml(rc);
+            if (string.IsNullOrWhiteSpace(html))
+                html = WebUtility.HtmlEncode(plain);
+            return new NodeNote(
+                plain,
+                html,
+                HasRichStyle: HasVisualStyle(html));
         }
 
         return null;
@@ -245,6 +289,96 @@ public static class MindmapParser
         var note = shortNote.Trim();
         return $"{mainText}（{note}）";
     }
+
+    private static string ExtractRichContentHtml(XElement richContent)
+    {
+        var htmlRoot = richContent.Descendants()
+            .FirstOrDefault(e => e.Name.LocalName.Equals("body", StringComparison.OrdinalIgnoreCase))
+            ?? richContent;
+        var raw = string.Concat(
+            htmlRoot.Nodes().Select(n => n.ToString(SaveOptions.DisableFormatting)));
+        if (string.IsNullOrWhiteSpace(raw))
+            raw = WebUtility.HtmlEncode(DecodeText(richContent.Value) ?? "");
+        return ScriptTagRegex.Replace(raw, "").Trim();
+    }
+
+    private static NodeText? ExtractNodeText(XElement node)
+    {
+        var rawText = DecodeText(node.Attribute("TEXT")?.Value)?.Trim();
+        var nodeRc = node.Elements(RichContentName)
+            .FirstOrDefault(rc => string.Equals(rc.Attribute("TYPE")?.Value, "NODE", StringComparison.OrdinalIgnoreCase));
+        if (nodeRc == null)
+        {
+            if (string.IsNullOrWhiteSpace(rawText))
+                return null;
+            return new NodeText(rawText, WebUtility.HtmlEncode(rawText), HasRichStyle: false);
+        }
+
+        var plain = DecodeText(nodeRc.Value)?.Trim();
+        if (string.IsNullOrWhiteSpace(plain))
+            plain = rawText;
+        if (string.IsNullOrWhiteSpace(plain))
+            return null;
+        var html = ExtractRichContentHtml(nodeRc);
+        if (string.IsNullOrWhiteSpace(html))
+            html = WebUtility.HtmlEncode(plain);
+        var hasRich = html.Contains("style=", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<font", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<span", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<b", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<i", StringComparison.OrdinalIgnoreCase);
+        return new NodeText(plain, html, hasRich);
+    }
+
+    private static bool HasVisualStyle(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+            return false;
+        return VisualStyleRegex.IsMatch(html);
+    }
+
+    private static string NormalizeInlineHtml(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+            return "";
+        var s = html;
+        s = InlineBrRegex.Replace(s, " ");
+        s = InlineBlockOpenRegex.Replace(s, "");
+        s = InlineBlockCloseRegex.Replace(s, " ");
+        s = MultiWhitespaceRegex.Replace(s, " ");
+        return s.Trim();
+    }
+
+    private static void AddNodeTextBlock(
+        List<BodyBlock> list,
+        NodeText text,
+        string plainSuffix = "",
+        string? htmlSuffix = null)
+    {
+        if (text.HasRichStyle)
+        {
+            string html;
+            if (!string.IsNullOrEmpty(htmlSuffix))
+            {
+                // 短注释内联时，将正文富文本扁平为行内结构后再拼接，避免括号落到块级标签外导致换行。
+                var inlineMain = NormalizeInlineHtml(text.Html);
+                html = $"<span>{inlineMain}{htmlSuffix}</span>";
+            }
+            else
+            {
+                html = text.Html;
+                if (!string.IsNullOrEmpty(plainSuffix))
+                    html += WebUtility.HtmlEncode(plainSuffix);
+            }
+            list.Add(new RichParagraphBlock(text.PlainText + plainSuffix, html));
+            return;
+        }
+
+        list.Add(new ParagraphBlock(text.PlainText + plainSuffix));
+    }
+
+    private sealed record NodeNote(string PlainText, string Html, bool HasRichStyle);
+    private sealed record NodeText(string PlainText, string Html, bool HasRichStyle);
 
     internal static string? DecodeText(string? raw)
     {

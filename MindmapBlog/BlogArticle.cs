@@ -37,7 +37,8 @@ public sealed class BlogArticle
 public abstract record BodyBlock;
 
 public sealed record ParagraphBlock(string Text) : BodyBlock;
+public sealed record RichParagraphBlock(string PlainText, string Html) : BodyBlock;
 
 public sealed record ImageBlock(string RelativeUri, string AltText, string ResolvedSourcePath) : BodyBlock;
 
-public sealed record NoteBoxBlock(string Text) : BodyBlock;
+public sealed record NoteBlock(string PlainText, string Html, bool Inline, string? PrefixText) : BodyBlock;
