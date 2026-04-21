@@ -4000,7 +4000,7 @@ html.theme-dark article.content .note-box {
 @media (max-width: 960px) {
   /* 页脚栅格纵向更松，占位高于桌面，避免内容被固定底栏挡住 */
   body.site-body {
-    --site-footer-occupy: calc(var(--site-footer-h) + 1.24rem);
+    --site-footer-occupy: calc(var(--site-footer-h) + 1.5rem);
   }
 
   .site-footer-inner {
@@ -4028,8 +4028,27 @@ html.theme-dark article.content .note-box {
     border-radius: 0;
     box-shadow: none;
   }
+  .layout-tags {
+    padding-bottom: calc(var(--site-footer-occupy) + 0.9rem);
+  }
+  .right-aside-stack {
+    padding-bottom: 0.65rem;
+  }
+  .search-aside-wrap {
+    margin-bottom: 0;
+  }
   .layout-main {
     padding: 1.25rem 1rem 2.5rem;
+  }
+  .page-title {
+    font-size: clamp(1.2rem, 6vw, 1.48rem);
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+  .page-lead {
+    font-size: 0.86rem;
+    line-height: 1.52;
+    max-width: none;
   }
   .nav-cal-fold-summary::after {
     margin-top: -1.38rem;
