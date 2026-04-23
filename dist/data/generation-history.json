@@ -1,6 +1,26 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-04-23T22:33:49.7052292+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 149,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 4,
+      "totalPlainChars": 1153,
+      "mindmapFileCount": 4,
+      "distinctBookmarkCount": 4,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "Docear改造时间轴"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-04-21T15:37:38.1908717+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -2255,6 +2275,16 @@
     }
   ],
   "lastSnapshot": {
+    "1f4332d0d417eaba74bad9cf": {
+      "title": "Docear改造时间轴",
+      "plainChars": 149,
+      "contentHash8": "170c84e25d71b47a"
+    },
+    "ac42c73a72a2e4e0a3913806": {
+      "title": "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫",
+      "plainChars": 443,
+      "contentHash8": "7ff6eb72f7f12065"
+    },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",
       "plainChars": 433,
@@ -2264,11 +2294,6 @@
       "title": "20260421开始发布第一版",
       "plainChars": 128,
       "contentHash8": "7245846770ef0512"
-    },
-    "ac42c73a72a2e4e0a3913806": {
-      "title": "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫",
-      "plainChars": 443,
-      "contentHash8": "7ff6eb72f7f12065"
     }
   }
 }

@@ -1,0 +1,18 @@
+{
+  "storageKey": "1f4332d0d417eaba74bad9cf",
+  "articleNodeId": "ID_445334889",
+  "sourceMmRelativePath": "02目标发展/07创作达人/00开源作者/二次开发/Docear改造.mm",
+  "htmlFileName": "02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html",
+  "modifyCount": 0,
+  "versions": [
+    {
+      "generatedAtUtc": "2026-04-23T22:33:49.7052292+00:00",
+      "mindmapModifiedUtc": "2026-04-23T22:28:56.162+00:00",
+      "charsAdded": 149,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "2026\n4\n23\n第一次使用Cursor成功编译了项目，然后就可以进行我自己的改造了啊，很开心。解决了我不会搭建Java开发环境，不熟悉项目的问题。\n1、删除了顶部的图标\n2、给左侧的导航去掉了图标，添加了搜索功能\n隐藏了~开头的文件和系统隐藏的文件\n3、在右侧的面板添加了提醒功能和所有提醒功能",
+      "diffHtmlAgainstPrevious": ""
+    }
+  ]
+}
