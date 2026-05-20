@@ -42,8 +42,7 @@ internal static class Program
             return 2;
         }
 
-        var mmFiles = Directory
-            .GetFiles(scanDir, "*.mm", SearchOption.AllDirectories)
+        var mmFiles = EnumerateMmFiles(scanDir)
             .Where(f => !Path.GetFileName(f).StartsWith("~", StringComparison.Ordinal))
             .ToArray();
         if (mmFiles.Length == 0)
@@ -78,6 +77,20 @@ internal static class Program
         new StaticSiteGenerator().Generate(articles, outDir, scanDir, siteBaseUrl);
         Console.WriteLine($"已生成 {articles.Count} 篇文章 → {outDir}");
         return 0;
+    }
+
+    private static IEnumerable<string> EnumerateMmFiles(string directory)
+    {
+        foreach (var file in Directory.EnumerateFiles(directory, "*.mm"))
+            yield return file;
+
+        foreach (var dir in Directory.EnumerateDirectories(directory))
+        {
+            if (Path.GetFileName(dir).StartsWith(".", StringComparison.Ordinal))
+                continue;
+            foreach (var file in EnumerateMmFiles(dir))
+                yield return file;
+        }
     }
 
     private static int Fail(string message)
