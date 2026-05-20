@@ -1,6 +1,26 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-05-20T12:48:04.0117644+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 4,
+      "totalPlainChars": 1013,
+      "mindmapFileCount": 4,
+      "distinctBookmarkCount": 4,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "把谷歌账号的照片，视频下载下来，以后那个账号就不上传视频了。"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-05-20T12:45:46.2909154+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -2334,6 +2354,11 @@
     }
   ],
   "lastSnapshot": {
+    "2a3eadc5f4d6a91179ae8c0a": {
+      "title": "把谷歌账号的照片，视频下载下来，以后那个账号就不上传视频了。",
+      "plainChars": 0,
+      "contentHash8": "e3b0c44298fc1c14"
+    },
     "1f4332d0d417eaba74bad9cf": {
       "title": "Docear改造时间轴",
       "plainChars": 452,
