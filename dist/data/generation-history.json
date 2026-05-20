@@ -1,6 +1,27 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-05-20T12:30:11.0575113+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 2,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 1309,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 4,
+      "totalPlainChars": 2462,
+      "mindmapFileCount": 4,
+      "distinctBookmarkCount": 4,
+      "articlesWithReminder": 0,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫",
+        "Docear改造时间轴"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-04-23T22:33:49.7052292+00:00",
       "articlesAdded": 1,
       "articlesRemoved": 0,
@@ -2275,15 +2296,15 @@
     }
   ],
   "lastSnapshot": {
-    "1f4332d0d417eaba74bad9cf": {
-      "title": "Docear改造时间轴",
-      "plainChars": 149,
-      "contentHash8": "170c84e25d71b47a"
-    },
     "ac42c73a72a2e4e0a3913806": {
       "title": "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫",
-      "plainChars": 443,
-      "contentHash8": "7ff6eb72f7f12065"
+      "plainChars": 1449,
+      "contentHash8": "8125ef1658d76722"
+    },
+    "1f4332d0d417eaba74bad9cf": {
+      "title": "Docear改造时间轴",
+      "plainChars": 452,
+      "contentHash8": "6af9d5239bd85c4b"
     },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",
