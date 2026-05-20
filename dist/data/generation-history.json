@@ -1,6 +1,30 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-05-20T22:01:15.5445375+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 1,
+      "articlesModified": 1,
+      "charsInNewArticles": 144,
+      "charsInRemovedArticles": 128,
+      "charsAddedByEdits": 42,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 3,
+      "totalPlainChars": 1071,
+      "mindmapFileCount": 3,
+      "distinctBookmarkCount": 3,
+      "articlesWithReminder": 0,
+      "addedTitles": [
+        "系统日志"
+      ],
+      "removedTitles": [
+        "20260421开始发布第一版"
+      ],
+      "modifiedTitles": [
+        "Docear改造时间轴"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-05-20T16:01:09.5062485+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 1,
@@ -2374,20 +2398,20 @@
     }
   ],
   "lastSnapshot": {
+    "71a91e6f440530d9e12e39ca": {
+      "title": "系统日志",
+      "plainChars": 144,
+      "contentHash8": "fa242aa867740bba"
+    },
     "1f4332d0d417eaba74bad9cf": {
       "title": "Docear改造时间轴",
-      "plainChars": 452,
-      "contentHash8": "6af9d5239bd85c4b"
+      "plainChars": 494,
+      "contentHash8": "d810899cdad65ade"
     },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",
       "plainChars": 433,
       "contentHash8": "3bf7607eaa649d1b"
-    },
-    "6a3835ba542d742d71941c3c": {
-      "title": "20260421开始发布第一版",
-      "plainChars": 128,
-      "contentHash8": "7245846770ef0512"
     }
   }
 }
