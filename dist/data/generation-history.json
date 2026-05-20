@@ -1,6 +1,26 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-05-20T12:42:30.6621106+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 1,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 1449,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 3,
+      "totalPlainChars": 1013,
+      "mindmapFileCount": 3,
+      "distinctBookmarkCount": 3,
+      "articlesWithReminder": 0,
+      "addedTitles": [],
+      "removedTitles": [
+        "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫"
+      ],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-05-20T12:30:11.0575113+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -2296,11 +2316,6 @@
     }
   ],
   "lastSnapshot": {
-    "ac42c73a72a2e4e0a3913806": {
-      "title": "4月25日周六，春日限定，85-05年户外相亲大集+露营烧烤，邂逅森林草坪间的烟火浪漫",
-      "plainChars": 1449,
-      "contentHash8": "8125ef1658d76722"
-    },
     "1f4332d0d417eaba74bad9cf": {
       "title": "Docear改造时间轴",
       "plainChars": 452,
