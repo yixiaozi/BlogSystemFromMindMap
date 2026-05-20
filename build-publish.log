@@ -1,8 +1,0 @@
-﻿[2026-05-20 20:30:07] ========== Build & Publish Started ==========
-[2026-05-20 20:30:07] Working directory: d:\Dropbox\Code\C#\Project\BlogSystem
-[2026-05-20 20:30:07] Running blog generation...
-[2026-05-20 20:30:13] Blog generation completed successfully.
-[2026-05-20 20:30:13] Checking for git changes...
-[2026-05-20 20:30:14] Committed changes: auto: rebuild blog 2026-05-20 20:30
-[2026-05-20 20:30:18] Pushed to GitHub. GitHub Actions will deploy to Pages.
-[2026-05-20 20:30:18] ========== Build & Publish Completed ==========
