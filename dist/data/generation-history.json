@@ -1,6 +1,26 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-06-10T10:06:20.7445683+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 1,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 11,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 3,
+      "totalPlainChars": 2187,
+      "mindmapFileCount": 3,
+      "distinctBookmarkCount": 3,
+      "articlesWithReminder": 0,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "Docear改造时间轴"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-06-10T04:01:18.9881542+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -3599,8 +3619,8 @@
     },
     "1f4332d0d417eaba74bad9cf": {
       "title": "Docear改造时间轴",
-      "plainChars": 1599,
-      "contentHash8": "8f23f92ad8ad8c71"
+      "plainChars": 1610,
+      "contentHash8": "4beddb24c5484b54"
     },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",
