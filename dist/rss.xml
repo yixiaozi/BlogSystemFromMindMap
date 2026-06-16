@@ -5,7 +5,7 @@
     <link>index.html</link>
     <description>按文章修改时间推送更新（RSS 2.0）。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 16 Jun 2026 04:01:31 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 10:01:21 GMT</lastBuildDate>
     <atom:link href="rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>系统日志</title>
