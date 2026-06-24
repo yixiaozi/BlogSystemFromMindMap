@@ -1,6 +1,29 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-06-24T13:37:58.493961+00:00",
+      "articlesAdded": 2,
+      "articlesRemoved": 0,
+      "articlesModified": 1,
+      "charsInNewArticles": 208,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 175,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 5,
+      "totalPlainChars": 2570,
+      "mindmapFileCount": 5,
+      "distinctBookmarkCount": 5,
+      "articlesWithReminder": 0,
+      "addedTitles": [
+        "个人信息及紧急联系人",
+        "最近在看的书"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "Docear改造时间轴"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-06-18T10:01:21.7156614+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4188,6 +4211,16 @@
     }
   ],
   "lastSnapshot": {
+    "ec54914fe84876f4fc7250b3": {
+      "title": "个人信息及紧急联系人",
+      "plainChars": 167,
+      "contentHash8": "666c01f8647748b9"
+    },
+    "1a39b36ea74874b16ac5b47b": {
+      "title": "最近在看的书",
+      "plainChars": 41,
+      "contentHash8": "163b5507def02e5b"
+    },
     "71a91e6f440530d9e12e39ca": {
       "title": "系统日志",
       "plainChars": 144,
@@ -4195,8 +4228,8 @@
     },
     "1f4332d0d417eaba74bad9cf": {
       "title": "Docear改造时间轴",
-      "plainChars": 1610,
-      "contentHash8": "4beddb24c5484b54"
+      "plainChars": 1785,
+      "contentHash8": "3a243555f2d96b22"
     },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",
