@@ -57,7 +57,8 @@ internal static class HtmlLayout
             : SitePathHelper.RelFromTo(currentPageWebPath, "index.html");
         sb.AppendLine("<header class=\"site-topbar\" role=\"banner\">");
         sb.AppendLine("<div class=\"site-topbar-inner\">");
-        sb.Append("<a class=\"site-topbar-brand\" href=\"").Append(WebUtility.HtmlEncode(homeHref)).AppendLine("\">思维导图博客</a>");
+        sb.Append("<a class=\"site-topbar-brand\" href=\"").Append(WebUtility.HtmlEncode(homeHref)).AppendLine("\">")
+            .Append(WebUtility.HtmlEncode(SiteProfile.BlogTitle)).AppendLine("</a>");
         sb.AppendLine("<div class=\"site-topbar-controls\" role=\"group\" aria-label=\"强调色、灰度与夜间模式\">");
         sb.AppendLine("<span class=\"site-topbar-swatches\" aria-hidden=\"false\">");
         sb.AppendLine(

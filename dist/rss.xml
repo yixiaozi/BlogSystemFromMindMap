@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>思维导图博客</title>
+    <title>馒头的思维导图博客</title>
     <link>index.html</link>
     <description>按文章修改时间推送更新（RSS 2.0）。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 24 Jun 2026 13:37:58 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 14:47:04 GMT</lastBuildDate>
     <atom:link href="rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>个人信息及紧急联系人</title>
@@ -33,7 +33,7 @@
       <link>02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</link>
       <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</guid>
       <pubDate>Thu, 23 Apr 2026 22:28:56 GMT</pubDate>
-      <description>2026</description>
+      <description>2026年4月23日</description>
     </item>
     <item>
       <title>过程大于结果，纯敲字版</title>

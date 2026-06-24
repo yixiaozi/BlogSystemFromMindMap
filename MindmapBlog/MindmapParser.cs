@@ -8,6 +8,7 @@ namespace MindmapBlog;
 /// <summary>
 /// 解析 FreeMind / Docear 的 .mm。
 /// 在图册根节点之下的<strong>任意深度</strong>查找带互联网图标（BUILTIN=internet）的节点作为文章根；
+/// 名为「变量」的节点仅作站点配置，不发布为文章。
 /// 分区路径为从根到该节点父链上的节点标题（如 2026 / 5 / 1）；
 /// 书签从节点明细中解析 #标签；无 # 时仅用图册根节点标题归类（不再用路径作伪标签）。
 /// </summary>
@@ -28,6 +29,10 @@ public static class MindmapParser
     private static readonly Regex InlineBrRegex = new(@"<br\s*/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     private static readonly Regex MultiWhitespaceRegex = new(@"\s{2,}", RegexOptions.Compiled);
 
+    internal const string SiteVariablesNodeLabel = "变量";
+
+    private static IReadOnlyDictionary<string, string>? _activeStyleFormats;
+
     public static IReadOnlyList<BlogArticle> ExtractArticles(string mmFilePath)
     {
         var fullPath = Path.GetFullPath(mmFilePath);
@@ -44,41 +49,284 @@ public static class MindmapParser
 
         var notebookTitle = DecodeText(notebookRoot.Attribute("TEXT")?.Value) ?? "(未命名)";
         var mmDir = Path.GetDirectoryName(fullPath) ?? "";
+        var styleFormats = ParseStyleFormats(map);
 
         var articles = new List<BlogArticle>();
 
-        foreach (var articleRoot in notebookRoot.Descendants(NodeName))
+        _activeStyleFormats = styleFormats;
+        try
         {
-            if (ReferenceEquals(articleRoot, notebookRoot))
-                continue;
-            if (!HasInternetPublishIcon(articleRoot))
-                continue;
-
-            var structuralSection = BuildStructuralPath(notebookRoot, articleRoot);
-            var title = DecodeText(articleRoot.Attribute("TEXT")?.Value) ?? "无标题";
-            var id = articleRoot.Attribute("ID")?.Value ?? "";
-            var created = ParseMindTime(articleRoot.Attribute("CREATED")?.Value) ?? DateTimeOffset.UtcNow;
-            var modified = ParseMindTime(articleRoot.Attribute("MODIFIED")?.Value) ?? created;
-
-            var bookmarks = ExtractBookmarks(articleRoot, notebookTitle);
-            var blocks = BuildBodyBlocks(articleRoot, mmDir);
-            var reminderAt = ExtractReminderAt(articleRoot);
-            articles.Add(new BlogArticle
+            foreach (var articleRoot in notebookRoot.Descendants(NodeName))
             {
-                SourceMmPath = fullPath,
-                NotebookTitle = notebookTitle,
-                StructuralSection = structuralSection,
-                Bookmarks = bookmarks,
-                Title = title,
-                ArticleNodeId = id,
-                Created = created,
-                Modified = modified,
-                ReminderAt = reminderAt,
-                Blocks = blocks,
-            });
+                if (ReferenceEquals(articleRoot, notebookRoot))
+                    continue;
+                if (!HasInternetPublishIcon(articleRoot))
+                    continue;
+                if (IsSiteVariablesNode(articleRoot))
+                    continue;
+
+                var structuralSection = BuildStructuralPath(notebookRoot, articleRoot);
+                var title = DecodeText(articleRoot.Attribute("TEXT")?.Value) ?? "无标题";
+                var id = articleRoot.Attribute("ID")?.Value ?? "";
+                var created = ParseMindTime(articleRoot.Attribute("CREATED")?.Value) ?? DateTimeOffset.UtcNow;
+                var modified = ParseMindTime(articleRoot.Attribute("MODIFIED")?.Value) ?? created;
+
+                var bookmarks = ExtractBookmarks(articleRoot, notebookTitle);
+                var blocks = BuildBodyBlocks(articleRoot, mmDir);
+                var reminderAt = ExtractReminderAt(articleRoot);
+                articles.Add(new BlogArticle
+                {
+                    SourceMmPath = fullPath,
+                    NotebookTitle = notebookTitle,
+                    StructuralSection = structuralSection,
+                    Bookmarks = bookmarks,
+                    Title = title,
+                    ArticleNodeId = id,
+                    Created = created,
+                    Modified = modified,
+                    ReminderAt = reminderAt,
+                    Blocks = blocks,
+                });
+            }
+        }
+        finally
+        {
+            _activeStyleFormats = null;
         }
 
         return articles;
+    }
+
+    /// <summary>从任意 .mm 中首个名为「变量」的节点读取站点配置；找不到则返回 null。</summary>
+    public static SiteVariables? TryFindSiteVariables(IEnumerable<string> mmFilePaths)
+    {
+        foreach (var file in mmFilePaths.OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
+        {
+            try
+            {
+                var fullPath = Path.GetFullPath(file);
+                if (!File.Exists(fullPath))
+                    continue;
+
+                var doc = XDocument.Load(fullPath, LoadOptions.PreserveWhitespace);
+                var map = doc.Root;
+                if (map?.Name != MapName)
+                    continue;
+
+                _activeStyleFormats = ParseStyleFormats(map);
+                try
+                {
+                    var variablesNode = map.Descendants(NodeName)
+                        .FirstOrDefault(IsSiteVariablesNode);
+                    if (variablesNode == null)
+                        continue;
+
+                    string? blogTitle = null;
+                    string? signature = null;
+                    string? aboutBody = null;
+                    string? aboutBodyHtml = null;
+
+                    foreach (var child in variablesNode.Elements(NodeName))
+                    {
+                        var label = GetNodeLabel(child);
+                        if (string.IsNullOrEmpty(label))
+                            continue;
+
+                        switch (label)
+                        {
+                            case "博客标题":
+                                blogTitle = ExtractVariablePlainText(child);
+                                break;
+                            case "我的个性签名":
+                                signature = ExtractVariablePlainText(child);
+                                break;
+                            case "关于我":
+                            {
+                                var chunks = child.Elements(NodeName)
+                                    .Select(ParseNodeContent)
+                                    .Where(c => c != null)
+                                    .Cast<ParsedNodeContent>()
+                                    .ToList();
+                                if (chunks.Count == 0)
+                                {
+                                    var single = ParseNodeContent(child);
+                                    if (single != null)
+                                        chunks.Add(single);
+                                }
+
+                                if (chunks.Count > 0)
+                                {
+                                    aboutBody = string.Join("\n", chunks.Select(c => c.PlainText));
+                                    if (chunks.Any(c => c.IsRichHtml))
+                                        aboutBodyHtml = string.Join("\n", chunks.Select(c => c.Html));
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    return new SiteVariables(fullPath, blogTitle, signature, aboutBody, aboutBodyHtml);
+                }
+                finally
+                {
+                    _activeStyleFormats = null;
+                }
+            }
+            catch
+            {
+                // 跳过无法解析的文件，继续扫描
+            }
+        }
+
+        return null;
+    }
+
+    private static string? ExtractVariablePlainText(XElement keyNode)
+    {
+        var parts = keyNode.Elements(NodeName)
+            .Select(n => ParseNodeContent(n)?.PlainText)
+            .Where(t => !string.IsNullOrWhiteSpace(t))
+            .ToList();
+        if (parts.Count > 0)
+            return string.Join("\n", parts);
+
+        return ParseNodeContent(keyNode)?.PlainText;
+    }
+
+    private static IReadOnlyDictionary<string, string> ParseStyleFormats(XElement map)
+    {
+        var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var stylenode in map.Descendants().Where(e => e.Name.LocalName == "stylenode"))
+        {
+            var format = stylenode.Attribute("FORMAT")?.Value;
+            if (string.IsNullOrWhiteSpace(format))
+                continue;
+
+            var name = stylenode.Attribute("LOCALIZED_TEXT")?.Value
+                ?? stylenode.Attribute("NAME")?.Value;
+            if (!string.IsNullOrWhiteSpace(name))
+                dict[name.Trim()] = format.Trim();
+        }
+
+        return dict;
+    }
+
+    private static bool IsMarkdownNode(XElement node)
+    {
+        if (MarkdownRenderer.IsMarkdownFormatValue(node.Attribute("FORMAT")?.Value))
+            return true;
+
+        var styleRef = node.Attribute("LOCALIZED_STYLE_REF")?.Value
+            ?? node.Attribute("STYLE_REF")?.Value;
+        return styleRef != null
+            && _activeStyleFormats != null
+            && _activeStyleFormats.TryGetValue(styleRef, out var styleFormat)
+            && MarkdownRenderer.IsMarkdownFormatValue(styleFormat);
+    }
+
+    private sealed record ParsedNodeContent(string PlainText, string Html, bool IsRichHtml, bool IsMarkdown = false);
+
+    private static ParsedNodeContent? ParseNodeContent(XElement node)
+    {
+        var rawText = DecodeText(node.Attribute("TEXT")?.Value)?.Trim();
+        var nodeRc = node.Elements(RichContentName)
+            .FirstOrDefault(rc => string.Equals(rc.Attribute("TYPE")?.Value, "NODE", StringComparison.OrdinalIgnoreCase));
+
+        var sourceText = nodeRc != null
+            ? ExtractRichContentSourceText(nodeRc)
+            : rawText;
+        if (string.IsNullOrWhiteSpace(sourceText) && !string.IsNullOrWhiteSpace(rawText))
+            sourceText = rawText;
+        if (string.IsNullOrWhiteSpace(sourceText))
+            return null;
+
+        if (MarkdownRenderer.ShouldRenderAsMarkdown(sourceText, IsMarkdownNode(node)))
+        {
+            var mdHtml = MarkdownRenderer.ToHtml(sourceText);
+            var mdPlain = MarkdownRenderer.ToPlainText(sourceText);
+            return new ParsedNodeContent(mdPlain, mdHtml, IsRichHtml: true, IsMarkdown: true);
+        }
+
+        if (nodeRc == null)
+            return new ParsedNodeContent(sourceText, WebUtility.HtmlEncode(sourceText), IsRichHtml: false);
+
+        var html = ExtractRichContentHtml(nodeRc);
+        if (string.IsNullOrWhiteSpace(html))
+            html = WebUtility.HtmlEncode(sourceText);
+
+        var hasRich = html.Contains("style=", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<font", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<span", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<b", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<i", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<h", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<ul", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<ol", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<table", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<blockquote", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("<pre", StringComparison.OrdinalIgnoreCase);
+        return new ParsedNodeContent(sourceText, html, hasRich);
+    }
+
+    private static string ExtractRichContentSourceText(XElement richContent)
+    {
+        var body = richContent.Descendants()
+            .FirstOrDefault(e => e.Name.LocalName.Equals("body", StringComparison.OrdinalIgnoreCase));
+        if (body == null)
+            return DecodeText(richContent.Value)?.Trim() ?? "";
+
+        var parts = new List<string>();
+        foreach (var child in body.Nodes())
+        {
+            switch (child)
+            {
+                case XElement el when el.Name.LocalName.Equals("p", StringComparison.OrdinalIgnoreCase):
+                {
+                    var line = ExtractElementInnerSource(el);
+                    if (!string.IsNullOrWhiteSpace(line))
+                        parts.Add(line);
+                    break;
+                }
+                case XElement el when el.Name.LocalName.Equals("pre", StringComparison.OrdinalIgnoreCase):
+                    parts.Add("```\n" + el.Value.Trim() + "\n```");
+                    break;
+                case XElement el:
+                {
+                    var line = ExtractElementInnerSource(el);
+                    if (!string.IsNullOrWhiteSpace(line))
+                        parts.Add(line);
+                    break;
+                }
+                case XText t when !string.IsNullOrWhiteSpace(t.Value):
+                    parts.Add(t.Value.Trim());
+                    break;
+            }
+        }
+
+        return string.Join("\n\n", parts).Trim();
+    }
+
+    private static string ExtractElementInnerSource(XElement el)
+    {
+        var sb = new System.Text.StringBuilder();
+        foreach (var node in el.Nodes())
+        {
+            switch (node)
+            {
+                case XText t:
+                    sb.Append(WebUtility.HtmlDecode(t.Value));
+                    break;
+                case XElement child when child.Name.LocalName.Equals("br", StringComparison.OrdinalIgnoreCase):
+                    sb.Append('\n');
+                    break;
+                default:
+                    sb.Append(WebUtility.HtmlDecode(node.ToString(SaveOptions.DisableFormatting)));
+                    break;
+            }
+        }
+
+        return InlineBrRegex.Replace(sb.ToString(), "\n").Trim();
     }
 
     /// <summary>从笔记本根到文章根父级，用 “ / ” 连接各层节点标题，作导航分区与无 # 时的书签回退。</summary>
@@ -169,11 +417,192 @@ public static class MindmapParser
     {
         var list = new List<BodyBlock>();
         foreach (var child in articleRoot.Elements(NodeName))
-            AppendNodeBlocks(child, mmDirectory, list);
+            AppendNodeBlocks(child, mmDirectory, list, depth: 1);
         return list;
     }
 
-    private static void AppendNodeBlocks(XElement node, string mmDirectory, List<BodyBlock> list)
+    private static void AppendNodeBlocks(XElement node, string mmDirectory, List<BodyBlock> list, int depth)
+    {
+        if (TryAppendDateSubtree(node, mmDirectory, list, depth))
+            return;
+
+        AppendNodeContent(node, mmDirectory, list, depth);
+
+        foreach (var child in node.Elements(NodeName))
+            AppendNodeBlocks(child, mmDirectory, list, depth + 1);
+    }
+
+    /// <summary>若节点为年/月/日结构则整段处理并返回 true。</summary>
+    private static bool TryAppendDateSubtree(XElement node, string mmDirectory, List<BodyBlock> list, int depth)
+    {
+        var label = GetNodeLabel(node);
+        if (!TryParseYear(label, out var year))
+            return false;
+
+        var children = node.Elements(NodeName).ToList();
+        if (children.Count == 0)
+        {
+            AddDateLine(list, depth, year, null, null);
+            return true;
+        }
+
+        if (children.All(c => TryParseMonth(GetNodeLabel(c), out _)))
+        {
+            foreach (var monthNode in children)
+            {
+                TryParseMonth(GetNodeLabel(monthNode), out var month);
+                AppendMonthBranch(year, month, monthNode, mmDirectory, list, depth);
+            }
+
+            return true;
+        }
+
+        if (children.Count == 1)
+            return TryAppendYearMonthDayChain(node, mmDirectory, list, depth, year, children[0]);
+
+        // 年节点下混有月份与非月份子节点：输出年份标题，其余按正常层级继续
+        AddDateLine(list, depth, year, null, null);
+        foreach (var child in children)
+            AppendNodeBlocks(child, mmDirectory, list, depth + 1);
+        return true;
+    }
+
+    private static bool TryAppendYearMonthDayChain(
+        XElement yearNode,
+        string mmDirectory,
+        List<BodyBlock> list,
+        int depth,
+        int year,
+        XElement monthNode)
+    {
+        if (!TryParseMonth(GetNodeLabel(monthNode), out var month))
+            return false;
+
+        var dayChildren = monthNode.Elements(NodeName).ToList();
+        if (dayChildren.Count == 0)
+        {
+            AddDateLine(list, depth, year, month, null);
+            return true;
+        }
+
+        if (dayChildren.Count == 1 && TryParseDay(GetNodeLabel(dayChildren[0]), out var singleDay))
+        {
+            AddDateLine(list, depth, year, month, singleDay);
+            foreach (var contentChild in dayChildren[0].Elements(NodeName))
+                AppendNodeBlocks(contentChild, mmDirectory, list, depth + 1);
+            return true;
+        }
+
+        if (dayChildren.All(c => TryParseDay(GetNodeLabel(c), out _)))
+        {
+            foreach (var dayNode in dayChildren)
+            {
+                TryParseDay(GetNodeLabel(dayNode), out var dayNum);
+                AddDateLine(list, depth, year, month, dayNum);
+                foreach (var contentChild in dayNode.Elements(NodeName))
+                    AppendNodeBlocks(contentChild, mmDirectory, list, depth + 1);
+            }
+
+            return true;
+        }
+
+        AddDateLine(list, depth, year, month, null);
+        foreach (var child in dayChildren)
+            AppendNodeBlocks(child, mmDirectory, list, depth + 1);
+        return true;
+    }
+
+    private static void AppendMonthBranch(
+        int year,
+        int month,
+        XElement monthNode,
+        string mmDirectory,
+        List<BodyBlock> list,
+        int depth)
+    {
+        var children = monthNode.Elements(NodeName).ToList();
+        if (children.Count == 0)
+        {
+            AddDateLine(list, depth, year, month, null);
+            return;
+        }
+
+        if (children.Count == 1 && TryParseDay(GetNodeLabel(children[0]), out var singleDay))
+        {
+            AddDateLine(list, depth, year, month, singleDay);
+            foreach (var contentChild in children[0].Elements(NodeName))
+                AppendNodeBlocks(contentChild, mmDirectory, list, depth + 1);
+            return;
+        }
+
+        if (children.All(c => TryParseDay(GetNodeLabel(c), out _)))
+        {
+            foreach (var dayNode in children)
+            {
+                TryParseDay(GetNodeLabel(dayNode), out var dayNum);
+                AddDateLine(list, depth, year, month, dayNum);
+                foreach (var contentChild in dayNode.Elements(NodeName))
+                    AppendNodeBlocks(contentChild, mmDirectory, list, depth + 1);
+            }
+
+            return;
+        }
+
+        AddDateLine(list, depth, year, month, null);
+        foreach (var child in children)
+            AppendNodeBlocks(child, mmDirectory, list, depth + 1);
+    }
+
+    private static void AddDateLine(List<BodyBlock> list, int depth, int year, int? month, int? day)
+    {
+        list.Add(new ParagraphBlock(FormatMindDate(year, month, day), depth, IsDateLine: true));
+    }
+
+    internal static string FormatMindDate(int year, int? month, int? day)
+    {
+        if (month is null or < 1)
+            return $"{year}年";
+        if (day is null or < 1)
+            return $"{year}年{month}月";
+        return $"{year}年{month}月{day}日";
+    }
+
+    private static string GetNodeLabel(XElement node) => DecodeText(node.Attribute("TEXT")?.Value)?.Trim() ?? "";
+
+    private static bool IsSiteVariablesNode(XElement node) =>
+        string.Equals(GetNodeLabel(node), SiteVariablesNodeLabel, StringComparison.Ordinal);
+
+    private static bool TryParseYear(string text, out int year)
+    {
+        year = 0;
+        if (!Regex.IsMatch(text, @"^\d{4}$"))
+            return false;
+        if (!int.TryParse(text, NumberStyles.None, CultureInfo.InvariantCulture, out year))
+            return false;
+        return year is >= 1900 and <= 2100;
+    }
+
+    private static bool TryParseMonth(string text, out int month)
+    {
+        month = 0;
+        if (!Regex.IsMatch(text, @"^\d{1,2}$"))
+            return false;
+        if (!int.TryParse(text, NumberStyles.None, CultureInfo.InvariantCulture, out month))
+            return false;
+        return month is >= 1 and <= 12;
+    }
+
+    private static bool TryParseDay(string text, out int day)
+    {
+        day = 0;
+        if (!Regex.IsMatch(text, @"^\d{1,2}$"))
+            return false;
+        if (!int.TryParse(text, NumberStyles.None, CultureInfo.InvariantCulture, out day))
+            return false;
+        return day is >= 1 and <= 31;
+    }
+
+    private static void AppendNodeContent(XElement node, string mmDirectory, List<BodyBlock> list, int depth)
     {
         var nodeText = ExtractNodeText(node);
         var note = ExtractNodeNote(node);
@@ -181,33 +610,19 @@ public static class MindmapParser
         var hook = node.Elements(HookName)
             .FirstOrDefault(h => string.Equals(h.Attribute("NAME")?.Value, "ExternalObject", StringComparison.OrdinalIgnoreCase));
 
-        var hasImage = false;
         if (hook != null)
         {
             var uri = hook.Attribute("URI")?.Value ?? "";
             var alt = nodeText?.PlainText ?? "";
             var resolved = ResolveUri(mmDirectory, uri);
-            list.Add(new ImageBlock(uri, alt, resolved));
-            hasImage = true;
-        }
-
-        var childNodes = node.Elements(NodeName).ToList();
-        if (childNodes.Count == 0)
-        {
-            if (!hasImage && nodeText != null)
-                AppendNoteAwareTextBlocks(list, nodeText, note, hasLongNote, hasImage);
-            else if (!hasImage && note != null)
-                AppendNoteAwareTextBlocks(list, null, note, hasLongNote, hasImage);
+            list.Add(new ImageBlock(uri, alt, resolved, depth));
             return;
         }
 
-        if (!hasImage && nodeText != null)
-            AppendNoteAwareTextBlocks(list, nodeText, note, hasLongNote, hasImage);
-        else if (!hasImage && note != null)
-            AppendNoteAwareTextBlocks(list, null, note, hasLongNote, hasImage);
-
-        foreach (var child in childNodes)
-            AppendNodeBlocks(child, mmDirectory, list);
+        if (nodeText != null)
+            AppendNoteAwareTextBlocks(list, nodeText, note, hasLongNote, hasImage: false, depth);
+        else if (note != null)
+            AppendNoteAwareTextBlocks(list, null, note, hasLongNote, hasImage: false, depth);
     }
 
     private static void AppendNoteAwareTextBlocks(
@@ -215,14 +630,15 @@ public static class MindmapParser
         NodeText? nodeText,
         NodeNote? note,
         bool hasLongNote,
-        bool hasImage)
+        bool hasImage,
+        int depth)
     {
         if (hasImage)
             return;
         if (note == null || string.IsNullOrWhiteSpace(note.PlainText))
         {
             if (nodeText != null)
-                AddNodeTextBlock(list, nodeText);
+                AddNodeTextBlock(list, nodeText, depth);
             return;
         }
 
@@ -233,16 +649,17 @@ public static class MindmapParser
                 AddNodeTextBlock(
                     list,
                     nodeText,
+                    depth,
                     plainSuffix: $"（{note.PlainText.Trim()}）",
                     htmlSuffix: $"（<span class=\"note-inline\">{inlineHtml}</span>）");
             else
-                list.Add(new NoteBlock(note.PlainText.Trim(), inlineHtml, Inline: true, PrefixText: null));
+                list.Add(new NoteBlock(note.PlainText.Trim(), inlineHtml, Inline: true, PrefixText: null, depth));
             return;
         }
 
         if (nodeText != null)
-            AddNodeTextBlock(list, nodeText);
-        list.Add(new NoteBlock(note.PlainText.Trim(), note.Html, Inline: !hasLongNote, PrefixText: null));
+            AddNodeTextBlock(list, nodeText, depth);
+        list.Add(new NoteBlock(note.PlainText.Trim(), note.Html, Inline: !hasLongNote, PrefixText: null, depth));
     }
 
     private static NodeNote? ExtractNodeNote(XElement node)
@@ -253,17 +670,28 @@ public static class MindmapParser
             if (!type.Equals("NOTE", StringComparison.OrdinalIgnoreCase))
                 continue;
 
+            if (MarkdownRenderer.ShouldRenderAsMarkdown(ExtractRichContentSourceText(rc), IsMarkdownNode(node)))
+            {
+                var source = ExtractRichContentSourceText(rc);
+                if (string.IsNullOrWhiteSpace(source))
+                    continue;
+
+                var mdHtml = MarkdownRenderer.ToHtml(source);
+                var mdPlain = MarkdownRenderer.ToPlainText(source);
+                return new NodeNote(mdPlain, mdHtml, HasRichStyle: true);
+            }
+
             var plain = DecodeText(rc.Value)?.Trim();
             if (string.IsNullOrWhiteSpace(plain))
                 continue;
 
-            var html = ExtractRichContentHtml(rc);
-            if (string.IsNullOrWhiteSpace(html))
-                html = WebUtility.HtmlEncode(plain);
+            var htmlFromNote = ExtractRichContentHtml(rc);
+            if (string.IsNullOrWhiteSpace(htmlFromNote))
+                htmlFromNote = WebUtility.HtmlEncode(plain);
             return new NodeNote(
                 plain,
-                html,
-                HasRichStyle: HasVisualStyle(html));
+                htmlFromNote,
+                HasRichStyle: HasVisualStyle(htmlFromNote));
         }
 
         return null;
@@ -304,30 +732,10 @@ public static class MindmapParser
 
     private static NodeText? ExtractNodeText(XElement node)
     {
-        var rawText = DecodeText(node.Attribute("TEXT")?.Value)?.Trim();
-        var nodeRc = node.Elements(RichContentName)
-            .FirstOrDefault(rc => string.Equals(rc.Attribute("TYPE")?.Value, "NODE", StringComparison.OrdinalIgnoreCase));
-        if (nodeRc == null)
-        {
-            if (string.IsNullOrWhiteSpace(rawText))
-                return null;
-            return new NodeText(rawText, WebUtility.HtmlEncode(rawText), HasRichStyle: false);
-        }
-
-        var plain = DecodeText(nodeRc.Value)?.Trim();
-        if (string.IsNullOrWhiteSpace(plain))
-            plain = rawText;
-        if (string.IsNullOrWhiteSpace(plain))
-            return null;
-        var html = ExtractRichContentHtml(nodeRc);
-        if (string.IsNullOrWhiteSpace(html))
-            html = WebUtility.HtmlEncode(plain);
-        var hasRich = html.Contains("style=", StringComparison.OrdinalIgnoreCase)
-            || html.Contains("<font", StringComparison.OrdinalIgnoreCase)
-            || html.Contains("<span", StringComparison.OrdinalIgnoreCase)
-            || html.Contains("<b", StringComparison.OrdinalIgnoreCase)
-            || html.Contains("<i", StringComparison.OrdinalIgnoreCase);
-        return new NodeText(plain, html, hasRich);
+        var parsed = ParseNodeContent(node);
+        return parsed == null
+            ? null
+            : new NodeText(parsed.PlainText, parsed.Html, parsed.IsRichHtml, parsed.IsMarkdown);
     }
 
     private static bool HasVisualStyle(string html)
@@ -352,6 +760,7 @@ public static class MindmapParser
     private static void AddNodeTextBlock(
         List<BodyBlock> list,
         NodeText text,
+        int depth,
         string plainSuffix = "",
         string? htmlSuffix = null)
     {
@@ -370,15 +779,15 @@ public static class MindmapParser
                 if (!string.IsNullOrEmpty(plainSuffix))
                     html += WebUtility.HtmlEncode(plainSuffix);
             }
-            list.Add(new RichParagraphBlock(text.PlainText + plainSuffix, html));
+            list.Add(new RichParagraphBlock(text.PlainText + plainSuffix, html, depth, IsMarkdown: text.IsMarkdown));
             return;
         }
 
-        list.Add(new ParagraphBlock(text.PlainText + plainSuffix));
+        list.Add(new ParagraphBlock(text.PlainText + plainSuffix, depth));
     }
 
     private sealed record NodeNote(string PlainText, string Html, bool HasRichStyle);
-    private sealed record NodeText(string PlainText, string Html, bool HasRichStyle);
+    private sealed record NodeText(string PlainText, string Html, bool HasRichStyle, bool IsMarkdown = false);
 
     internal static string? DecodeText(string? raw)
     {

@@ -51,6 +51,21 @@ internal static class Program
             return 0;
         }
 
+        var siteVariables = MindmapParser.TryFindSiteVariables(mmFiles);
+        SiteProfile.Apply(siteVariables);
+        if (siteVariables != null)
+        {
+            Console.WriteLine($"已从 {siteVariables.SourceFile} 读取「变量」配置。");
+            if (!string.IsNullOrWhiteSpace(siteVariables.BlogTitle))
+                Console.WriteLine($"  博客标题：{siteVariables.BlogTitle}");
+            if (!string.IsNullOrWhiteSpace(siteVariables.Signature))
+                Console.WriteLine($"  个性签名：已读取");
+            if (!string.IsNullOrWhiteSpace(siteVariables.AboutBody))
+                Console.WriteLine($"  关于我：已读取（{siteVariables.AboutBody.Length} 字）");
+            else
+                Console.WriteLine("  关于我：未解析到内容，使用默认文案");
+        }
+
         var articles = new List<BlogArticle>();
         foreach (var file in mmFiles.OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
         {

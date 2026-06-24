@@ -34,11 +34,12 @@ public sealed class BlogArticle
     public string HtmlFileName => ArticleIdentity.ResolveHtmlFileName(this);
 }
 
-public abstract record BodyBlock;
+public abstract record BodyBlock(int Depth = 1);
 
-public sealed record ParagraphBlock(string Text) : BodyBlock;
-public sealed record RichParagraphBlock(string PlainText, string Html) : BodyBlock;
+public sealed record ParagraphBlock(string Text, int Depth = 1, bool IsDateLine = false) : BodyBlock(Depth);
 
-public sealed record ImageBlock(string RelativeUri, string AltText, string ResolvedSourcePath) : BodyBlock;
+public sealed record RichParagraphBlock(string PlainText, string Html, int Depth = 1, bool IsDateLine = false, bool IsMarkdown = false) : BodyBlock(Depth);
 
-public sealed record NoteBlock(string PlainText, string Html, bool Inline, string? PrefixText) : BodyBlock;
+public sealed record ImageBlock(string RelativeUri, string AltText, string ResolvedSourcePath, int Depth = 1) : BodyBlock(Depth);
+
+public sealed record NoteBlock(string PlainText, string Html, bool Inline, string? PrefixText, int Depth = 1) : BodyBlock(Depth);

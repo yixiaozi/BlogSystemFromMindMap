@@ -1,9 +1,46 @@
 namespace MindmapBlog;
 
-/// <summary>右侧栏「关于我」头像：从约定路径复制到 <c>media/site-avatar.*</c>。</summary>
+/// <summary>站点展示文案（可由导图「变量」节点覆盖）与头像发布。</summary>
 internal static class SiteProfile
 {
-    public const string Signature = "以增加选项为己任，无视强者唤醒弱者，一个透明，纯粹，善良的人";
+    public const string DefaultBlogTitle = "思维导图博客";
+    public const string DefaultSignature = "以增加选项为己任，无视强者唤醒弱者，一个透明，纯粹，善良的人";
+    public const string DefaultAboutBody = "欢迎来到本站。以上是我在此处展示的签名与态度；站内文章与导图仅代表学习与记录。";
+
+    public static string BlogTitle { get; private set; } = DefaultBlogTitle;
+    public static string Signature { get; private set; } = DefaultSignature;
+    public static string AboutBody { get; private set; } = DefaultAboutBody;
+    public static string? AboutBodyHtml { get; private set; }
+
+    /// <summary>重置为默认值，再应用从导图解析到的变量（未提供的项保持默认）。</summary>
+    public static void Apply(SiteVariables? variables)
+    {
+        BlogTitle = DefaultBlogTitle;
+        Signature = DefaultSignature;
+        AboutBody = DefaultAboutBody;
+        AboutBodyHtml = null;
+
+        if (variables == null)
+            return;
+
+        if (!string.IsNullOrWhiteSpace(variables.BlogTitle))
+            BlogTitle = variables.BlogTitle.Trim();
+        if (!string.IsNullOrWhiteSpace(variables.Signature))
+            Signature = variables.Signature.Trim();
+        if (!string.IsNullOrWhiteSpace(variables.AboutBodyHtml))
+        {
+            AboutBodyHtml = variables.AboutBodyHtml.Trim();
+            AboutBody = string.IsNullOrWhiteSpace(variables.AboutBody)
+                ? MarkdownRenderer.HtmlToPlain(AboutBodyHtml)
+                : variables.AboutBody.Trim();
+        }
+        else if (!string.IsNullOrWhiteSpace(variables.AboutBody))
+        {
+            AboutBody = variables.AboutBody.Trim();
+            if (MarkdownRenderer.LooksLikeMarkdown(AboutBody))
+                AboutBodyHtml = MarkdownRenderer.ToHtml(AboutBody);
+        }
+    }
 
     private static readonly HashSet<string> ImageExtensions =
         new(StringComparer.OrdinalIgnoreCase)

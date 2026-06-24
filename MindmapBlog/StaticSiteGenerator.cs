@@ -192,7 +192,7 @@ public sealed class StaticSiteGenerator
         const int maxItems = 40;
         var items = sortedArticles.OrderByDescending(a => a.Modified).Take(maxItems).ToList();
 
-        var channelTitle = "思维导图博客";
+        var channelTitle = SiteProfile.BlogTitle;
         var channelDesc = "按文章修改时间推送更新（RSS 2.0）。";
         var channelLink = CombineSiteUrl(siteBaseUrl, "index.html");
         var selfLink = CombineSiteUrl(siteBaseUrl, names.RssFeedWebPath);
@@ -958,7 +958,7 @@ public sealed class StaticSiteGenerator
         AppendTimelineList(center, sortedArticles, a => a.Modified.LocalDateTime, descending: true, names, idx);
         center.AppendLine("</div>");
 
-        var html = HtmlLayout.BuildDocument("思维导图博客 · 时间轴", "", center.ToString(), nav, tagsAside, idx,
+        var html = HtmlLayout.BuildDocument($"{SiteProfile.BlogTitle} · 时间轴", "", center.ToString(), nav, tagsAside, idx,
             names.RssFeedWebPath,
             names);
         WriteUtf8Web(outDir, idx, html);
@@ -1035,8 +1035,16 @@ public sealed class StaticSiteGenerator
             .Append(WebUtility.HtmlEncode(SiteProfile.Signature))
             .AppendLine("</p>");
         inner.AppendLine("</header>");
-        inner.AppendLine("<div class=\"about-body\">");
-        inner.AppendLine("<p>欢迎来到本站。以上是我在此处展示的签名与态度；站内文章与导图仅代表学习与记录。</p>");
+        inner.AppendLine("<div class=\"about-body markdown-body\">");
+        if (!string.IsNullOrEmpty(SiteProfile.AboutBodyHtml))
+            inner.AppendLine(SiteProfile.AboutBodyHtml);
+        else if (MarkdownRenderer.LooksLikeMarkdown(SiteProfile.AboutBody))
+            inner.AppendLine(MarkdownRenderer.ToHtml(SiteProfile.AboutBody));
+        else
+        {
+            foreach (var paragraph in SiteProfile.AboutBody.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                inner.Append("<p>").Append(WebUtility.HtmlEncode(paragraph)).AppendLine("</p>");
+        }
         inner.AppendLine("</div>");
         inner.AppendLine("</div>");
 
@@ -1249,15 +1257,27 @@ public sealed class StaticSiteGenerator
             switch (block)
             {
                 case ParagraphBlock p:
-                    sb.Append("<p>").Append(WebUtility.HtmlEncode(p.Text)).AppendLine("</p>");
+                    sb.Append("<p class=\"")
+                        .Append(MindBlockClasses(p.Depth, p.IsDateLine, p.Text))
+                        .Append("\">")
+                        .Append(WebUtility.HtmlEncode(p.Text))
+                        .AppendLine("</p>");
                     break;
                 case RichParagraphBlock rp:
-                    sb.Append("<div class=\"rich-paragraph\">").Append(rp.Html).AppendLine("</div>");
+                    sb.Append("<div class=\"rich-paragraph ")
+                        .Append(MindBlockClasses(rp.Depth, rp.IsDateLine, rp.PlainText));
+                    if (rp.IsMarkdown)
+                        sb.Append(" markdown-body");
+                    sb.Append("\">")
+                        .Append(rp.Html)
+                        .AppendLine("</div>");
                     break;
                 case NoteBlock n:
                     if (n.Inline)
                     {
-                        sb.Append("<p class=\"note-inline-wrap\">");
+                        sb.Append("<p class=\"note-inline-wrap ")
+                            .Append(MindBlockClasses(n.Depth, isDateLine: false, n.PlainText))
+                            .Append("\">");
                         if (!string.IsNullOrWhiteSpace(n.PrefixText))
                             sb.Append(WebUtility.HtmlEncode(n.PrefixText)).Append("（");
                         sb.Append("<span class=\"note-inline\">").Append(n.Html).Append("</span>");
@@ -1267,7 +1287,9 @@ public sealed class StaticSiteGenerator
                     }
                     else
                     {
-                        sb.Append("<div class=\"note-box\">")
+                        sb.Append("<div class=\"note-box ")
+                            .Append(MindBlockClasses(n.Depth, isDateLine: false, n.PlainText))
+                            .Append("\">")
                             .Append(n.Html)
                             .AppendLine("</div>");
                     }
@@ -1282,7 +1304,9 @@ public sealed class StaticSiteGenerator
                         break;
                     }
 
-                    sb.Append("<figure class=\"article-figure\" id=\"img-")
+                    sb.Append("<figure class=\"article-figure ")
+                        .Append(MindBlockClasses(img.Depth, isDateLine: false, null))
+                        .Append("\" id=\"img-")
                         .Append(match.IndexInArticle)
                         .Append("\"><img src=\"")
                         .Append(WebUtility.HtmlEncode(match.UrlRelativeToArticle))
@@ -1298,6 +1322,25 @@ public sealed class StaticSiteGenerator
         return sb.ToString();
     }
 
+    private static string MindBlockClasses(int depth, bool isDateLine, string? text)
+    {
+        var level = Math.Clamp(depth, 1, 6);
+        var sb = new StringBuilder("mm-block mm-depth-").Append(level);
+        if (isDateLine)
+            sb.Append(" mm-date");
+        else if (LooksLikeSectionHeading(text))
+            sb.Append(" mm-heading");
+        return sb.ToString();
+    }
+
+    private static bool LooksLikeSectionHeading(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return false;
+        var t = text.Trim();
+        return t.EndsWith("：", StringComparison.Ordinal) || t.EndsWith(":", StringComparison.Ordinal);
+    }
+
     private static void WriteStylesheet(string path)
     {
         var css = """
@@ -1310,9 +1353,13 @@ public sealed class StaticSiteGenerator
   --layout-col-nav-max: 272px;
   --layout-col-tags-min: 196px;
   --layout-col-tags-max: 234px;
+  /* 主栏 = shell 内宽 − 固定左右栏；与 .layout-shell 三列之和一致 */
   --layout-main-max: calc(var(--layout-shell-max) - var(--layout-col-nav-max) - var(--layout-col-tags-max));
+  /* 三栏内边距统一，顶栏/底栏/主栏左右缘对齐 */
+  --layout-col-inner-pad-x: 0.85rem;
+  --layout-col-inner-pad-top: 1rem;
   /* 与 .layout-tags 横向 padding 一致（修订面板右缘与侧栏内容区右缘对齐） */
-  --layout-tags-pad-x: 0.85rem;
+  --layout-tags-pad-x: var(--layout-col-inner-pad-x);
 
   font-family: "Noto Sans SC", "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   line-height: 1.68;
@@ -1385,6 +1432,7 @@ body.site-body {
 }
 
 .site-topbar-inner {
+  width: 100%;
   max-width: var(--layout-shell-max);
   margin: 0 auto;
   display: flex;
@@ -1541,6 +1589,7 @@ html.theme-dark .site-topbar-chip:hover {
 }
 
 .site-footer-inner {
+  width: 100%;
   max-width: var(--layout-shell-max);
   margin: 0 auto;
   display: grid;
@@ -1881,19 +1930,22 @@ html.theme-dark .bm-pill:hover {
 
 .layout-shell {
   display: grid;
-  grid-template-columns: minmax(var(--layout-col-nav-min), var(--layout-col-nav-max)) minmax(0, 1fr) minmax(var(--layout-col-tags-min), var(--layout-col-tags-max));
+  /* 左右栏固定为上限宽度，中间列始终占满剩余空间，避免主栏宽度随侧栏伸缩而波动 */
+  grid-template-columns: var(--layout-col-nav-max) minmax(0, 1fr) var(--layout-col-tags-max);
+  width: 100%;
   flex: 1 1 auto;
   min-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   max-width: var(--layout-shell-max);
   margin: 0 auto;
   padding-left: var(--layout-shell-pad-x);
   padding-right: var(--layout-shell-pad-x);
+  box-sizing: border-box;
 }
 
 .layout-nav {
   background: var(--surface-nav);
   border-right: 1px solid var(--border);
-  padding: 1rem 0.65rem 1.75rem 0.95rem;
+  padding: var(--layout-col-inner-pad-top) var(--layout-col-inner-pad-x) 1.75rem;
   overflow: auto;
   max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   position: sticky;
@@ -1905,17 +1957,15 @@ html.theme-dark .bm-pill:hover {
   box-sizing: border-box;
   min-width: 0;
   width: 100%;
-  max-width: var(--layout-main-max);
-  justify-self: center;
-  padding: 1.55rem clamp(1.15rem, 3vw, 2.1rem) 3.25rem;
-  overflow: hidden;
+  justify-self: stretch;
+  padding: var(--layout-col-inner-pad-top) var(--layout-col-inner-pad-x) 3.25rem;
   background: var(--surface-main);
 }
 
 .layout-tags {
   background: var(--surface-aside);
   border-left: 1px solid var(--border);
-  padding: 1rem var(--layout-tags-pad-x) 1.6rem var(--layout-tags-pad-x);
+  padding: var(--layout-col-inner-pad-top) var(--layout-tags-pad-x) 1.6rem;
   overflow: auto;
   max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   position: sticky;
@@ -2465,10 +2515,17 @@ details.nav-mmnod[open] > .nav-mmnod-summary::before {
   text-decoration: none;
 }
 
-/* 与首页时间轴一致：主栏内容区横向占满，避免右侧大块留白 */
+/* 各页面内容区统一占满主栏，避免不同页面类型宽度不一致 */
+.page-index,
 .page-branch,
 .page-with-timeline,
-.page-tag {
+.page-tag,
+.page-gallery,
+.page-wordfreq,
+.page-gen-history,
+.page-about,
+.page-search,
+.article-page {
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -2635,14 +2692,6 @@ details.nav-mmnod[open] > .nav-mmnod-summary::before {
 
 .gallery-aside-more:hover {
   text-decoration: underline;
-}
-
-.page-gallery {
-  max-width: 52rem;
-}
-
-.page-wordfreq {
-  max-width: 52rem;
 }
 
 .wordfreq-stats {
@@ -3067,10 +3116,6 @@ html.theme-dark .wordfreq-hit {
   color: #9a3412;
 }
 
-.page-gen-history {
-  max-width: min(56rem, 100%);
-}
-
 .gen-history-table-wrap {
   overflow-x: auto;
   margin-bottom: 1.5rem;
@@ -3265,7 +3310,7 @@ td.gen-history-empty {
   margin: 0;
   color: var(--text-muted);
   font-size: 0.93rem;
-  max-width: 40rem;
+  max-width: none;
   line-height: 1.65;
 }
 
@@ -3279,7 +3324,7 @@ td.gen-history-empty {
 }
 
 .timeline {
-  --timeline-lead-width: 11.85rem;
+  --timeline-lead-width: clamp(8.5rem, 10vw, 10.25rem);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -3587,6 +3632,65 @@ article.content p {
   margin: 0.62rem 0;
 }
 
+/* 导图层级：深度 1–6 对应字号、字重与缩进 */
+article.content .mm-block.mm-depth-1 {
+  font-size: 1.14em;
+  font-weight: 700;
+  margin-top: 1.15rem;
+  line-height: 1.45;
+}
+
+article.content .mm-block.mm-depth-2 {
+  font-size: 1.06em;
+  font-weight: 600;
+  margin-top: 0.82rem;
+  padding-left: 0.55rem;
+  border-left: 3px solid rgba(67, 56, 202, 0.22);
+}
+
+article.content .mm-block.mm-depth-3 {
+  font-size: 1.01em;
+  font-weight: 500;
+  margin-top: 0.58rem;
+  padding-left: 1.05rem;
+}
+
+article.content .mm-block.mm-depth-4 {
+  font-size: 0.98em;
+  margin-top: 0.46rem;
+  padding-left: 1.55rem;
+  color: var(--text-muted);
+}
+
+article.content .mm-block.mm-depth-5,
+article.content .mm-block.mm-depth-6 {
+  font-size: 0.95em;
+  margin-top: 0.38rem;
+  padding-left: 2rem;
+  color: var(--text-soft);
+}
+
+article.content .mm-date {
+  color: var(--accent-deep);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-left-color: rgba(67, 56, 202, 0.45);
+  background: linear-gradient(90deg, rgba(67, 56, 202, 0.07), transparent 72%);
+  padding-top: 0.28rem;
+  padding-bottom: 0.28rem;
+  border-radius: 0 8px 8px 0;
+}
+
+article.content .mm-heading {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+article.content > .mm-block.mm-depth-1:first-child,
+article.content > p.mm-block.mm-depth-1:first-child {
+  margin-top: 0;
+}
+
 article.content .rich-paragraph {
   margin: 0.62rem 0;
 }
@@ -3709,9 +3813,10 @@ article.content figcaption {
 }
 
 .article-page {
+  --article-pad-x: 1.08rem;
   position: relative;
   min-width: 0;
-  padding: 1rem 1.08rem calc(1.35rem + 4.75rem);
+  padding: 1rem var(--article-pad-x) calc(1.35rem + 4.75rem);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.42);
@@ -3753,21 +3858,18 @@ html.theme-dark article.content .note-box {
 }
 
 /*
-  修订与对比：固定在视口，与「主栏 / 正文区」右下角对齐。
-  right = shell 居中偏置 + shell 右内边距 + 第三栏栅格宽度 → 与本栏（主栏）右竖线重合；底栏贴近页脚占位之上。
+  修订与对比：sticky 贴底，宽度随 article-page 正文区，与上方段落/图片左右对齐。
 */
 .rev-dock {
-  position: fixed;
+  position: sticky;
   z-index: 90;
   display: flex;
   flex-direction: column-reverse;
   align-items: stretch;
   bottom: calc(env(safe-area-inset-bottom, 0px) + var(--site-footer-occupy) + 1.35rem);
-  right: calc(
-    max(0px, (100vw - var(--layout-shell-max)) / 2) + var(--layout-shell-pad-x) + var(--layout-col-tags-max)
-  );
-  width: min(320px, calc(var(--layout-main-max) - 2rem));
-  max-width: min(320px, calc(var(--layout-main-max) - 2rem));
+  width: 100%;
+  max-width: 100%;
+  margin-top: 1.15rem;
   filter: drop-shadow(0 8px 22px rgba(21, 28, 40, 0.11));
 }
 
@@ -3985,16 +4087,86 @@ html.theme-dark article.content .note-box {
 }
 
 .page-about-signature {
-  max-width: 40rem;
+  max-width: 36rem;
   margin-left: auto;
   margin-right: auto;
 }
 
 .about-body {
-  max-width: 40rem;
-  margin: 1.5rem auto 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
+  width: 100%;
+  max-width: none;
+  margin: 1.5rem 0 0;
+  color: var(--text-primary);
+  font-size: 0.98rem;
+  line-height: 1.72;
+  text-align: left;
+}
+
+.markdown-body :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 1.1rem 0 0.45rem;
+}
+
+.markdown-body :is(h1, h2, h3, h4, h5, h6):first-child {
+  margin-top: 0;
+}
+
+.markdown-body p {
+  margin: 0.55rem 0;
+}
+
+.markdown-body blockquote {
+  margin: 0.65rem 0;
+  padding: 0.35rem 0.75rem;
+  border-left: 3px solid var(--accent, #4338ca);
+  background: rgba(15, 23, 42, 0.04);
+  color: var(--text-primary);
+}
+
+.markdown-body pre {
+  margin: 0.65rem 0;
+  padding: 0.65rem 0.85rem;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.06);
+  font-size: 0.88em;
+}
+
+.markdown-body code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.9em;
+  background: rgba(15, 23, 42, 0.06);
+  padding: 0.08rem 0.28rem;
+  border-radius: 4px;
+}
+
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.markdown-body :is(ul, ol) {
+  margin: 0.55rem 0;
+  padding-left: 1.35rem;
+}
+
+.markdown-body table {
+  width: 100%;
+  margin: 0.65rem 0;
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+
+.markdown-body :is(th, td) {
+  border: 1px solid rgba(21, 28, 40, 0.12);
+  padding: 0.35rem 0.55rem;
+}
+
+.markdown-body th {
+  background: rgba(15, 23, 42, 0.05);
+  font-weight: 600;
 }
 
 @media (max-width: 960px) {
@@ -4092,10 +4264,6 @@ html.theme-dark article.content .note-box {
   .timeline-bm { justify-content: flex-start; }
   .timeline-marker { display: none; }
   .rev-dock {
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-    max-width: none;
     bottom: calc(var(--site-footer-occupy) + max(1rem, env(safe-area-inset-bottom)));
   }
 }
