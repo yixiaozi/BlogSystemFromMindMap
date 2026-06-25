@@ -50,6 +50,7 @@ internal static class HtmlLayout
 
         if (!string.IsNullOrEmpty(headExtra))
             sb.AppendLine(headExtra);
+        AppendBaiduAnalytics(sb);
         sb.AppendLine("</head>");
         sb.AppendLine("<body class=\"site-body\">");
         var homeHref = string.IsNullOrEmpty(currentPageWebPath)
@@ -99,6 +100,19 @@ internal static class HtmlLayout
         sb.AppendLine("</body>");
         sb.AppendLine("</html>");
         return sb.ToString();
+    }
+
+    private static void AppendBaiduAnalytics(StringBuilder sb)
+    {
+        sb.AppendLine("<script>");
+        sb.AppendLine("var _hmt = _hmt || [];");
+        sb.AppendLine("(function() {");
+        sb.AppendLine("  var hm = document.createElement(\"script\");");
+        sb.AppendLine("  hm.src = \"https://hm.baidu.com/hm.js?dced051aaa84ab850909e5607f874760\";");
+        sb.AppendLine("  var s = document.getElementsByTagName(\"script\")[0];");
+        sb.AppendLine("  s.parentNode.insertBefore(hm, s);");
+        sb.AppendLine("})();");
+        sb.AppendLine("</script>");
     }
 
     /// <summary>

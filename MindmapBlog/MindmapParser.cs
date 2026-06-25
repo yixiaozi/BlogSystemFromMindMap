@@ -39,7 +39,7 @@ public static class MindmapParser
         if (!File.Exists(fullPath))
             throw new FileNotFoundException("找不到 .mm 文件。", fullPath);
 
-        var doc = XDocument.Load(fullPath, LoadOptions.PreserveWhitespace);
+        var doc = MindmapXmlLoader.Load(fullPath);
         var map = doc.Root ?? throw new InvalidOperationException("无效的 .mm：缺少根元素。");
         if (map.Name != MapName)
             throw new InvalidOperationException("无效的 .mm：根元素应为 map。");
@@ -108,7 +108,7 @@ public static class MindmapParser
                 if (!File.Exists(fullPath))
                     continue;
 
-                var doc = XDocument.Load(fullPath, LoadOptions.PreserveWhitespace);
+                var doc = MindmapXmlLoader.Load(fullPath);
                 var map = doc.Root;
                 if (map?.Name != MapName)
                     continue;
