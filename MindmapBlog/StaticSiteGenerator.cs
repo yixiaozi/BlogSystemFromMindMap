@@ -159,10 +159,10 @@ public sealed class StaticSiteGenerator
             WriteUtf8Web(outDir, htmlName, page);
         }
 
-        WriteBranchListPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
-        WriteCalendarListPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
-        WriteIndex(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
-        WriteTagPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
+        WriteBranchListPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
+        WriteCalendarListPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
+        WriteIndex(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
+        WriteTagPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
         WriteGalleryPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
         WriteAboutPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
         WriteSearchPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
@@ -174,10 +174,19 @@ public sealed class StaticSiteGenerator
         WriteGenerationHistoryPage(outDir, scanRoot, historyFile.Runs, sortedArticles, names, galleryItems,
             avatarSitePath);
 
+        var gitSnapshot = GitCommitCollector.Collect(scanRoot);
+        GitCommitStore.Save(outDir, gitSnapshot);
+        WriteGitCommitPage(outDir, scanRoot, gitSnapshot, sortedArticles, names, galleryItems, avatarSitePath);
+        if (gitSnapshot.IsGitRepo)
+            Console.WriteLine($"已读取 Git 提交 {gitSnapshot.Commits.Count} 条（分支 {gitSnapshot.Branch}）。");
+        else
+            Console.WriteLine("扫描目录不在 Git 仓库内，提交记录页将为空。");
+
         WriteRssFeed(outDir, sortedArticles, names, siteBaseUrl, generatedAt);
 
         WriteSearchIndex(outDir, sortedArticles);
         CopySearchAsideScript(outDir);
+        CopyTimelineTabsScript(outDir);
 
         WriteStylesheet(Path.Combine(outDir, "site.css"));
     }
@@ -279,6 +288,18 @@ public sealed class StaticSiteGenerator
         }
 
         File.Copy(src, Path.Combine(outDir, "search-aside.js"), overwrite: true);
+    }
+
+    private static void CopyTimelineTabsScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "timeline-tabs.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/timeline-tabs.js，时间轴 Tab 不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "timeline-tabs.js"), overwrite: true);
     }
 
     private static void WriteGenerationHistoryPage(
@@ -432,6 +453,127 @@ public sealed class StaticSiteGenerator
         WriteUtf8Web(outDir, HtmlLayout.GenerationHistoryPageFileName, page);
     }
 
+    private static void WriteGitCommitPage(
+        string outDir,
+        string scanRoot,
+        GitCommitHistorySnapshot snapshot,
+        IReadOnlyList<BlogArticle> sortedArticles,
+        SiteFileNames names,
+        IReadOnlyList<ArticleGalleryItem> galleryEntries,
+        string? avatarSitePath)
+    {
+        var scanRootFull = Path.GetFullPath(scanRoot);
+        var cur = HtmlLayout.GitCommitHistoryPageFileName;
+        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, cur, names);
+        var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, cur, galleryEntries, avatarSitePath);
+
+        var inner = new StringBuilder();
+        inner.AppendLine("<div class=\"page-git-commits\">");
+        inner.AppendLine("<header class=\"hero\">");
+        inner.AppendLine("<h1 class=\"page-title\">提交记录</h1>");
+
+        if (!snapshot.IsGitRepo)
+        {
+            inner.AppendLine(
+                "<p class=\"page-lead\">扫描目录未检测到 Git 仓库（<code>--scan</code> 路径不在任何 Git 工作区内）。请在 Git 管理的思维导图目录上重新生成站点。</p>");
+        }
+        else
+        {
+            inner.AppendLine(
+                "<p class=\"page-lead\">读取<strong>扫描目录</strong>所在 Git 仓库的全部提交历史（生成时快照；若扫描路径为子目录则仅含影响该目录的提交）。</p>");
+            inner.Append("<p class=\"git-repo-meta\">仓库 <code>")
+                .Append(WebUtility.HtmlEncode(snapshot.RepoRoot ?? ""))
+                .Append("</code>");
+            if (!string.IsNullOrWhiteSpace(snapshot.Branch))
+            {
+                inner.Append(" · 分支 <strong>")
+                    .Append(WebUtility.HtmlEncode(snapshot.Branch))
+                    .Append("</strong>");
+            }
+
+            if (!string.IsNullOrWhiteSpace(snapshot.LogScopeRelative))
+            {
+                inner.Append(" · 范围 <code>")
+                    .Append(WebUtility.HtmlEncode(snapshot.LogScopeRelative.Replace('\\', '/')))
+                    .Append("</code>");
+            }
+
+            inner.Append(" · 本页 <strong>")
+                .Append(snapshot.Commits.Count.ToString(CultureInfo.InvariantCulture))
+                .AppendLine("</strong> 条</p>");
+        }
+
+        inner.Append("<p class=\"page-lead\">原始数据：<code>")
+            .Append(WebUtility.HtmlEncode("data/git-commits.json"))
+            .AppendLine("</code></p>");
+        inner.AppendLine("</header>");
+
+        inner.AppendLine("<div class=\"gen-history-table-wrap\">");
+        inner.AppendLine("<table class=\"gen-history-table git-commit-table\">");
+        inner.AppendLine("<thead><tr>");
+        inner.AppendLine("<th scope=\"col\" class=\"git-commit-col-time\">提交时间（本地）</th>");
+        inner.AppendLine("<th scope=\"col\" class=\"git-commit-col-subject\">说明</th>");
+        inner.AppendLine("<th scope=\"col\" class=\"git-commit-col-body\">描述</th>");
+        inner.AppendLine("</tr></thead><tbody>");
+
+        if (snapshot.Commits.Count == 0)
+        {
+            inner.AppendLine("<tr><td colspan=\"3\" class=\"gen-history-empty\">");
+            inner.Append(snapshot.IsGitRepo
+                ? "该范围内暂无 Git 提交记录。"
+                : "未检测到 Git 仓库。");
+            inner.AppendLine("</td></tr>");
+        }
+        else
+        {
+            foreach (var c in snapshot.Commits)
+            {
+                inner.AppendLine("<tr class=\"git-commit-row\">");
+                inner.Append("<td class=\"git-commit-time\"><time datetime=\"")
+                    .Append(WebUtility.HtmlEncode(c.CommittedAt.ToString("O")))
+                    .Append("\">")
+                    .Append(WebUtility.HtmlEncode(c.CommittedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")))
+                    .AppendLine("</time></td>");
+                inner.Append("<td class=\"git-commit-subject\">")
+                    .Append(WebUtility.HtmlEncode(c.Subject))
+                    .AppendLine("</td>");
+                inner.Append("<td class=\"git-commit-body\">");
+                if (string.IsNullOrWhiteSpace(c.Body))
+                    inner.Append("<span class=\"git-commit-body-empty\" aria-hidden=\"true\">—</span>");
+                else
+                    inner.Append(WebUtility.HtmlEncode(c.Body));
+                inner.AppendLine("</td>");
+                inner.AppendLine("</tr>");
+            }
+        }
+
+        inner.AppendLine("</tbody></table>");
+        inner.AppendLine("</div>");
+
+        if (snapshot.Commits.Count > 0)
+        {
+            inner.AppendLine("<div class=\"gen-history-pager\" aria-label=\"Git 提交记录分页\">");
+            inner.AppendLine("<div class=\"gen-history-pager-left\">");
+            inner.AppendLine("<label class=\"gen-history-pager-label\" for=\"git-commit-page-size\">每页</label>");
+            inner.AppendLine(
+                "<select id=\"git-commit-page-size\" class=\"gen-history-page-size\"><option value=\"20\" selected>20</option><option value=\"50\">50</option><option value=\"100\">100</option></select>");
+            inner.AppendLine("<span class=\"gen-history-pager-label\">条</span>");
+            inner.AppendLine("</div>");
+            inner.AppendLine("<div class=\"gen-history-pager-right\">");
+            inner.AppendLine("<button type=\"button\" id=\"git-commit-prev\" class=\"gen-history-page-btn\">上一页</button>");
+            inner.AppendLine("<span id=\"git-commit-page-info\" class=\"gen-history-page-info\">第 1 / 1 页</span>");
+            inner.AppendLine("<button type=\"button\" id=\"git-commit-next\" class=\"gen-history-page-btn\">下一页</button>");
+            inner.AppendLine("</div>");
+            inner.AppendLine("</div>");
+            inner.Append(GitCommitPagerScript);
+        }
+
+        inner.AppendLine("</div>");
+
+        var page = HtmlLayout.BuildDocument("提交记录", "", inner.ToString(), nav, aside, cur, names.RssFeedWebPath, names);
+        WriteUtf8Web(outDir, cur, page);
+    }
+
     private static string TitlesTooltip(IReadOnlyList<string>? titles)
     {
         if (titles == null || titles.Count == 0)
@@ -440,6 +582,55 @@ public sealed class StaticSiteGenerator
             " · ",
             titles.Select(t => t.Replace('\r', ' ').Replace('\n', ' ').Trim()));
     }
+
+    private const string GitCommitPagerScript = """
+<script>
+(function () {
+  var rows = Array.prototype.slice.call(document.querySelectorAll(".git-commit-row"));
+  var pageSizeSel = document.getElementById("git-commit-page-size");
+  var prevBtn = document.getElementById("git-commit-prev");
+  var nextBtn = document.getElementById("git-commit-next");
+  var pageInfo = document.getElementById("git-commit-page-info");
+  if (!rows.length || !pageSizeSel || !prevBtn || !nextBtn || !pageInfo) return;
+  var page = 1;
+  var pageSize = parseInt(pageSizeSel.value, 10) || 20;
+  function totalPages() {
+    return Math.max(1, Math.ceil(rows.length / pageSize));
+  }
+  function renderPage() {
+    var tp = totalPages();
+    if (page > tp) page = tp;
+    if (page < 1) page = 1;
+    var start = (page - 1) * pageSize;
+    var end = start + pageSize;
+    rows.forEach(function (row, i) {
+      row.style.display = i >= start && i < end ? "" : "none";
+    });
+    pageInfo.textContent = "第 " + page + " / " + tp + " 页";
+    prevBtn.disabled = page <= 1;
+    nextBtn.disabled = page >= tp;
+  }
+  pageSizeSel.addEventListener("change", function () {
+    pageSize = parseInt(pageSizeSel.value, 10) || 20;
+    page = 1;
+    renderPage();
+  });
+  prevBtn.addEventListener("click", function () {
+    if (page > 1) {
+      page--;
+      renderPage();
+    }
+  });
+  nextBtn.addEventListener("click", function () {
+    if (page < totalPages()) {
+      page++;
+      renderPage();
+    }
+  });
+  renderPage();
+})();
+</script>
+""";
 
     private const string GenerationHistoryInteractiveScript = """
 <script>
@@ -594,7 +785,8 @@ public sealed class StaticSiteGenerator
 
     /// <summary>为每个磁盘文件夹分支、每个导图文件及导图内路径前缀生成「该分支全部文章」列表页（时间轴样式）。</summary>
     private static void WriteBranchListPages(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles,
-        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath)
+        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         var written = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -610,7 +802,8 @@ public sealed class StaticSiteGenerator
             inner.Append("<h1 class=\"page-title\">").Append(WebUtility.HtmlEncode(heading)).AppendLine("</h1>");
             inner.Append("<p class=\"page-lead\">").Append(WebUtility.HtmlEncode(subLine)).AppendLine("</p>");
             inner.AppendLine("</header>");
-            AppendTimelineList(inner, arts, a => a.Modified.LocalDateTime, descending: true, names, fileName);
+            AppendTimelineList(inner, arts, a => a.Modified.LocalDateTime, descending: true, names, fileName, scanRoot,
+                versionDocs, enableSortTabs: true);
             inner.AppendLine("</div>");
 
             var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, fileName, names);
@@ -678,7 +871,8 @@ public sealed class StaticSiteGenerator
 
     /// <summary>按节点提醒日期生成 年 / 月 / 日 计划列表页（与左侧日期导航对应，时间轴样式）。</summary>
     private static void WriteCalendarListPages(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles,
-        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath)
+        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var planned = sortedArticles.Where(a => a.ReminderAt.HasValue).ToList();
         if (planned.Count == 0)
@@ -704,7 +898,9 @@ public sealed class StaticSiteGenerator
                 a => a.ReminderAt!.Value.LocalDateTime,
                 descending: false,
                 names,
-                fileName);
+                fileName,
+                scanRoot,
+                versionDocs);
             inner.AppendLine("</div>");
 
             var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, fileName, names);
@@ -756,8 +952,11 @@ public sealed class StaticSiteGenerator
         SiteFileNames names)
     {
         var articlePath = article.HtmlFileName;
-        var c = article.Created.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
-        var m = article.Modified.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
+        var publishedAt = versionDoc.Versions.Count > 0
+            ? versionDoc.Versions[0].GeneratedAtUtc
+            : article.Modified;
+        var publishedLocal = publishedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
+        var modifiedLocal = article.Modified.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
         var revAside = BuildRevisionAside(versionDoc);
         var sb = new StringBuilder();
         sb.AppendLine("<div class=\"article-page\">");
@@ -787,8 +986,10 @@ public sealed class StaticSiteGenerator
 
         sb.Append("「").Append(WebUtility.HtmlEncode(article.NotebookTitle)).Append("」·节点路径 ")
             .Append(WebUtility.HtmlEncode(article.StructuralSection))
-            .Append(" · 最后修改 ").Append(m)
-            .Append(" · 节点创建 ").Append(c)
+            .Append(" · 入站 ").Append(WebUtility.HtmlEncode(publishedLocal))
+            .Append(" · 更新 ").Append(WebUtility.HtmlEncode(modifiedLocal))
+            .Append(" · 修订 <strong>").Append(versionDoc.ModifyCount.ToString(CultureInfo.InvariantCulture))
+            .Append("</strong> 次")
             .AppendLine("</p>");
         sb.AppendLine("</header>");
 
@@ -876,6 +1077,40 @@ public sealed class StaticSiteGenerator
         return first.Length <= 180 ? first : first[..180] + "…";
     }
 
+    private static string FormatArticleLocalTime(DateTimeOffset dto) =>
+        dto.ToLocalTime().ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+
+    private static ArticleVersionDocument? TryGetVersionDoc(
+        IReadOnlyDictionary<string, ArticleVersionDocument>? versionDocs,
+        string scanRoot,
+        BlogArticle article)
+    {
+        if (versionDocs == null)
+            return null;
+        var key = ArticleIdentity.ComputeStorageKey(scanRoot, article.SourceMmPath, article.ArticleNodeId);
+        return versionDocs.TryGetValue(key, out var doc) ? doc : null;
+    }
+
+    private static void AppendTimelineMeta(StringBuilder sb, BlogArticle article, ArticleVersionDocument? versionDoc)
+    {
+        var publishedAt = versionDoc?.Versions.Count > 0
+            ? versionDoc.Versions[0].GeneratedAtUtc
+            : article.Modified;
+
+        sb.AppendLine("<p class=\"timeline-meta\">");
+        sb.Append("<span class=\"timeline-meta-item\" title=\"首次进入思维导图博客并发布的时间\">入站 ")
+            .Append(WebUtility.HtmlEncode(FormatArticleLocalTime(publishedAt)))
+            .Append("</span>");
+        sb.Append("<span class=\"timeline-meta-sep\" aria-hidden=\"true\">·</span>");
+        sb.Append("<span class=\"timeline-meta-item\" title=\"思维导图节点最后修改时间\">更新 ")
+            .Append(WebUtility.HtmlEncode(FormatArticleLocalTime(article.Modified)))
+            .Append("</span>");
+        sb.AppendLine("</p>");
+    }
+
+    private static DateTimeOffset GetPublishedAt(BlogArticle article, ArticleVersionDocument? versionDoc) =>
+        versionDoc?.Versions.Count > 0 ? versionDoc.Versions[0].GeneratedAtUtc : article.Modified;
+
     /// <summary>与首页相同的「日期 + 时刻 + 卡片」时间轴条；<paramref name="selectLocalTime"/> 决定左侧一列的时间（修改或提醒）。</summary>
     private static void AppendTimelineList(
         StringBuilder sb,
@@ -883,11 +1118,25 @@ public sealed class StaticSiteGenerator
         Func<BlogArticle, DateTime> selectLocalTime,
         bool descending,
         SiteFileNames names,
-        string? timelinePageWebPath)
+        string? timelinePageWebPath,
+        string scanRoot,
+        IReadOnlyDictionary<string, ArticleVersionDocument>? versionDocs,
+        bool enableSortTabs = false)
     {
         IEnumerable<BlogArticle> ordered = descending
             ? arts.OrderByDescending(selectLocalTime)
             : arts.OrderBy(selectLocalTime);
+
+        if (enableSortTabs)
+        {
+            sb.AppendLine("<div class=\"timeline-shell\" data-timeline-sort=\"modified\">");
+            sb.AppendLine("<div class=\"timeline-tabs\" role=\"tablist\" aria-label=\"时间轴排序\">");
+            sb.AppendLine(
+                "<button type=\"button\" class=\"timeline-tab is-active\" role=\"tab\" data-sort=\"modified\" aria-selected=\"true\">更新时间</button>");
+            sb.AppendLine(
+                "<button type=\"button\" class=\"timeline-tab\" role=\"tab\" data-sort=\"published\" aria-selected=\"false\">入站时间</button>");
+            sb.AppendLine("</div>");
+        }
 
         sb.AppendLine("<ol class=\"timeline timeline-page\">");
         DateTime? prevDate = null;
@@ -897,7 +1146,23 @@ public sealed class StaticSiteGenerator
             var excerpt = BuildExcerpt(art);
             var isSameDate = prevDate.HasValue && prevDate.Value.Date == local.Date;
             prevDate = local.Date;
-            sb.AppendLine("<li class=\"timeline-item\">");
+
+            var versionDoc = TryGetVersionDoc(versionDocs, scanRoot, art);
+            if (enableSortTabs)
+            {
+                var publishedLocal = GetPublishedAt(art, versionDoc).LocalDateTime;
+                var modifiedLocal = art.Modified.LocalDateTime;
+                sb.Append("<li class=\"timeline-item\" data-published=\"")
+                    .Append(WebUtility.HtmlEncode(publishedLocal.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)))
+                    .Append("\" data-modified=\"")
+                    .Append(WebUtility.HtmlEncode(modifiedLocal.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)))
+                    .AppendLine("\">");
+            }
+            else
+            {
+                sb.AppendLine("<li class=\"timeline-item\">");
+            }
+
             sb.Append("<div class=\"timeline-lead\">");
             sb.Append("<time class=\"timeline-datetime\" datetime=\"")
                 .Append(WebUtility.HtmlEncode(local.ToString("yyyy-MM-ddTHH:mm:ss")))
@@ -930,6 +1195,7 @@ public sealed class StaticSiteGenerator
             }
 
             sb.AppendLine("</div></div>");
+            AppendTimelineMeta(sb, art, versionDoc);
             if (!string.IsNullOrEmpty(excerpt))
                 sb.Append("<p class=\"timeline-excerpt\">").Append(WebUtility.HtmlEncode(excerpt)).AppendLine("</p>");
 
@@ -938,10 +1204,18 @@ public sealed class StaticSiteGenerator
         }
 
         sb.AppendLine("</ol>");
+
+        if (enableSortTabs)
+        {
+            var scriptHref = SitePathHelper.RelFromTo(timelinePageWebPath ?? "index.html", "timeline-tabs.js");
+            sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(scriptHref)).AppendLine("\" defer></script>");
+            sb.AppendLine("</div>");
+        }
     }
 
     private static void WriteIndex(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles, SiteFileNames names,
-        IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath)
+        IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         const string idx = "index.html";
@@ -952,10 +1226,11 @@ public sealed class StaticSiteGenerator
         center.AppendLine("<div class=\"page-index\">");
         center.AppendLine("<header class=\"hero\">");
         center.AppendLine("<h1 class=\"page-title\">时间轴</h1>");
-        center.AppendLine("<p class=\"page-lead\">按<strong>文章节点</strong>最后修改时间排序；左侧为日期与时间。书签：明细里 <code>#话题</code>；未写 # 时用图册根名称归类。</p>");
+        center.AppendLine("<p class=\"page-lead\">默认按<strong>更新时间</strong>排列；可用上方 Tab 切换为<strong>入站时间</strong>。左侧时间轴随 Tab 变化；卡片内始终展示入站与更新两个时间。书签：明细里 <code>#话题</code>；未写 # 时用图册根名称归类。</p>");
         center.AppendLine("</header>");
 
-        AppendTimelineList(center, sortedArticles, a => a.Modified.LocalDateTime, descending: true, names, idx);
+        AppendTimelineList(center, sortedArticles, a => a.Modified.LocalDateTime, descending: true, names, idx, scanRoot,
+            versionDocs, enableSortTabs: true);
         center.AppendLine("</div>");
 
         var html = HtmlLayout.BuildDocument($"{SiteProfile.BlogTitle} · 时间轴", "", center.ToString(), nav, tagsAside, idx,
@@ -965,7 +1240,8 @@ public sealed class StaticSiteGenerator
     }
 
     private static void WriteTagPages(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles,
-        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath)
+        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         var bookmarkNames = HtmlLayout.CountBookmarks(sortedArticles).Keys.OrderBy(k => k, StringComparer.OrdinalIgnoreCase).ToList();
@@ -986,9 +1262,10 @@ public sealed class StaticSiteGenerator
             inner.AppendLine("<header class=\"hero\">");
             inner.Append("<h1 class=\"page-title\">书签：").Append(WebUtility.HtmlEncode(tag)).AppendLine("</h1>");
             inner.Append("<p class=\"page-lead\">共 <strong>").Append(inTag.Count)
-                .AppendLine("</strong> 篇文章（按导图修改时间倒序）</p>");
+                .AppendLine("</strong> 篇文章；可用 Tab 在「更新时间」与「入站时间」间切换排序。</p>");
             inner.AppendLine("</header>");
-            AppendTimelineList(inner, inTag, a => a.Modified.LocalDateTime, descending: true, names, fileName);
+            AppendTimelineList(inner, inTag, a => a.Modified.LocalDateTime, descending: true, names, fileName, scanRoot,
+                versionDocs, enableSortTabs: true);
             inner.AppendLine("</div>");
 
             var page = HtmlLayout.BuildDocument($"书签：{tag}", "", inner.ToString(), nav, tagsAside, fileName,
@@ -1074,7 +1351,11 @@ public sealed class StaticSiteGenerator
         var webPath = names.WordFrequencyPageWebPath;
         var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, webPath, names);
         var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, webPath, galleryEntries, avatarSitePath);
-        var stats = WordFrequencyService.Compute(sortedArticles, maxTerms: 50);
+        var stats = WordFrequencyService.Compute(
+            sortedArticles,
+            maxTerms: 50,
+            extraStopwords: SiteProfile.WordFrequencyFilter,
+            minOccurrences: 3);
         var hits = WordFrequencyService.BuildTopTermHits(sortedArticles, stats.TopTerms);
         var inner = BuildWordFrequencyInner(stats, hits, webPath);
         var page = HtmlLayout.BuildDocument("词频", "", inner, nav, aside, webPath, names.RssFeedWebPath, names);
@@ -1091,7 +1372,7 @@ public sealed class StaticSiteGenerator
         sb.AppendLine("<header class=\"hero\">");
         sb.AppendLine("<h1 class=\"page-title\">词频</h1>");
         sb.AppendLine(
-            "<p class=\"page-lead\">基于全部文章的标题、正文段落、图册说明与书签文本；中文使用 jieba 精确模式分词，并过滤常见虚词（停用词表）。气泡大小表示相对频次。</p>");
+            "<p class=\"page-lead\">基于全部文章的标题、正文段落、图册说明与书签文本；中文使用 jieba 精确模式分词，并过滤常见虚词（停用词表）、导图「变量 → 词频过滤」中的词条，以及出现 2 次及以下的词。气泡大小表示相对频次。</p>");
         sb.AppendLine("</header>");
 
         sb.Append("<p class=\"wordfreq-stats\">")
@@ -2541,6 +2822,61 @@ details.nav-mmnod[open] > .nav-mmnod-summary::before {
   margin-top: 0.25rem;
 }
 
+.timeline-shell {
+  margin-top: 0.5rem;
+}
+
+.timeline-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0 0 0.85rem;
+  padding: 0.22rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--border);
+}
+
+.timeline-tab {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.32rem 0.72rem;
+  border-radius: calc(var(--radius-md) - 4px);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.timeline-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.timeline-tab.is-active,
+.timeline-tab[aria-selected="true"] {
+  color: var(--accent-deep);
+  background: var(--surface-card);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-sm);
+}
+
+html.theme-dark .timeline-tabs {
+  background: rgba(20, 24, 36, 0.55);
+}
+
+html.theme-dark .timeline-tab:hover {
+  background: rgba(30, 36, 52, 0.85);
+}
+
+html.theme-dark .timeline-tab.is-active,
+html.theme-dark .timeline-tab[aria-selected="true"] {
+  background: rgba(36, 42, 58, 0.95);
+}
+
 .page-branch .page-lead {
   color: var(--text-muted);
   margin: 0 0 1.1rem;
@@ -3248,6 +3584,44 @@ td.gen-history-empty {
   margin: 0 0 0.75rem;
 }
 
+.page-git-commits .git-repo-meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.git-commit-table th,
+.git-commit-table td {
+  text-align: left;
+  vertical-align: top;
+}
+
+.git-commit-table th.git-commit-col-time,
+.git-commit-table td.git-commit-time {
+  width: 11.5rem;
+  white-space: nowrap;
+}
+
+.git-commit-subject {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 8rem;
+  max-width: 16rem;
+  word-break: break-word;
+}
+
+.git-commit-body {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-muted);
+  line-height: 1.58;
+}
+
+.git-commit-body-empty {
+  color: var(--text-soft);
+}
+
 .gen-sample-block {
   margin-bottom: 1rem;
   padding: 0.65rem 0.75rem;
@@ -3485,6 +3859,27 @@ td.gen-history-empty {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.timeline-meta {
+  margin: 0.38rem 0 0;
+  font-size: 0.76rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.12rem 0.32rem;
+  align-items: baseline;
+}
+
+.timeline-meta-sep {
+  opacity: 0.42;
+  user-select: none;
+}
+
+.timeline-meta-item strong {
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
 .bm-pill {

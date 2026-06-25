@@ -6,4 +6,5 @@ public sealed record SiteVariables(
     string? BlogTitle,
     string? Signature,
     string? AboutBody,
-    string? AboutBodyHtml = null);
+    string? AboutBodyHtml = null,
+    IReadOnlyList<string>? WordFrequencyFilter = null);

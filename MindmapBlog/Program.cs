@@ -64,6 +64,8 @@ internal static class Program
                 Console.WriteLine($"  关于我：已读取（{siteVariables.AboutBody.Length} 字）");
             else
                 Console.WriteLine("  关于我：未解析到内容，使用默认文案");
+            if (siteVariables.WordFrequencyFilter is { Count: > 0 } wf)
+                Console.WriteLine($"  词频过滤：{wf.Count} 个词条");
         }
 
         var articles = new List<BlogArticle>();

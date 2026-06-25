@@ -11,3 +11,7 @@
 
 # Generated / local output
 # dist/ is intentionally tracked for GitHub Pages deployment.
+
+# Publish script logs (local only)
+logs/
+log.txt

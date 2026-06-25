@@ -1057,6 +1057,7 @@ internal static class HtmlLayout
     }
 
     public const string GenerationHistoryPageFileName = "generation-history.html";
+    public const string GitCommitHistoryPageFileName = "提交记录.html";
 
     /// <summary>右侧：站长卡片、书签词云、图册与全文搜索。</summary>
     public static string BuildRightAside(
@@ -1171,7 +1172,7 @@ internal static class HtmlLayout
         return sb.ToString();
     }
 
-    /// <summary>页脚：居中版权；右侧「网站生成 · 词频 · RSS」。</summary>
+    /// <summary>页脚：居中版权；右侧「网站生成 · 提交记录 · 词频 · RSS」。</summary>
     private static string BuildSiteFooter(string? currentPageWebPath, SiteFileNames names)
     {
         var sb = new StringBuilder();
@@ -1190,11 +1191,15 @@ internal static class HtmlLayout
     {
         var sb = new StringBuilder();
         var genMoreHref = SitePathHelper.RelFromTo(currentPageWebPath, GenerationHistoryPageFileName);
+        var gitHref = SitePathHelper.RelFromTo(currentPageWebPath, GitCommitHistoryPageFileName);
         var wordFreqHref = SitePathHelper.RelFromTo(currentPageWebPath, names.WordFrequencyPageWebPath);
         var rssHref = SitePathHelper.RelFromTo(currentPageWebPath, names.RssFeedWebPath);
         sb.Append("<div class=\"").Append(wrapperClass).AppendLine("\">");
         sb.Append("<a href=\"").Append(WebUtility.HtmlEncode(genMoreHref))
             .Append("\" class=\"gen-aside-main-link\">网站生成</a>");
+        sb.Append("<span class=\"gen-aside-sep\" aria-hidden=\"true\">·</span>");
+        sb.Append("<a href=\"").Append(WebUtility.HtmlEncode(gitHref))
+            .Append("\" class=\"gen-aside-main-link\" title=\"扫描目录 Git 提交历史\">提交记录</a>");
         sb.Append("<span class=\"gen-aside-sep\" aria-hidden=\"true\">·</span>");
         sb.Append("<a href=\"").Append(WebUtility.HtmlEncode(wordFreqHref))
             .Append("\" class=\"gen-aside-main-link\" title=\"全文分词词频\">词频</a>");

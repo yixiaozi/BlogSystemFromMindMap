@@ -1195,6 +1195,61 @@ details.nav-mmnod[open] > .nav-mmnod-summary::before {
   margin-top: 0.25rem;
 }
 
+.timeline-shell {
+  margin-top: 0.5rem;
+}
+
+.timeline-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0 0 0.85rem;
+  padding: 0.22rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--border);
+}
+
+.timeline-tab {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.32rem 0.72rem;
+  border-radius: calc(var(--radius-md) - 4px);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.timeline-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.timeline-tab.is-active,
+.timeline-tab[aria-selected="true"] {
+  color: var(--accent-deep);
+  background: var(--surface-card);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-sm);
+}
+
+html.theme-dark .timeline-tabs {
+  background: rgba(20, 24, 36, 0.55);
+}
+
+html.theme-dark .timeline-tab:hover {
+  background: rgba(30, 36, 52, 0.85);
+}
+
+html.theme-dark .timeline-tab.is-active,
+html.theme-dark .timeline-tab[aria-selected="true"] {
+  background: rgba(36, 42, 58, 0.95);
+}
+
 .page-branch .page-lead {
   color: var(--text-muted);
   margin: 0 0 1.1rem;
@@ -1902,6 +1957,44 @@ td.gen-history-empty {
   margin: 0 0 0.75rem;
 }
 
+.page-git-commits .git-repo-meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.git-commit-table th,
+.git-commit-table td {
+  text-align: left;
+  vertical-align: top;
+}
+
+.git-commit-table th.git-commit-col-time,
+.git-commit-table td.git-commit-time {
+  width: 11.5rem;
+  white-space: nowrap;
+}
+
+.git-commit-subject {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 8rem;
+  max-width: 16rem;
+  word-break: break-word;
+}
+
+.git-commit-body {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-muted);
+  line-height: 1.58;
+}
+
+.git-commit-body-empty {
+  color: var(--text-soft);
+}
+
 .gen-sample-block {
   margin-bottom: 1rem;
   padding: 0.65rem 0.75rem;
@@ -2139,6 +2232,27 @@ td.gen-history-empty {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.timeline-meta {
+  margin: 0.38rem 0 0;
+  font-size: 0.76rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.12rem 0.32rem;
+  align-items: baseline;
+}
+
+.timeline-meta-sep {
+  opacity: 0.42;
+  user-select: none;
+}
+
+.timeline-meta-item strong {
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
 .bm-pill {

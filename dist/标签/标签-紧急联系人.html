@@ -165,10 +165,15 @@ var _hmt = _hmt || [];
 <div class="page-tag page-with-timeline">
 <header class="hero">
 <h1 class="page-title">书签：紧急联系人</h1>
-<p class="page-lead">共 <strong>1</strong> 篇文章（按导图修改时间倒序）</p>
+<p class="page-lead">共 <strong>1</strong> 篇文章；可用 Tab 在「更新时间」与「入站时间」间切换排序。</p>
 </header>
+<div class="timeline-shell" data-timeline-sort="modified">
+<div class="timeline-tabs" role="tablist" aria-label="时间轴排序">
+<button type="button" class="timeline-tab is-active" role="tab" data-sort="modified" aria-selected="true">更新时间</button>
+<button type="button" class="timeline-tab" role="tab" data-sort="published" aria-selected="false">入站时间</button>
+</div>
 <ol class="timeline timeline-page">
-<li class="timeline-item">
+<li class="timeline-item" data-published="2026-06-24T21:37:58" data-modified="2026-06-24T15:36:51">
 <div class="timeline-lead"><time class="timeline-datetime" datetime="2026-06-24T15:36:51"><span class="timeline-date">2026年6月24日</span>
 <div class="timeline-clock-row">
 <span class="timeline-clock">15:36</span>
@@ -179,10 +184,14 @@ var _hmt = _hmt || [];
 <div class="timeline-head">
 <h2 class="timeline-title"><a href="../07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html">个人信息及紧急联系人</a></h2>
 <div class="timeline-bm"><a class="bm-pill sm" href="标签-紧急联系人.html">紧急联系人</a></div></div>
+<p class="timeline-meta">
+<span class="timeline-meta-item" title="首次进入思维导图博客并发布的时间">入站 2026-06-24 21:37</span><span class="timeline-meta-sep" aria-hidden="true">·</span><span class="timeline-meta-item" title="思维导图节点最后修改时间">更新 2026-06-24 15:36</span></p>
 <p class="timeline-excerpt">为了应对突发情况，联系不到我本人的情况，可以联系我的同事及家人获取更多信息。</p>
 </article>
 </li>
 </ol>
+<script src="../timeline-tabs.js" defer></script>
+</div>
 </div>
 </main>
 <aside class="layout-tags" aria-label="书签、图册与搜索">
@@ -237,7 +246,7 @@ var _hmt = _hmt || [];
 <div class="site-footer-leading"></div>
 <p class="site-footer-copy">&#169; 2026 WangYang. All rights reserved.</p>
 <div class="site-footer-links gen-aside-links">
-<a href="../generation-history.html" class="gen-aside-main-link">网站生成</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../词频.html" class="gen-aside-main-link" title="全文分词词频">词频</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../rss.xml" class="gen-aside-rss-link" title="RSS 订阅">RSS</a></div>
+<a href="../generation-history.html" class="gen-aside-main-link">网站生成</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../提交记录.html" class="gen-aside-main-link" title="扫描目录 Git 提交历史">提交记录</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../词频.html" class="gen-aside-main-link" title="全文分词词频">词频</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../rss.xml" class="gen-aside-rss-link" title="RSS 订阅">RSS</a></div>
 </div>
 </footer>
 <script>

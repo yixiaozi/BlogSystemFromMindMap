@@ -1,0 +1,273 @@
+{
+  "isGitRepo": true,
+  "scanRoot": "D:\\Dropbox\\yixiaozi",
+  "repoRoot": "D:/Dropbox/yixiaozi",
+  "branch": "master",
+  "collectedAtUtc": "2026-06-25T14:01:27.7404764+00:00",
+  "commits": [
+    {
+      "hash": "0310563146cb3667071cf77e4afc4fdc22ec24d2",
+      "committedAt": "2026-06-25T21:42:56+08:00",
+      "subject": "又到了晚上了，工作还是没有做完",
+      "body": "明天再说吧"
+    },
+    {
+      "hash": "b1a3d741028fd8038ce8c5b5ec11dd23f9917c0d",
+      "committedAt": "2026-06-24T22:55:33+08:00",
+      "subject": "要回家了，真的累了，明天再弄吧",
+      "body": ""
+    },
+    {
+      "hash": "3a7bc3592ee0ffb9fc3d962e2ed312392436bbbc",
+      "committedAt": "2026-06-24T21:24:29+08:00",
+      "subject": "还没走，真的好累",
+      "body": "需要同步一下Dropbox，先提交一下"
+    },
+    {
+      "hash": "aea08281da7d114acbb7437643477bb1c819ec39",
+      "committedAt": "2026-06-24T18:31:35+08:00",
+      "subject": "膝盖好疼，这就下班了",
+      "body": "还有好多工作没做完"
+    },
+    {
+      "hash": "a7aee89718915f78f571a4754f658e82a00ae113",
+      "committedAt": "2026-06-24T16:35:11+08:00",
+      "subject": "添加了紧急联系人，今天还是一直在处理模板",
+      "body": "移动了一些文件，删除了一些非必要文件"
+    },
+    {
+      "hash": "1d088788c5cb5079798d7684decc5b3d128f4647",
+      "committedAt": "2026-06-24T11:31:26+08:00",
+      "subject": "早上摔了一跤，好疼啊。。。",
+      "body": ""
+    },
+    {
+      "hash": "9327777eb3c403f29f253f8b520387fe0e25dde9",
+      "committedAt": "2026-06-24T06:07:48+08:00",
+      "subject": "Create .gitignore",
+      "body": ""
+    },
+    {
+      "hash": "82f0fa158329051d5d891a56061856cabe536bac",
+      "committedAt": "2026-06-23T21:24:16+08:00",
+      "subject": "还是回家吧，晚安",
+      "body": "今天，只处理了几个模板效率并不高。但还好，也处理了几个问题，希望明天把进度赶一赶。"
+    },
+    {
+      "hash": "625fe054f839f725f2696e135a5cad6c20c07639",
+      "committedAt": "2026-06-23T19:31:42+08:00",
+      "subject": "最近修改，通过Docear提交",
+      "body": ""
+    },
+    {
+      "hash": "44520f764530f77d85dc00e4a99992f712e0d07a",
+      "committedAt": "2026-06-18T17:29:50+08:00",
+      "subject": "端午节了",
+      "body": ""
+    },
+    {
+      "hash": "76efb3e03ec358732ff39834317b4f505327e4f7",
+      "committedAt": "2026-06-16T21:03:39+08:00",
+      "subject": "最近添加了AI工具",
+      "body": ""
+    },
+    {
+      "hash": "3b96d0aaf0f358de7b6071560c55a2fbf5dcde44",
+      "committedAt": "2026-06-05T17:46:40+08:00",
+      "subject": "最近的修改，感觉也不是很多",
+      "body": ""
+    },
+    {
+      "hash": "9dd5bc7487ca20b89ab5e5181f5e4f77cbfa398e",
+      "committedAt": "2026-05-29T18:37:44+08:00",
+      "subject": "又到了周末，全身无力",
+      "body": ""
+    },
+    {
+      "hash": "6d40e983dead839cf7a24f9a9f13c0051b8dc317",
+      "committedAt": "2026-05-21T09:10:44+08:00",
+      "subject": "切换了一些目录",
+      "body": ""
+    },
+    {
+      "hash": "ef6c9c05838666c577f1cfe66aaaac614df54eb4",
+      "committedAt": "2026-05-20T17:39:47+08:00",
+      "subject": "最近整理了目录",
+      "body": ""
+    },
+    {
+      "hash": "17de482f7d75525216f9457d7aa0fb6983c30489",
+      "committedAt": "2026-04-30T17:20:18+08:00",
+      "subject": "最近用AI比较多，还把自己蒸馏了一下，不错",
+      "body": ""
+    },
+    {
+      "hash": "53d1cb187f9efc166c58d5fd0078aba609c72034",
+      "committedAt": "2026-04-22T08:59:03+08:00",
+      "subject": "最近的修改",
+      "body": ""
+    },
+    {
+      "hash": "d21a103dbf1780cc08d66a73abdd431812fdda7b",
+      "committedAt": "2026-03-27T16:43:28+08:00",
+      "subject": "最近一段时间的修改",
+      "body": ""
+    },
+    {
+      "hash": "f03a563e0d67547045571d54ca361c9589bc16de",
+      "committedAt": "2026-03-19T18:11:05+08:00",
+      "subject": "最近的修改",
+      "body": ""
+    },
+    {
+      "hash": "4a66dafde8fa3a4e49f9e2270a20ae921623cf14",
+      "committedAt": "2026-03-13T17:03:14+08:00",
+      "subject": "最近修改文件很少",
+      "body": ""
+    },
+    {
+      "hash": "4a29aaea4cf56b9c05336141583c39fa0c0e6e9e",
+      "committedAt": "2026-03-06T17:47:33+08:00",
+      "subject": "又一周过去了。。。",
+      "body": ""
+    },
+    {
+      "hash": "3b5267255085797019974da9e433cef5a413dcbb",
+      "committedAt": "2026-03-02T18:57:40+08:00",
+      "subject": "这几天也没做别的",
+      "body": ""
+    },
+    {
+      "hash": "44b9620e544f9fc7312b9ef90eebae132d5566f2",
+      "committedAt": "2026-02-28T17:30:35+08:00",
+      "subject": "新的一年了",
+      "body": ""
+    },
+    {
+      "hash": "0b314e734fe119112a84f05a2272794a7842d689",
+      "committedAt": "2026-02-13T17:41:08+08:00",
+      "subject": "今年结束了，明年见！！",
+      "body": ""
+    },
+    {
+      "hash": "4fb488f7ebd83a36555352ba0cc7de0c4cead018",
+      "committedAt": "2026-02-13T17:17:58+08:00",
+      "subject": "一年快结束了",
+      "body": ""
+    },
+    {
+      "hash": "d8c6b8ee8c3c0cf84d505270bd7e9a86f8fd2b69",
+      "committedAt": "2026-02-12T11:43:12+08:00",
+      "subject": "最近一段时间的修改，还挺多的",
+      "body": ""
+    },
+    {
+      "hash": "f1aa374fe1d9dfc521d1c532e4a6324e4e6e9d47",
+      "committedAt": "2026-01-27T17:42:51+08:00",
+      "subject": "加油",
+      "body": ""
+    },
+    {
+      "hash": "1d2c302db96f4f987d6087e1ee1b3347551b9048",
+      "committedAt": "2026-01-23T17:30:32+08:00",
+      "subject": "下班了，周一再说吧",
+      "body": ""
+    },
+    {
+      "hash": "a25d7e35810778334a0ac2b6529bab6b88329201",
+      "committedAt": "2026-01-23T16:55:59+08:00",
+      "subject": "调整文件目录",
+      "body": ""
+    },
+    {
+      "hash": "1564814a3599490be61e9e135e4811ba5065debc",
+      "committedAt": "2026-01-23T15:58:50+08:00",
+      "subject": "导图",
+      "body": ""
+    },
+    {
+      "hash": "24e3fc5502d90aee83dd239c4fdc8b532e16c4cb",
+      "committedAt": "2026-01-23T15:57:03+08:00",
+      "subject": "更新任务",
+      "body": ""
+    },
+    {
+      "hash": "f784bf0b12a4ebff5b0811aea728d892deb515e1",
+      "committedAt": "2026-01-23T11:27:44+08:00",
+      "subject": "修改了很多文件的目录",
+      "body": ""
+    },
+    {
+      "hash": "046629f9027fd35c8b1a41b5517077d47a30230a",
+      "committedAt": "2026-01-22T17:38:56+08:00",
+      "subject": "Update 服务经销商需求.mm",
+      "body": ""
+    },
+    {
+      "hash": "f7cf951eed8d75bbf9e5fccf782b08592275e334",
+      "committedAt": "2026-01-22T17:38:48+08:00",
+      "subject": "下班了",
+      "body": ""
+    },
+    {
+      "hash": "66a6808cf58cf86271693bd1f902d8994b65e31a",
+      "committedAt": "2026-01-22T14:27:14+08:00",
+      "subject": "工作文件夹进入版本库了",
+      "body": ""
+    },
+    {
+      "hash": "6f4b03fcf0b2d8eb525a25721dfe9a04fa73c99f",
+      "committedAt": "2026-01-22T14:14:01+08:00",
+      "subject": "移动一些文件的目录",
+      "body": ""
+    },
+    {
+      "hash": "a10aa5202226ff92a1de6e4787702eaefd38450c",
+      "committedAt": "2026-01-20T17:52:56+08:00",
+      "subject": "。。。",
+      "body": ""
+    },
+    {
+      "hash": "29dc57c5a9558a387faa9aef617661981a3a1842",
+      "committedAt": "2026-01-20T17:52:27+08:00",
+      "subject": "下班了",
+      "body": ""
+    },
+    {
+      "hash": "19697c2d8500b94dbfadb6eaf6fc38b5b68403f6",
+      "committedAt": "2026-01-15T17:47:15+08:00",
+      "subject": ".",
+      "body": ""
+    },
+    {
+      "hash": "9adcc93f273cd57cb4fd282ddd97706dccaaa839",
+      "committedAt": "2026-01-13T17:23:37+08:00",
+      "subject": "终于下班了",
+      "body": ""
+    },
+    {
+      "hash": "764fd078e4648c5ee8b1cee042810400c330a3d6",
+      "committedAt": "2026-01-13T15:35:35+08:00",
+      "subject": "有条不紊",
+      "body": ""
+    },
+    {
+      "hash": "7f54793dba27d95745cc70ac873e98937f37863f",
+      "committedAt": "2026-01-13T15:10:00+08:00",
+      "subject": "修改了一个目录，其他正常",
+      "body": ""
+    },
+    {
+      "hash": "105ce45b522e309ae99ae3d39e6783fa2d877bc6",
+      "committedAt": "2026-01-13T07:33:04+08:00",
+      "subject": "初次配置大部分文件大部分文件",
+      "body": ""
+    },
+    {
+      "hash": "04a67494e01ba8af513267fc63485386b0238292",
+      "committedAt": "2026-01-13T07:25:32+08:00",
+      "subject": "Begin",
+      "body": ""
+    }
+  ]
+}

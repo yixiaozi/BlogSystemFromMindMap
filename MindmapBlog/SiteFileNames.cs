@@ -51,8 +51,10 @@ internal sealed class SiteFileNames
 
         used.Add("index.html");
         used.Add(HtmlLayout.GenerationHistoryPageFileName);
+        used.Add(HtmlLayout.GitCommitHistoryPageFileName);
         used.Add("rss.xml");
         used.Add("search-aside.js");
+        used.Add("timeline-tabs.js");
         var galleryPagePath = SlugUtility.AllocateWebPath("", "图册", used);
         var aboutPagePath = SlugUtility.AllocateWebPath("", "关于我", used);
         var searchPagePath = SlugUtility.AllocateWebPath("", "搜索", used);

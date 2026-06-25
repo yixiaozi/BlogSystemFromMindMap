@@ -11,10 +11,16 @@ internal static class WordFrequencyService
     private static readonly Regex SentenceSplitter = new(@"(?<=[。！？!?；;])\s*|\r?\n+", RegexOptions.Compiled);
 
     /// <summary>聚合全部文章正文、标题、书签等文本后的词频（jieba 精确模式分词）。</summary>
-    public static WordFrequencyResult Compute(IReadOnlyList<BlogArticle> articles, int maxTerms)
+    /// <param name="minOccurrences">至少出现多少次才计入结果（默认 3，即排除 2 次及以内）。</param>
+    public static WordFrequencyResult Compute(
+        IReadOnlyList<BlogArticle> articles,
+        int maxTerms,
+        IReadOnlyCollection<string>? extraStopwords = null,
+        int minOccurrences = 3)
     {
         var segmenter = new JiebaSegmenter();
         var stop = LoadStopwords();
+        var customFilter = BuildCustomFilterSet(extraStopwords);
         var counts = new Dictionary<string, int>(StringComparer.Ordinal);
         var totalHits = 0;
 
@@ -28,28 +34,53 @@ internal static class WordFrequencyService
             {
                 if (!TryNormalizeToken(raw, stop, out var key))
                     continue;
+                if (customFilter.Contains(key))
+                    continue;
                 totalHits++;
                 counts[key] = counts.GetValueOrDefault(key) + 1;
             }
         }
 
-        var ranked = counts
+        var minCount = Math.Max(1, minOccurrences);
+        var eligible = counts
+            .Where(kv => kv.Value >= minCount && !customFilter.Contains(kv.Key))
+            .ToList();
+
+        var ranked = eligible
             .OrderByDescending(kv => kv.Value)
             .ThenBy(kv => kv.Key, StringComparer.Ordinal)
             .Take(Math.Max(1, maxTerms))
             .Select(kv => new WordFrequencyItem(kv.Key, kv.Value))
             .ToList();
 
-        var maxCount = ranked.Count > 0 ? ranked[0].Count : 0;
-        var minCount = ranked.Count > 0 ? ranked[^1].Count : 0;
+        var maxRanked = ranked.Count > 0 ? ranked[0].Count : 0;
+        var minRanked = ranked.Count > 0 ? ranked[^1].Count : 0;
 
         return new WordFrequencyResult(
             ranked,
             totalHits,
-            counts.Count,
+            eligible.Count,
             articles.Count,
-            maxCount,
-            minCount);
+            maxRanked,
+            minRanked);
+    }
+
+    private static HashSet<string> BuildCustomFilterSet(IReadOnlyCollection<string>? extraStopwords)
+    {
+        var set = new HashSet<string>(StringComparer.Ordinal);
+        if (extraStopwords == null)
+            return set;
+
+        foreach (var raw in extraStopwords)
+        {
+            if (string.IsNullOrWhiteSpace(raw))
+                continue;
+            var w = raw.Trim();
+            var hasHan = w.Any(static c => c is >= '\u4e00' and <= '\u9fff');
+            set.Add(hasHan ? w : w.ToLowerInvariant());
+        }
+
+        return set;
     }
 
     public static Dictionary<string, List<WordFrequencyArticleHit>> BuildTopTermHits(

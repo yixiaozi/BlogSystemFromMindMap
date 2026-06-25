@@ -125,6 +125,7 @@ public static class MindmapParser
                     string? signature = null;
                     string? aboutBody = null;
                     string? aboutBodyHtml = null;
+                    List<string>? wordFrequencyFilter = null;
 
                     foreach (var child in variablesNode.Elements(NodeName))
                     {
@@ -163,10 +164,23 @@ public static class MindmapParser
 
                                 break;
                             }
+                            case "词频过滤":
+                                wordFrequencyFilter = child.Elements(NodeName)
+                                    .Select(GetNodeLabel)
+                                    .Where(s => !string.IsNullOrWhiteSpace(s))
+                                    .Select(s => s.Trim())
+                                    .ToList();
+                                break;
                         }
                     }
 
-                    return new SiteVariables(fullPath, blogTitle, signature, aboutBody, aboutBodyHtml);
+                    return new SiteVariables(
+                        fullPath,
+                        blogTitle,
+                        signature,
+                        aboutBody,
+                        aboutBodyHtml,
+                        wordFrequencyFilter);
                 }
                 finally
                 {

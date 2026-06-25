@@ -11,6 +11,7 @@ internal static class SiteProfile
     public static string Signature { get; private set; } = DefaultSignature;
     public static string AboutBody { get; private set; } = DefaultAboutBody;
     public static string? AboutBodyHtml { get; private set; }
+    public static IReadOnlyList<string> WordFrequencyFilter { get; private set; } = Array.Empty<string>();
 
     /// <summary>重置为默认值，再应用从导图解析到的变量（未提供的项保持默认）。</summary>
     public static void Apply(SiteVariables? variables)
@@ -19,6 +20,7 @@ internal static class SiteProfile
         Signature = DefaultSignature;
         AboutBody = DefaultAboutBody;
         AboutBodyHtml = null;
+        WordFrequencyFilter = Array.Empty<string>();
 
         if (variables == null)
             return;
@@ -40,6 +42,9 @@ internal static class SiteProfile
             if (MarkdownRenderer.LooksLikeMarkdown(AboutBody))
                 AboutBodyHtml = MarkdownRenderer.ToHtml(AboutBody);
         }
+
+        if (variables.WordFrequencyFilter is { Count: > 0 } filter)
+            WordFrequencyFilter = filter;
     }
 
     private static readonly HashSet<string> ImageExtensions =

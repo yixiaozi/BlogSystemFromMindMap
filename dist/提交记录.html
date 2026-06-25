@@ -6,7 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<title>词频</title>
+<title>提交记录</title>
 <link rel="stylesheet" href="site.css"/>
 <link rel="icon" href="media/site-avatar.png" type="image/png"/>
 <link rel="icon" href="media/site-avatar.jpg" type="image/jpeg"/>
@@ -162,108 +162,300 @@ var _hmt = _hmt || [];
 
 </aside>
 <main class="layout-main">
-<div class="page-wordfreq">
+<div class="page-git-commits">
 <header class="hero">
-<h1 class="page-title">词频</h1>
-<p class="page-lead">基于全部文章的标题、正文段落、图册说明与书签文本；中文使用 jieba 精确模式分词，并过滤常见虚词（停用词表）、导图「变量 → 词频过滤」中的词条，以及出现 2 次及以下的词。气泡大小表示相对频次。</p>
+<h1 class="page-title">提交记录</h1>
+<p class="page-lead">读取<strong>扫描目录</strong>所在 Git 仓库的全部提交历史（生成时快照；若扫描路径为子目录则仅含影响该目录的提交）。</p>
+<p class="git-repo-meta">仓库 <code>D:/Dropbox/yixiaozi</code> · 分支 <strong>master</strong> · 本页 <strong>44</strong> 条</p>
+<p class="page-lead">原始数据：<code>data/git-commits.json</code></p>
 </header>
-<p class="wordfreq-stats">5 篇文章 · 485 次词命中 · 23 个不同词形 · 本页列出前 23 个高频词</p>
-<div class="wordfreq-cloud" aria-label="词频标签云">
-<button type="button" class="wordfreq-chip" data-token="提醒" style="--wf:1">提醒</button>
-<button type="button" class="wordfreq-chip" data-token="收藏" style="--wf:0.5">收藏</button>
-<button type="button" class="wordfreq-chip" data-token="紧急" style="--wf:0.368">紧急</button>
-<button type="button" class="wordfreq-chip" data-token="联系人" style="--wf:0.368">联系人</button>
-<button type="button" class="wordfreq-chip" data-token="微信" style="--wf:0.208">微信</button>
-<button type="button" class="wordfreq-chip" data-token="全部" style="--wf:0">全部</button>
-<button type="button" class="wordfreq-chip" data-token="加密" style="--wf:0">加密</button>
-<button type="button" class="wordfreq-chip" data-token="周期" style="--wf:0">周期</button>
-<button type="button" class="wordfreq-chip" data-token="喜欢" style="--wf:0">喜欢</button>
-<button type="button" class="wordfreq-chip" data-token="图标" style="--wf:0">图标</button>
-<button type="button" class="wordfreq-chip" data-token="增加" style="--wf:0">增加</button>
-<button type="button" class="wordfreq-chip" data-token="左侧" style="--wf:0">左侧</button>
-<button type="button" class="wordfreq-chip" data-token="开头" style="--wf:0">开头</button>
-<button type="button" class="wordfreq-chip" data-token="循环" style="--wf:0">循环</button>
-<button type="button" class="wordfreq-chip" data-token="情况" style="--wf:0">情况</button>
-<button type="button" class="wordfreq-chip" data-token="最后" style="--wf:0">最后</button>
-<button type="button" class="wordfreq-chip" data-token="目前" style="--wf:0">目前</button>
-<button type="button" class="wordfreq-chip" data-token="看到" style="--wf:0">看到</button>
-<button type="button" class="wordfreq-chip" data-token="设置" style="--wf:0">设置</button>
-<button type="button" class="wordfreq-chip" data-token="过滤" style="--wf:0">过滤</button>
-<button type="button" class="wordfreq-chip" data-token="里面" style="--wf:0">里面</button>
-<button type="button" class="wordfreq-chip" data-token="重要" style="--wf:0">重要</button>
-<button type="button" class="wordfreq-chip" data-token="面板" style="--wf:0">面板</button>
+<div class="gen-history-table-wrap">
+<table class="gen-history-table git-commit-table">
+<thead><tr>
+<th scope="col" class="git-commit-col-time">提交时间（本地）</th>
+<th scope="col" class="git-commit-col-subject">说明</th>
+<th scope="col" class="git-commit-col-body">描述</th>
+</tr></thead><tbody>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-25T21:42:56.0000000+08:00">2026-06-25 21:42:56</time></td>
+<td class="git-commit-subject">又到了晚上了，工作还是没有做完</td>
+<td class="git-commit-body">明天再说吧</td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-24T22:55:33.0000000+08:00">2026-06-24 22:55:33</time></td>
+<td class="git-commit-subject">要回家了，真的累了，明天再弄吧</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-24T21:24:29.0000000+08:00">2026-06-24 21:24:29</time></td>
+<td class="git-commit-subject">还没走，真的好累</td>
+<td class="git-commit-body">需要同步一下Dropbox，先提交一下</td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-24T18:31:35.0000000+08:00">2026-06-24 18:31:35</time></td>
+<td class="git-commit-subject">膝盖好疼，这就下班了</td>
+<td class="git-commit-body">还有好多工作没做完</td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-24T16:35:11.0000000+08:00">2026-06-24 16:35:11</time></td>
+<td class="git-commit-subject">添加了紧急联系人，今天还是一直在处理模板</td>
+<td class="git-commit-body">移动了一些文件，删除了一些非必要文件</td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-24T11:31:26.0000000+08:00">2026-06-24 11:31:26</time></td>
+<td class="git-commit-subject">早上摔了一跤，好疼啊。。。</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-24T06:07:48.0000000+08:00">2026-06-24 06:07:48</time></td>
+<td class="git-commit-subject">Create .gitignore</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-23T21:24:16.0000000+08:00">2026-06-23 21:24:16</time></td>
+<td class="git-commit-subject">还是回家吧，晚安</td>
+<td class="git-commit-body">今天，只处理了几个模板效率并不高。但还好，也处理了几个问题，希望明天把进度赶一赶。</td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-23T19:31:42.0000000+08:00">2026-06-23 19:31:42</time></td>
+<td class="git-commit-subject">最近修改，通过Docear提交</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-18T17:29:50.0000000+08:00">2026-06-18 17:29:50</time></td>
+<td class="git-commit-subject">端午节了</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-16T21:03:39.0000000+08:00">2026-06-16 21:03:39</time></td>
+<td class="git-commit-subject">最近添加了AI工具</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-05T17:46:40.0000000+08:00">2026-06-05 17:46:40</time></td>
+<td class="git-commit-subject">最近的修改，感觉也不是很多</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-05-29T18:37:44.0000000+08:00">2026-05-29 18:37:44</time></td>
+<td class="git-commit-subject">又到了周末，全身无力</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-05-21T09:10:44.0000000+08:00">2026-05-21 09:10:44</time></td>
+<td class="git-commit-subject">切换了一些目录</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-05-20T17:39:47.0000000+08:00">2026-05-20 17:39:47</time></td>
+<td class="git-commit-subject">最近整理了目录</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-04-30T17:20:18.0000000+08:00">2026-04-30 17:20:18</time></td>
+<td class="git-commit-subject">最近用AI比较多，还把自己蒸馏了一下，不错</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-04-22T08:59:03.0000000+08:00">2026-04-22 08:59:03</time></td>
+<td class="git-commit-subject">最近的修改</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-03-27T16:43:28.0000000+08:00">2026-03-27 16:43:28</time></td>
+<td class="git-commit-subject">最近一段时间的修改</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-03-19T18:11:05.0000000+08:00">2026-03-19 18:11:05</time></td>
+<td class="git-commit-subject">最近的修改</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-03-13T17:03:14.0000000+08:00">2026-03-13 17:03:14</time></td>
+<td class="git-commit-subject">最近修改文件很少</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-03-06T17:47:33.0000000+08:00">2026-03-06 17:47:33</time></td>
+<td class="git-commit-subject">又一周过去了。。。</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-03-02T18:57:40.0000000+08:00">2026-03-02 18:57:40</time></td>
+<td class="git-commit-subject">这几天也没做别的</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-02-28T17:30:35.0000000+08:00">2026-02-28 17:30:35</time></td>
+<td class="git-commit-subject">新的一年了</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-02-13T17:41:08.0000000+08:00">2026-02-13 17:41:08</time></td>
+<td class="git-commit-subject">今年结束了，明年见！！</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-02-13T17:17:58.0000000+08:00">2026-02-13 17:17:58</time></td>
+<td class="git-commit-subject">一年快结束了</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-02-12T11:43:12.0000000+08:00">2026-02-12 11:43:12</time></td>
+<td class="git-commit-subject">最近一段时间的修改，还挺多的</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-27T17:42:51.0000000+08:00">2026-01-27 17:42:51</time></td>
+<td class="git-commit-subject">加油</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-23T17:30:32.0000000+08:00">2026-01-23 17:30:32</time></td>
+<td class="git-commit-subject">下班了，周一再说吧</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-23T16:55:59.0000000+08:00">2026-01-23 16:55:59</time></td>
+<td class="git-commit-subject">调整文件目录</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-23T15:58:50.0000000+08:00">2026-01-23 15:58:50</time></td>
+<td class="git-commit-subject">导图</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-23T15:57:03.0000000+08:00">2026-01-23 15:57:03</time></td>
+<td class="git-commit-subject">更新任务</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-23T11:27:44.0000000+08:00">2026-01-23 11:27:44</time></td>
+<td class="git-commit-subject">修改了很多文件的目录</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-22T17:38:56.0000000+08:00">2026-01-22 17:38:56</time></td>
+<td class="git-commit-subject">Update 服务经销商需求.mm</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-22T17:38:48.0000000+08:00">2026-01-22 17:38:48</time></td>
+<td class="git-commit-subject">下班了</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-22T14:27:14.0000000+08:00">2026-01-22 14:27:14</time></td>
+<td class="git-commit-subject">工作文件夹进入版本库了</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-22T14:14:01.0000000+08:00">2026-01-22 14:14:01</time></td>
+<td class="git-commit-subject">移动一些文件的目录</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-20T17:52:56.0000000+08:00">2026-01-20 17:52:56</time></td>
+<td class="git-commit-subject">。。。</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-20T17:52:27.0000000+08:00">2026-01-20 17:52:27</time></td>
+<td class="git-commit-subject">下班了</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-15T17:47:15.0000000+08:00">2026-01-15 17:47:15</time></td>
+<td class="git-commit-subject">.</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-13T17:23:37.0000000+08:00">2026-01-13 17:23:37</time></td>
+<td class="git-commit-subject">终于下班了</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-13T15:35:35.0000000+08:00">2026-01-13 15:35:35</time></td>
+<td class="git-commit-subject">有条不紊</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-13T15:10:00.0000000+08:00">2026-01-13 15:10:00</time></td>
+<td class="git-commit-subject">修改了一个目录，其他正常</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-13T07:33:04.0000000+08:00">2026-01-13 07:33:04</time></td>
+<td class="git-commit-subject">初次配置大部分文件大部分文件</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-01-13T07:25:32.0000000+08:00">2026-01-13 07:25:32</time></td>
+<td class="git-commit-subject">Begin</td>
+<td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
+</tr>
+</tbody></table>
 </div>
-<section class="wordfreq-hits" aria-live="polite" aria-label="词条关联文章">
-<h2 class="wordfreq-chart-title">关联文章与句子</h2>
-<p id="wordfreq-hits-empty" class="wordfreq-hits-empty">点击上方词条，查看它出现在哪些文章里，以及对应句子。</p>
-<div id="wordfreq-hits-list" class="wordfreq-hits-list" hidden></div>
-</section>
-<textarea id="wordfreq-hits-b64" hidden readonly>
-eyLmj5DphpIiOlt7InRpdGxlIjoiRG9jZWFy5pS56YCg5pe26Ze06L20IiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFL+S6jOasoeW8gOWPkS9kb2NlYXLmlLnpgKDml7bpl7TovbQuaHRtbCIsInNuaXBwZXRzIjpbIjPjgIHlnKjlj7PkvqfnmoTpnaLmnb/mt7vliqDkuobmj5DphpLlip/og73lkozmiYDmnInmj5DphpLlip/og70iLCIx44CB5Y+z5L6n6YCJ6aG55Y2h55qE5a2X5L2T5ZKM5pe26Ze05o+Q6YaS5qih5Z2X5Y675o6J5LqG77yM5Zug5Li66YeM6Z2i55qE5Yqf6IO95Z+65pys5LiN55So77yM5LiU5YW25LuW5Zyw5pa56YO95Y+v5Lul6K6+572uIl19XSwi5pS26JePIjpbeyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyLkuabnrb4v5pS26JeP5aS577yI5o6o6I2Q5LyY5YWI57qn77ya4piF4piF4piF4piG4piG77yJIiwiLSDlip/og73mj4/ov7Ag77ya5pS26JeP5bi455So6IqC54K55oiW5Zyw5Zu+77yM5b+r6YCf6K6/6ZeuIl19XSwi57Sn5oClIjpbeyJ0aXRsZSI6IuS4quS6uuS/oeaBr+WPiue0p+aApeiBlOezu+S6uiIsImhyZWYiOiIwN+acieadoeS4jee0ii8wOOS6uumZheWFs+ezuy8wM+iBlOezu+aWueW8jy/kuKrkurrkv6Hmga/lj4rntKfmgKXogZTns7vkurouaHRtbCIsInNuaXBwZXRzIjpbIuS4quS6uuS/oeaBr+WPiue0p+aApeiBlOezu+S6uiIsIue0p+aApeiBlOezu+S6uiJdfSx7InRpdGxlIjoiRG9jZWFy5pS56YCg5pe26Ze06L20IiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFL+S6jOasoeW8gOWPkS9kb2NlYXLmlLnpgKDml7bpl7TovbQuaHRtbCIsInNuaXBwZXRzIjpbIua3u+WKoOWRqOacn+aPkOmGklRhYu+8jOino+WGs+S4gOS6m+WRqOacn+S7u+WKoeS8muW9seWTjeafpeeci+aViOeOh+eahOmXrumimO+8jOWRqOacn+S7u+WKoeS4gOiIrOmDveeul+S4jeW+iOe0p+aApSJdfV0sIuiBlOezu+S6uiI6W3sidGl0bGUiOiLkuKrkurrkv6Hmga/lj4rntKfmgKXogZTns7vkuroiLCJocmVmIjoiMDfmnInmnaHkuI3ntIovMDjkurrpmYXlhbPns7svMDPogZTns7vmlrnlvI8v5Liq5Lq65L+h5oGv5Y+K57Sn5oCl6IGU57O75Lq6Lmh0bWwiLCJzbmlwcGV0cyI6WyLkuKrkurrkv6Hmga/lj4rntKfmgKXogZTns7vkuroiLCLntKfmgKXogZTns7vkuroiXX1dLCLlvq7kv6EiOlt7InRpdGxlIjoi5Liq5Lq65L+h5oGv5Y+K57Sn5oCl6IGU57O75Lq6IiwiaHJlZiI6IjA35pyJ5p2h5LiN57SKLzA45Lq66ZmF5YWz57O7LzAz6IGU57O75pa55byPL+S4quS6uuS/oeaBr+WPiue0p+aApeiBlOezu+S6ui5odG1sIiwic25pcHBldHMiOlsi55S16K+d77yaMTM1MjI0MjA5MjHvvIjlvq7kv6HvvIkiXX0seyJ0aXRsZSI6IuacgOi/keWcqOeci+eahOS5piIsImhyZWYiOiIwM+mYheivu+aIkOmVvy/mnIDov5HlnKjnnIvnmoTkuaYuaHRtbCIsInNuaXBwZXRzIjpbIuW+ruS/oeivu+S5piJdfSx7InRpdGxlIjoiRG9jZWFy5pS56YCg5pe26Ze06L20IiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFL+S6jOasoeW8gOWPkS9kb2NlYXLmlLnpgKDml7bpl7TovbQuaHRtbCIsInNuaXBwZXRzIjpbIuaUtuebiu+8mueBteaEn+OAgemTvuaOpeOAgeS4gOWPpeivneS4jeS8muaVo+iQveWcqOW+ruS/oS/orrDkuovmnKzph4zjgIIiXX1dLCLlhajpg6giOlt7InRpdGxlIjoiRG9jZWFy5pS56YCg5pe26Ze06L20IiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFL+S6jOasoeW8gOWPkS9kb2NlYXLmlLnpgKDml7bpl7TovbQuaHRtbCIsInNuaXBwZXRzIjpbIua3u+WKoOS6huWFqOmDqOWPkeW4g+WKn+iDvSIsIuWFqOmDqOWPkeW4g+S5n+aciemCo+S4qumXrumimO+8jOaAnee7tOWvvOWbvuS/ruaUueWQjeensOWQju+8jOWOn+adpeeahOWwseS4gOebtOi/mOacie+8jOayoeacieWIt+aWsCJdfV0sIuWKoOWvhiI6W3sidGl0bGUiOiJEb2NlYXLmlLnpgKDml7bpl7TovbQiLCJocmVmIjoiMDLnm67moIflj5HlsZUvMDfliJvkvZzovr7kurovMDDlvIDmupDkvZzogIUv5LqM5qyh5byA5Y+RL2RvY2VhcuaUuemAoOaXtumXtOi9tC5odG1sIiwic25pcHBldHMiOlsiQ3RybCtM5Li65LuA5LmI5LiN5piv5Yqg5a+G6IqC54K555qE5b+r5o236ZSu5LqG5ZGi77yfIiwi57O757uf55qE6IqC54K55a+G56CB5Z+65pys6YO95piv5LiA5Liq77yM5biM5pyb5oOzdG9kb2lzdOeahGtleeS4gOagt++8jOS/neWtmOWIsOaWh+S7tumHjO+8jOW3peWFt+avj+asoUN0cmwrTOiHquWKqOWKoOWvhu+8jOWKoOWvhueahOaWh+S7tui/m+ihjOWxleW8gOaIluiAheWKoOmUgeOAgiJdfV0sIuWRqOacnyI6W3sidGl0bGUiOiJEb2NlYXLmlLnpgKDml7bpl7TovbQiLCJocmVmIjoiMDLnm67moIflj5HlsZUvMDfliJvkvZzovr7kurovMDDlvIDmupDkvZzogIUv5LqM5qyh5byA5Y+RL2RvY2VhcuaUuemAoOaXtumXtOi9tC5odG1sIiwic25pcHBldHMiOlsi5re75Yqg5ZGo5pyf5o+Q6YaSVGFi77yM6Kej5Yaz5LiA5Lqb5ZGo5pyf5Lu75Yqh5Lya5b2x5ZON5p+l55yL5pWI546H55qE6Zeu6aKY77yM5ZGo5pyf5Lu75Yqh5LiA6Iis6YO9566X5LiN5b6I57Sn5oClIl19XSwi5Zac5qyiIjpbeyJ0aXRsZSI6Iui/h+eoi+Wkp+S6jue7k+aenO+8jOe6r+aVsuWtl+eJiCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMeWGmeS9nOaAnee7tC/ov4fnqIvlpKfkuo7nu5Pmnpznuq/mlbLlrZfniYguaHRtbCIsInNuaXBwZXRzIjpbIuS9huaYr+iDveWkn+W9u+W6leaKiuWutumHjOaUtuaLvuS4gOS4i++8jOS5n+aYr+mdnuW4uOW8gOW/g+eahO+8jOaKiuWGrOWkqeeahOWcsOavr+aUtui1t+adpeS6hu+8jOWcsOadv+aTpuS6huW+iOWkmumBje+8jOacgOi/keW+iOWWnOasouWdkOWcqOWcsOaWueS8keaBr+OAgiIsIuaIkeWFtuWunuW5tuS4jeWWnOasoueci+e7k+aenO+8jOaIkeWWnOasoueci+i/h+eoi++8jOavlOWmguaIkeS4jeWcqOS5juWIq+S6uuWBmuafkOS7tuS6i+eahOe7k+aenOWmguaenO+8jOiAjOS8mueci+WvueaWueaYr+WQpuacieS4uui/h+eoi+WKquWKm+OAgiJdfV0sIuWbvuaghyI6W3sidGl0bGUiOiJEb2NlYXLmlLnpgKDml7bpl7TovbQiLCJocmVmIjoiMDLnm67moIflj5HlsZUvMDfliJvkvZzovr7kurovMDDlvIDmupDkvZzogIUv5LqM5qyh5byA5Y+RL2RvY2VhcuaUuemAoOaXtumXtOi9tC5odG1sIiwic25pcHBldHMiOlsiMeOAgeWIoOmZpOS6humhtumDqOeahOWbvuaghyIsIjLjgIHnu5nlt6bkvqfnmoTlr7zoiKrljrvmjonkuoblm77moIfvvIzmt7vliqDkuobmkJzntKLlip/og70iXX1dLCLlop7liqAiOlt7InRpdGxlIjoi57O757uf5pel5b+XIiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFLzAw5Liq5Lq6572R5Z2AL+ezu+e7n+aXpeW/ly5odG1sIiwic25pcHBldHMiOlsiMjAyNjA2MjXlop7liqDkuobnmb7luqbnu5/orqHku6PnoIEiXX0seyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyI144CB5aKe5Yqg5LqG55qu6IKk5Yqf6IO9Iiwi5biM5pyb5aKe5Yqg5LiA5Liq5Yqf6IO977yM5oqK5omA5pyJ5b6F5Yqe55qE5LqL5oOF6YO95YiX5Ye65p2l77yM5L2G5piv5rKh5b+F6KaB6K6+572u5pe26Ze0Il19XSwi5bem5L6nIjpbeyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyIy44CB57uZ5bem5L6n55qE5a+86Iiq5Y675o6J5LqG5Zu+5qCH77yM5re75Yqg5LqG5pCc57Si5Yqf6IO9Iiwi5bmz6KGh5LqG5bem5L6nVGFi5LqG5Y+z5L6nVGFi55qE5pWw6YeP77yM6YG/5YWN5o2i6KGMIl19XSwi5byA5aS0IjpbeyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyLpmpDol4/kuoZ+5byA5aS055qE5paH5Lu25ZKM57O757uf6ZqQ6JeP55qE5paH5Lu2Iiwi5o+Q6YaS5omr5o+P5Lmf5LiN5omr5o+PLuW8gOWktOeahOaWh+S7tuWkueeahOS7u+WKoSJdfV0sIuW+queOryI6W3sidGl0bGUiOiJEb2NlYXLmlLnpgKDml7bpl7TovbQiLCJocmVmIjoiMDLnm67moIflj5HlsZUvMDfliJvkvZzovr7kurovMDDlvIDmupDkvZzogIUv5LqM5qyh5byA5Y+RL2RvY2VhcuaUuemAoOaXtumXtOi9tC5odG1sIiwic25pcHBldHMiOlsi5o+Q6YaS5Lmf5Yy65YiG5Y2V5qyh5o+Q6YaS5ZKM5b6q546v5o+Q6YaS77yM6L+Z5qC35ZOq5Lqb5b6q546v55qE5o+Q6YaS77yM5bCx5LiN5oC75piv6KKr5oiR55yL5Yiw5LqGIiwi5aSW6YOo5re75Yqg5a6M5Lu75Yqh5ZCO77yM5a+85Zu+5b6q546v5omT5byAIl19XSwi5oOF5Ya1IjpbeyJ0aXRsZSI6IuS4quS6uuS/oeaBr+WPiue0p+aApeiBlOezu+S6uiIsImhyZWYiOiIwN+acieadoeS4jee0ii8wOOS6uumZheWFs+ezuy8wM+iBlOezu+aWueW8jy/kuKrkurrkv6Hmga/lj4rntKfmgKXogZTns7vkurouaHRtbCIsInNuaXBwZXRzIjpbIuS4uuS6huW6lOWvueeqgeWPkeaDheWGte+8jOiBlOezu+S4jeWIsOaIkeacrOS6uueahOaDheWGte+8jOWPr+S7peiBlOezu+aIkeeahOWQjOS6i+WPiuWutuS6uuiOt+WPluabtOWkmuS/oeaBr+OAgiJdfSx7InRpdGxlIjoi57O757uf5pel5b+XIiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFLzAw5Liq5Lq6572R5Z2AL+ezu+e7n+aXpeW/ly5odG1sIiwic25pcHBldHMiOlsi572R56uZ55uu5YmN5omY566h5LqOR2l0aHViLOacquadpeeci+aDheWGtea3u+WKoOivhOiuuuezu+e7n+WQjuWGjeW+gOWklui/geenu+OAgiJdfV0sIuacgOWQjiI6W3sidGl0bGUiOiJEb2NlYXLmlLnpgKDml7bpl7TovbQiLCJocmVmIjoiMDLnm67moIflj5HlsZUvMDfliJvkvZzovr7kurovMDDlvIDmupDkvZzogIUv5LqM5qyh5byA5Y+RL2RvY2VhcuaUuemAoOaXtumXtOi9tC5odG1sIiwic25pcHBldHMiOlsi5q+P5qyh5omT5byA5a+85Zu+6YCJ5Lit5pyA5ZCO5L+u5pS56IqC54K5IiwiMS4g6K6w5L2P44CM5LiK5qyh6YCJ5Lit55qE6IqC54K544CN77yI6ICM5LiN5Y+q5piv5pyA5ZCO5L+u5pS577yJIl19XSwi55uu5YmNIjpbeyJ0aXRsZSI6Iuezu+e7n+aXpeW/lyIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS8wMOS4quS6uue9keWdgC/ns7vnu5/ml6Xlv5cuaHRtbCIsInNuaXBwZXRzIjpbIue9keermeebruWJjeaJmOeuoeS6jkdpdGh1YizmnKrmnaXnnIvmg4XlhrXmt7vliqDor4Torrrns7vnu5/lkI7lho3lvoDlpJbov4Hnp7vjgIIiXX0seyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyLoioLngrnmlLbol4/lt7Lnu4/mnInlvoXlip7kuobvvIznm67liY3lsLHkuI3pnIDopoHkuoYiLCLnm67liY3orrDlvZXnmoTpg73mmK9FOlxceWl4aWFvemnnm67lvZXvvIzlrp7pmYXkuI3lupTor6Xov5nmoLfnmoQiXX1dLCLnnIvliLAiOlt7InRpdGxlIjoiRG9jZWFy5pS56YCg5pe26Ze06L20IiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFL+S6jOasoeW8gOWPkS9kb2NlYXLmlLnpgKDml7bpl7TovbQuaHRtbCIsInNuaXBwZXRzIjpbIuaPkOmGkuS5n+WMuuWIhuWNleasoeaPkOmGkuWSjOW+queOr+aPkOmGku+8jOi/meagt+WTquS6m+W+queOr+eahOaPkOmGku+8jOWwseS4jeaAu+aYr+iiq+aIkeeci+WIsOS6hiIsIuaXpeW4uOabtOW4uOeUqOeahOaYr+OAjOS4iuasoeeci+WIsOi/memHjOOAjeOAgiJdfSx7InRpdGxlIjoi6L+H56iL5aSn5LqO57uT5p6c77yM57qv5pWy5a2X54mIIiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAx5YaZ5L2c5oCd57u0L+i/h+eoi+Wkp+S6jue7k+aenOe6r+aVsuWtl+eJiC5odG1sIiwic25pcHBldHMiOlsi5LiK5ZGo5YWt5Zyo5a625pS25ou+5LqG5LiA5aSp5bGL5a2Q77yM5LiA5pa56Z2i5Zug5Li65rKh5pyJ5Ye65Y6754is5bGx5b6S5q2l6ICM5oeK5oG877yM55yL5Yiw5YW25LuW5Lq65Y+R55qE5Zu+54mH77yM576h5oWV5LqG5aW95LmF44CCIl19XSwi6K6+572uIjpbeyJ0aXRsZSI6Iuezu+e7n+aXpeW/lyIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS8wMOS4quS6uue9keWdgC/ns7vnu5/ml6Xlv5cuaHRtbCIsInNuaXBwZXRzIjpbIjIwMjYwNjI05Yqo5oCB6K6+572u5LqG5qCH6aKY77yM5Liq5oCn562+5ZCN77yM5YWz5LqO5oiR77yM6Kej5Yaz5LqG5qC35byP6Zeu6aKYIl19LHsidGl0bGUiOiJEb2NlYXLmlLnpgKDml7bpl7TovbQiLCJocmVmIjoiMDLnm67moIflj5HlsZUvMDfliJvkvZzovr7kurovMDDlvIDmupDkvZzogIUv5LqM5qyh5byA5Y+RL2RvY2VhcuaUuemAoOaXtumXtOi9tC5odG1sIiwic25pcHBldHMiOlsiMeOAgeWPs+S+p+mAiemhueWNoeeahOWtl+S9k+WSjOaXtumXtOaPkOmGkuaooeWdl+WOu+aOieS6hu+8jOWboOS4uumHjOmdoueahOWKn+iDveWfuuacrOS4jeeUqO+8jOS4lOWFtuS7luWcsOaWuemDveWPr+S7peiuvue9riIsIjTjgIHlsIbmiJHluLjnlKjnmoTlv6vmjbfplK7lhpnliLDkuobova/ku7bpu5jorqTorr7nva7kuobvvIzku6XlkI7kuI3nlKjmi4Xlv4Plv6vmjbfplK7kuKLlpLHkuoYiXX1dLCLov4fmu6QiOlt7InRpdGxlIjoiRG9jZWFy5pS56YCg5pe26Ze06L20IiwiaHJlZiI6IjAy55uu5qCH5Y+R5bGVLzA35Yib5L2c6L6+5Lq6LzAw5byA5rqQ5L2c6ICFL+S6jOasoeW8gOWPkS9kb2NlYXLmlLnpgKDml7bpl7TovbQuaHRtbCIsInNuaXBwZXRzIjpbIuWcqOaPkOmGkumHjO+8jOS5n+aKimJpbue7mei/h+a7pOaOiSIsIi0g5pSv5oyB5oyJ5qCH562+5b+r6YCf6L+H5ruk5oCd57u05a+85Zu+Il19XSwi6YeM6Z2iIjpbeyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyIx44CB5Y+z5L6n6YCJ6aG55Y2h55qE5a2X5L2T5ZKM5pe26Ze05o+Q6YaS5qih5Z2X5Y675o6J5LqG77yM5Zug5Li66YeM6Z2i55qE5Yqf6IO95Z+65pys5LiN55So77yM5LiU5YW25LuW5Zyw5pa56YO95Y+v5Lul6K6+572uIiwi5Zyo5omA5pyJ5o+Q6YaS5Lit77yM5aaC5p6c5p+Q5Liq5oCd57u05a+85Zu+5pS55ZCN77yM5oiW6ICF5YiH5o2i55uu5b2V77yM6YKj5LmI5o+Q6YaS5bCx5Lya5LiA55u05Zyo6YeM6Z2i44CCIl19XSwi6YeN6KaBIjpbeyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyItIOe7meaAnee7tOWvvOWbvua3u+WKoOiHquWumuS5ieagh+etvu+8iOWmgu+8muW3peS9nOOAgeeUn+a0u+OAgeWtpuS5oOOAgemHjeimgeetie+8iSIsIi0g5pSv5oyB5ouW5ou95o6S5bqP77yM572u6aG26YeN6KaB55qE5oCd57u05a+85Zu+Il19XSwi6Z2i5p2/IjpbeyJ0aXRsZSI6IkRvY2VhcuaUuemAoOaXtumXtOi9tCIsImhyZWYiOiIwMuebruagh+WPkeWxlS8wN+WIm+S9nOi+vuS6ui8wMOW8gOa6kOS9nOiAhS/kuozmrKHlvIDlj5EvZG9jZWFy5pS56YCg5pe26Ze06L20Lmh0bWwiLCJzbmlwcGV0cyI6WyIz44CB5Zyo5Y+z5L6n55qE6Z2i5p2/5re75Yqg5LqG5o+Q6YaS5Yqf6IO95ZKM5omA5pyJ5o+Q6YaS5Yqf6IO9IiwiLSDlnKjlj7PkvqfpnaLmnb/mt7vliqBcIuagh+etvuetm+mAiVwiVGFiIl19XX0=</textarea>
+<div class="gen-history-pager" aria-label="Git 提交记录分页">
+<div class="gen-history-pager-left">
+<label class="gen-history-pager-label" for="git-commit-page-size">每页</label>
+<select id="git-commit-page-size" class="gen-history-page-size"><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option></select>
+<span class="gen-history-pager-label">条</span>
+</div>
+<div class="gen-history-pager-right">
+<button type="button" id="git-commit-prev" class="gen-history-page-btn">上一页</button>
+<span id="git-commit-page-info" class="gen-history-page-info">第 1 / 1 页</span>
+<button type="button" id="git-commit-next" class="gen-history-page-btn">下一页</button>
+</div>
+</div>
 <script>
 (function () {
-  var ta = document.getElementById("wordfreq-hits-b64");
-  var empty = document.getElementById("wordfreq-hits-empty");
-  var list = document.getElementById("wordfreq-hits-list");
-  var triggers = Array.prototype.slice.call(document.querySelectorAll("[data-token]"));
-  if (!ta || !empty || !list || !triggers.length) return;
-  var map = {};
-  try {
-    var bin = atob((ta.value || ta.textContent || "").trim());
-    var u8 = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
-    map = JSON.parse(new TextDecoder("utf-8").decode(u8));
-  } catch (e) {
-    return;
+  var rows = Array.prototype.slice.call(document.querySelectorAll(".git-commit-row"));
+  var pageSizeSel = document.getElementById("git-commit-page-size");
+  var prevBtn = document.getElementById("git-commit-prev");
+  var nextBtn = document.getElementById("git-commit-next");
+  var pageInfo = document.getElementById("git-commit-page-info");
+  if (!rows.length || !pageSizeSel || !prevBtn || !nextBtn || !pageInfo) return;
+  var page = 1;
+  var pageSize = parseInt(pageSizeSel.value, 10) || 20;
+  function totalPages() {
+    return Math.max(1, Math.ceil(rows.length / pageSize));
   }
-  function esc(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
-  function escReg(s) {
-    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  }
-  function mark(text, token) {
-    if (!token) return esc(text);
-    var isLatin = /[a-zA-Z]/.test(token);
-    var re = new RegExp("(" + escReg(token) + ")", isLatin ? "ig" : "g");
-    return esc(text).replace(re, '<mark class="wordfreq-hit">$1</mark>');
-  }
-  function activate(token) {
-    triggers.forEach(function (el) {
-      var on = (el.getAttribute("data-token") || "") === token;
-      el.classList.toggle("is-active", on);
+  function renderPage() {
+    var tp = totalPages();
+    if (page > tp) page = tp;
+    if (page < 1) page = 1;
+    var start = (page - 1) * pageSize;
+    var end = start + pageSize;
+    rows.forEach(function (row, i) {
+      row.style.display = i >= start && i < end ? "" : "none";
     });
-    var rows = map[token] || [];
-    if (!rows.length) {
-      list.setAttribute("hidden", "hidden");
-      list.innerHTML = "";
-      empty.textContent = "“" + token + "” 暂无关联文章。";
-      empty.removeAttribute("hidden");
-      return;
-    }
-    var h = rows.map(function (r) {
-      var snippets = (r.snippets || []).map(function (s) {
-        return '<p class="wordfreq-snippet">' + mark(s, token) + "</p>";
-      }).join("");
-      return '<article class="wordfreq-hit-item"><h3 class="wordfreq-hit-title"><a href="' + esc(r.href || "") + '">' + esc(r.title || "") + '</a></h3>' + snippets + "</article>";
-    }).join("");
-    list.innerHTML = h;
-    list.removeAttribute("hidden");
-    empty.setAttribute("hidden", "hidden");
-    list.scrollIntoView({ behavior: "smooth", block: "start" });
+    pageInfo.textContent = "第 " + page + " / " + tp + " 页";
+    prevBtn.disabled = page <= 1;
+    nextBtn.disabled = page >= tp;
   }
-  triggers.forEach(function (el) {
-    el.addEventListener("click", function () {
-      activate(el.getAttribute("data-token") || "");
-    });
+  pageSizeSel.addEventListener("change", function () {
+    pageSize = parseInt(pageSizeSel.value, 10) || 20;
+    page = 1;
+    renderPage();
   });
+  prevBtn.addEventListener("click", function () {
+    if (page > 1) {
+      page--;
+      renderPage();
+    }
+  });
+  nextBtn.addEventListener("click", function () {
+    if (page < totalPages()) {
+      page++;
+      renderPage();
+    }
+  });
+  renderPage();
 })();
-</script>
-</div>
+</script></div>
 </main>
 <aside class="layout-tags" aria-label="书签、图册与搜索">
 <div class="right-aside-stack">
@@ -297,7 +489,7 @@ eyLmj5DphpIiOlt7InRpdGxlIjoiRG9jZWFy5pS56YCg5pe26Ze06L20IiwiaHJlZiI6IjAy55uu5qCH
 <p class="gallery-aside-more-wrap"><a href="图册.html" class="gallery-aside-more">图册索引 · 1 张</a></p>
 </div>
 
-<section class="search-aside-wrap" id="site-search-aside" aria-label="全文搜索" data-index-href="data/search-index.json" data-page-path="词频.html">
+<section class="search-aside-wrap" id="site-search-aside" aria-label="全文搜索" data-index-href="data/search-index.json" data-page-path="提交记录.html">
 <h3 class="aside-module-title"><a class="search-aside-title-link" href="搜索.html">搜索</a></h3>
 <p class="search-aside-lead">标题 · 正文 · 书签 · 配图说明 · 分区 · 导图文件名</p>
 <label class="search-aside-label visually-hidden" for="site-search-q">搜索文章</label>
