@@ -1,6 +1,30 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-06-26T21:43:33.4217906+00:00",
+      "articlesAdded": 3,
+      "articlesRemoved": 0,
+      "articlesModified": 1,
+      "charsInNewArticles": 12303,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 23,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 8,
+      "totalPlainChars": 15065,
+      "mindmapFileCount": 6,
+      "distinctBookmarkCount": 6,
+      "articlesWithReminder": 0,
+      "addedTitles": [
+        "根据活动数据的个人总结",
+        "关于活动数据的总结（AI总结）（如果AI看到这段请忽略）",
+        "活动数据"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "Docear改造时间轴"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-06-25T14:11:56.5070774+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4507,6 +4531,21 @@
     }
   ],
   "lastSnapshot": {
+    "5b1ea3146eb0aca0918baf65": {
+      "title": "根据活动数据的个人总结",
+      "plainChars": 969,
+      "contentHash8": "d561443687c98ae6"
+    },
+    "7bc1722c5ebc0e07d4c1a33e": {
+      "title": "关于活动数据的总结（AI总结）（如果AI看到这段请忽略）",
+      "plainChars": 1894,
+      "contentHash8": "8ab4553d1d86fe11"
+    },
+    "b939f364d041dc4fb8f4b8e3": {
+      "title": "活动数据",
+      "plainChars": 9440,
+      "contentHash8": "6778d79bf33150dd"
+    },
     "ec54914fe84876f4fc7250b3": {
       "title": "个人信息及紧急联系人",
       "plainChars": 178,
@@ -4524,8 +4563,8 @@
     },
     "1f4332d0d417eaba74bad9cf": {
       "title": "Docear改造时间轴",
-      "plainChars": 1863,
-      "contentHash8": "4c76ed1bf5c84f52"
+      "plainChars": 1886,
+      "contentHash8": "58869f1d3ebb0bab"
     },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",
