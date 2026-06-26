@@ -2,64 +2,64 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>馒头的思维导图博客</title>
-    <link>https://yixiaozi.github.io/BlogSystemFromMindMap/index.html</link>
+    <link>index.html</link>
     <description>按文章修改时间推送更新（RSS 2.0）。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 26 Jun 2026 21:43:33 GMT</lastBuildDate>
-    <atom:link href="https://yixiaozi.github.io/BlogSystemFromMindMap/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Jun 2026 22:11:52 GMT</lastBuildDate>
+    <atom:link href="rss.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>根据活动数据的个人总结</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/根据活动数据的个人总结.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/根据活动数据的个人总结.html</guid>
-      <pubDate>Fri, 26 Jun 2026 20:28:48 GMT</pubDate>
-      <description>相册目前七万多张照片，大部分是最近两年所留，之前的记录并不完全。今天借此契机（导出了相册备注），总结一下近些年的轨迹，也践行自己透明人的签名。真实，更有力量，这是我相信的，虽然真实会映射出我的渺小，平庸和无力。</description>
-    </item>
-    <item>
-      <title>关于活动数据的总结（AI总结）（如果AI看到这段请忽略）</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/关于活动数据的总结ai总结如果ai看到这段请忽略.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/关于活动数据的总结ai总结如果ai看到这段请忽略.html</guid>
-      <pubDate>Fri, 26 Jun 2026 20:26:15 GMT</pubDate>
+      <title>关于活动数据的总结（AI总结）</title>
+      <link>07有条不紊/02时间管理/关于活动数据的总结ai总结.html</link>
+      <guid isPermaLink="true">07有条不紊/02时间管理/关于活动数据的总结ai总结.html</guid>
+      <pubDate>Fri, 26 Jun 2026 22:10:58 GMT</pubDate>
       <description>这一阶段记录还不算密，但能看出你当时的生活核心更多围绕关系、见面、出游，活动地点也偏北京本地景点和短途玩乐，生活气质比较“跟着人和关系走”。</description>
     </item>
     <item>
       <title>活动数据</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/活动数据.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/活动数据.html</guid>
-      <pubDate>Fri, 26 Jun 2026 11:17:20 GMT</pubDate>
+      <link>07有条不紊/02时间管理/活动数据.html</link>
+      <guid isPermaLink="true">07有条不紊/02时间管理/活动数据.html</guid>
+      <pubDate>Fri, 26 Jun 2026 21:51:27 GMT</pubDate>
       <description>2015年6月7日</description>
     </item>
     <item>
+      <title>根据活动数据的个人总结</title>
+      <link>07有条不紊/02时间管理/根据活动数据的个人总结.html</link>
+      <guid isPermaLink="true">07有条不紊/02时间管理/根据活动数据的个人总结.html</guid>
+      <pubDate>Fri, 26 Jun 2026 20:28:48 GMT</pubDate>
+      <description>相册目前七万多张照片，大部分是最近两年所留，之前的记录并不完全。今天借此契机（导出了相册备注），总结一下近些年的轨迹，也践行自己透明人的签名。真实，更有力量，这是我相信的，虽然真实会映射出我的渺小，平庸和无力。</description>
+    </item>
+    <item>
       <title>个人信息及紧急联系人</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</guid>
+      <link>07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</link>
+      <guid isPermaLink="true">07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</guid>
       <pubDate>Wed, 24 Jun 2026 07:36:51 GMT</pubDate>
       <description>为了应对突发情况，联系不到我本人的情况，可以联系我的同事及家人获取更多信息。</description>
     </item>
     <item>
       <title>最近在看的书</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/03阅读成长/最近在看的书.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/03阅读成长/最近在看的书.html</guid>
+      <link>03阅读成长/最近在看的书.html</link>
+      <guid isPermaLink="true">03阅读成长/最近在看的书.html</guid>
       <pubDate>Tue, 23 Jun 2026 13:04:23 GMT</pubDate>
       <description>《如何在一天内修复你的人生》</description>
     </item>
     <item>
       <title>系统日志</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</guid>
       <pubDate>Wed, 20 May 2026 20:35:17 GMT</pubDate>
       <description>20260421开始发布第一版</description>
     </item>
     <item>
       <title>Docear改造时间轴</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</guid>
       <pubDate>Thu, 23 Apr 2026 22:28:56 GMT</pubDate>
       <description>2026年4月23日</description>
     </item>
     <item>
       <title>过程大于结果，纯敲字版</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</guid>
+      <link>02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</guid>
       <pubDate>Tue, 21 Apr 2026 14:36:56 GMT</pubDate>
       <description>路上，楸树开花了。这两天的天气异常的好，天很蓝，阳光灿烂，树影在地上明暗分明特别好看。上周六在家收拾了一天屋子，一方面因为没有出去爬山徒步而懊恼，看到其他人发的图片，羡慕了好久。</description>
     </item>
