@@ -1,6 +1,29 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-06-30T04:08:05.2249817+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 0,
+      "articlesModified": 2,
+      "charsInNewArticles": 222,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 609,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 9,
+      "totalPlainChars": 15896,
+      "mindmapFileCount": 7,
+      "distinctBookmarkCount": 7,
+      "articlesWithReminder": 0,
+      "addedTitles": [
+        "胸部损伤"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "活动数据",
+        "Docear改造时间轴"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-06-26T22:11:52.844311+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4551,6 +4574,11 @@
     }
   ],
   "lastSnapshot": {
+    "b560bff35f3ff586d93e0f3c": {
+      "title": "胸部损伤",
+      "plainChars": 222,
+      "contentHash8": "c91beb0b71eb83b7"
+    },
     "7bc1722c5ebc0e07d4c1a33e": {
       "title": "关于活动数据的总结（AI总结）",
       "plainChars": 1894,
@@ -4558,8 +4586,8 @@
     },
     "b939f364d041dc4fb8f4b8e3": {
       "title": "活动数据",
-      "plainChars": 9440,
-      "contentHash8": "6778d79bf33150dd"
+      "plainChars": 10047,
+      "contentHash8": "d0cfb431f029232d"
     },
     "5b1ea3146eb0aca0918baf65": {
       "title": "根据活动数据的个人总结",
@@ -4583,8 +4611,8 @@
     },
     "1f4332d0d417eaba74bad9cf": {
       "title": "Docear改造时间轴",
-      "plainChars": 1886,
-      "contentHash8": "58869f1d3ebb0bab"
+      "plainChars": 1888,
+      "contentHash8": "9a49247ce9e77246"
     },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",
