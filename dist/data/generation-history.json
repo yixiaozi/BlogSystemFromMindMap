@@ -1,6 +1,27 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-06-30T07:22:16.8027795+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 2,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 64,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 9,
+      "totalPlainChars": 15960,
+      "mindmapFileCount": 7,
+      "distinctBookmarkCount": 7,
+      "articlesWithReminder": 0,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "胸部损伤",
+        "根据活动数据的个人总结"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-06-30T04:08:05.2249817+00:00",
       "articlesAdded": 1,
       "articlesRemoved": 0,
@@ -4576,8 +4597,8 @@
   "lastSnapshot": {
     "b560bff35f3ff586d93e0f3c": {
       "title": "胸部损伤",
-      "plainChars": 222,
-      "contentHash8": "c91beb0b71eb83b7"
+      "plainChars": 286,
+      "contentHash8": "5f7e1d21318cb8ab"
     },
     "7bc1722c5ebc0e07d4c1a33e": {
       "title": "关于活动数据的总结（AI总结）",
@@ -4592,7 +4613,7 @@
     "5b1ea3146eb0aca0918baf65": {
       "title": "根据活动数据的个人总结",
       "plainChars": 969,
-      "contentHash8": "307425c8511ac6bd"
+      "contentHash8": "db9b58d6b439057a"
     },
     "ec54914fe84876f4fc7250b3": {
       "title": "个人信息及紧急联系人",
