@@ -511,7 +511,8 @@ public sealed class StaticSiteGenerator
         inner.AppendLine("<div class=\"gen-history-table-wrap\">");
         inner.AppendLine("<table class=\"gen-history-table git-commit-table\">");
         inner.AppendLine("<thead><tr>");
-        inner.AppendLine("<th scope=\"col\" class=\"git-commit-col-time\">提交时间（本地）</th>");
+        inner.AppendLine(
+            "<th scope=\"col\" class=\"git-commit-col-time\"><span class=\"git-commit-th-long\">提交时间（本地）</span><span class=\"git-commit-th-short\">时间</span></th>");
         inner.AppendLine("<th scope=\"col\" class=\"git-commit-col-subject\">说明</th>");
         inner.AppendLine("<th scope=\"col\" class=\"git-commit-col-body\">描述</th>");
         inner.AppendLine("</tr></thead><tbody>");
@@ -528,12 +529,15 @@ public sealed class StaticSiteGenerator
         {
             foreach (var c in snapshot.Commits)
             {
+                var localCommittedAt = c.CommittedAt.ToLocalTime();
                 inner.AppendLine("<tr class=\"git-commit-row\">");
-                inner.Append("<td class=\"git-commit-time\"><time datetime=\"")
+                inner.Append("<td class=\"git-commit-time\"><time class=\"git-commit-datetime\" datetime=\"")
                     .Append(WebUtility.HtmlEncode(c.CommittedAt.ToString("O")))
-                    .Append("\">")
-                    .Append(WebUtility.HtmlEncode(c.CommittedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")))
-                    .AppendLine("</time></td>");
+                    .Append("\"><span class=\"git-commit-date\">")
+                    .Append(WebUtility.HtmlEncode(localCommittedAt.ToString("yyyy-MM-dd")))
+                    .Append("</span><span class=\"git-commit-clock\">")
+                    .Append(WebUtility.HtmlEncode(localCommittedAt.ToString("HH:mm")))
+                    .AppendLine("</span></time></td>");
                 inner.Append("<td class=\"git-commit-subject\">")
                     .Append(WebUtility.HtmlEncode(c.Subject))
                     .AppendLine("</td>");
@@ -1070,11 +1074,21 @@ public sealed class StaticSiteGenerator
 
     private static string BuildExcerpt(BlogArticle article)
     {
-        var first = article.Blocks.OfType<ParagraphBlock>().FirstOrDefault()?.Text;
-        if (string.IsNullOrWhiteSpace(first))
-            return "";
-        first = first.Trim();
-        return first.Length <= 180 ? first : first[..180] + "…";
+        foreach (var block in article.Blocks)
+        {
+            var text = block switch
+            {
+                ParagraphBlock p when !p.IsDateLine => p.Text,
+                RichParagraphBlock rp when !rp.IsDateLine => rp.PlainText,
+                _ => null
+            };
+            if (string.IsNullOrWhiteSpace(text))
+                continue;
+            text = text.Trim();
+            return text.Length <= 180 ? text : text[..180] + "…";
+        }
+
+        return "";
     }
 
     private static string FormatArticleLocalTime(DateTimeOffset dto) =>
@@ -3597,10 +3611,35 @@ td.gen-history-empty {
   vertical-align: top;
 }
 
+.git-commit-col-time .git-commit-th-short {
+  display: none;
+}
+
+.git-commit-datetime {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.28;
+}
+
+.git-commit-date {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.git-commit-clock {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
 .git-commit-table th.git-commit-col-time,
 .git-commit-table td.git-commit-time {
-  width: 11.5rem;
-  white-space: nowrap;
+  width: 5.25rem;
+  max-width: 5.25rem;
+  white-space: normal;
+  padding-right: 0.35rem;
 }
 
 .git-commit-subject {
@@ -4586,19 +4625,29 @@ html.theme-dark article.content .note-box {
     grid-template-columns: 1fr;
     max-width: none;
   }
-  .layout-nav,
-  .layout-tags {
+  .layout-main {
+    order: 1;
+    padding: 1.25rem 1rem 1.75rem;
+  }
+  .layout-nav {
+    order: 2;
     position: relative;
     max-height: none;
     border: none;
+    border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     border-radius: 0;
     box-shadow: none;
-  }
-  .layout-nav {
-    margin-bottom: 48px;
+    margin-bottom: 0;
   }
   .layout-tags {
+    order: 3;
+    position: relative;
+    max-height: none;
+    border: none;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    box-shadow: none;
     padding-bottom: calc(var(--site-footer-occupy) + 0.9rem);
   }
   .right-aside-stack {
@@ -4606,9 +4655,6 @@ html.theme-dark article.content .note-box {
   }
   .search-aside-wrap {
     margin-bottom: 0;
-  }
-  .layout-main {
-    padding: 1.25rem 1rem 2.5rem;
   }
   .page-title {
     font-size: clamp(1.2rem, 6vw, 1.48rem);
@@ -4660,6 +4706,33 @@ html.theme-dark article.content .note-box {
   .timeline-marker { display: none; }
   .rev-dock {
     bottom: calc(var(--site-footer-occupy) + max(1rem, env(safe-area-inset-bottom)));
+  }
+  .git-commit-col-time .git-commit-th-long {
+    display: none;
+  }
+  .git-commit-col-time .git-commit-th-short {
+    display: inline;
+  }
+  .git-commit-table th.git-commit-col-time,
+  .git-commit-table td.git-commit-time {
+    width: 4.1rem;
+    max-width: 4.1rem;
+    padding: 0.35rem 0.28rem;
+  }
+  .git-commit-date {
+    font-size: 0.68rem;
+    word-break: break-all;
+  }
+  .git-commit-clock {
+    font-size: 0.66rem;
+  }
+  .git-commit-subject {
+    min-width: 0;
+    max-width: none;
+  }
+  .git-commit-table th,
+  .git-commit-table td {
+    padding: 0.4rem 0.32rem;
   }
 }
 
