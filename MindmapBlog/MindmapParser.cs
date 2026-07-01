@@ -8,6 +8,7 @@ namespace MindmapBlog;
 /// <summary>
 /// 解析 FreeMind / Docear 的 .mm。
 /// 在图册根节点之下的<strong>任意深度</strong>查找带互联网图标（BUILTIN=internet）的节点作为文章根；
+/// 带「不发布」图标（BUILTIN=closed）的节点及其子树跳过，不作为文章也不写入正文（含图册根节点）；
 /// 名为「变量」的节点仅作站点配置，不发布为文章。
 /// 分区路径为从根到该节点父链上的节点标题（如 2026 / 5 / 1）；
 /// 书签从节点明细中解析 #标签；无 # 时仅用图册根节点标题归类（不再用路径作伪标签）。
@@ -61,6 +62,8 @@ public static class MindmapParser
                 if (ReferenceEquals(articleRoot, notebookRoot))
                     continue;
                 if (!HasInternetPublishIcon(articleRoot))
+                    continue;
+                if (IsWithinUnpublishSubtree(articleRoot, notebookRoot))
                     continue;
                 if (IsSiteVariablesNode(articleRoot))
                     continue;
@@ -359,6 +362,41 @@ public static class MindmapParser
         return parts.Count > 0 ? string.Join(" / ", parts) : "未分区";
     }
 
+    /// <summary>节点上包含「不发布」图标（FreeMind：icon BUILTIN=closed）。</summary>
+    public static bool HasUnpublishIcon(XElement node)
+    {
+        var iconAttr = node.Attribute("ICON_BUILTIN")?.Value
+            ?? node.Attribute("ICON")?.Value;
+        if (!string.IsNullOrEmpty(iconAttr)
+            && string.Equals(iconAttr, "closed", StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        foreach (var icon in node.Elements(IconName))
+        {
+            var b = icon.Attribute("BUILTIN")?.Value;
+            if (string.Equals(b, "closed", StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>节点自身、任一祖先或图册根节点带「不发布」图标。</summary>
+    private static bool IsWithinUnpublishSubtree(XElement node, XElement notebookRoot)
+    {
+        for (var p = node; p != null; p = p.Parent)
+        {
+            if (p.Name != NodeName)
+                continue;
+            if (HasUnpublishIcon(p))
+                return true;
+            if (ReferenceEquals(p, notebookRoot))
+                break;
+        }
+
+        return false;
+    }
+
     /// <summary>节点上包含互联网图标（FreeMind：icon BUILTIN=internet）。</summary>
     public static bool HasInternetPublishIcon(XElement node)
     {
@@ -437,6 +475,9 @@ public static class MindmapParser
 
     private static void AppendNodeBlocks(XElement node, string mmDirectory, List<BodyBlock> list, int depth)
     {
+        if (HasUnpublishIcon(node))
+            return;
+
         if (TryAppendDateSubtree(node, mmDirectory, list, depth))
             return;
 

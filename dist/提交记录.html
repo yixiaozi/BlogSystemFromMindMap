@@ -30,6 +30,10 @@ var _hmt = _hmt || [];
 <div class="site-topbar-inner">
 <a class="site-topbar-brand" href="index.html">
 馒头的思维导图博客</a>
+<div class="site-topbar-mobile-actions">
+<button type="button" class="site-mobile-btn" id="site-mobile-nav-toggle" aria-expanded="false" aria-controls="layout-nav">目录</button>
+<button type="button" class="site-mobile-btn" id="site-mobile-aside-toggle" aria-expanded="false" aria-controls="layout-tags">书签</button>
+</div>
 <div class="site-topbar-controls" role="group" aria-label="强调色、灰度与夜间模式">
 <span class="site-topbar-swatches" aria-hidden="false">
 <button type="button" class="site-topbar-swatch" data-accent="#4338ca" style="--site-swatch:#4338ca" title="靛青" aria-label="强调色：靛青"></button>
@@ -44,8 +48,9 @@ var _hmt = _hmt || [];
 <button type="button" class="site-topbar-chip site-topbar-bw" id="site-theme-bw-toggle" aria-pressed="false" title="灰度模式：全站去色，适合长文阅读">灰度</button>
 <button type="button" class="site-topbar-chip site-topbar-night" id="site-theme-dark-toggle" aria-pressed="false" title="夜间模式">夜间</button>
 </div></div></header>
+<div class="site-mobile-backdrop" id="site-mobile-backdrop" hidden aria-hidden="true"></div>
 <div class="layout-shell">
-<aside class="layout-nav" aria-label="目录与导图导航">
+<aside class="layout-nav" id="layout-nav" aria-label="目录与导图导航">
 <nav class="nav-tree">
 <section class="nav-filetree-section" aria-label="文件导图节点">
 <h3 class="aside-module-title">文件导图节点</h3>
@@ -145,13 +150,20 @@ var _hmt = _hmt || [];
 <summary class="nav-mmnod-summary"><a class="nav-branch-title" href="07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-ai总结如果ai看到这段请忽略.html" onclick="event.stopPropagation()">AI总结（如果AI看到这段请忽略）</a></summary>
 <div class="nav-mmnod-body">
 <ul class="nav-articles">
-  <li><a href="07有条不紊/02时间管理/关于活动数据的总结ai总结.html">关于活动数据的总结（AI总结）</a></li>
+  <li><a href="07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html">关于活动数据的总结（AI总结）20260620</a></li>
+</ul>
+</div>
+</details>
+<details class="nav-mmnod" id="nav-det-34ab9e70fad9">
+<summary class="nav-mmnod-summary"><a class="nav-branch-title" href="07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-个人总结.html" onclick="event.stopPropagation()">个人总结</a></summary>
+<div class="nav-mmnod-body">
+<ul class="nav-articles">
+  <li><a href="07有条不紊/02时间管理/根据活动数据的个人总结20260627.html">根据活动数据的个人总结20260627</a></li>
 </ul>
 </div>
 </details>
 <ul class="nav-articles">
   <li><a href="07有条不紊/02时间管理/活动数据.html">活动数据</a></li>
-  <li><a href="07有条不紊/02时间管理/根据活动数据的个人总结.html">根据活动数据的个人总结</a></li>
 </ul>
 </div>
 </details>
@@ -221,7 +233,7 @@ var _hmt = _hmt || [];
 <header class="hero">
 <h1 class="page-title">提交记录</h1>
 <p class="page-lead">读取<strong>扫描目录</strong>所在 Git 仓库的全部提交历史（生成时快照；若扫描路径为子目录则仅含影响该目录的提交）。</p>
-<p class="git-repo-meta">仓库 <code>D:/Dropbox/yixiaozi</code> · 分支 <strong>master</strong> · 本页 <strong>48</strong> 条</p>
+<p class="git-repo-meta">仓库 <code>D:/Dropbox/yixiaozi</code> · 分支 <strong>master</strong> · 本页 <strong>49</strong> 条</p>
 <p class="page-lead">原始数据：<code>data/git-commits.json</code></p>
 </header>
 <div class="gen-history-table-wrap">
@@ -232,244 +244,249 @@ var _hmt = _hmt || [];
 <th scope="col" class="git-commit-col-body">描述</th>
 </tr></thead><tbody>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-30T15:22:06.0000000+08:00">2026-06-30 15:22:06</time></td>
+<td class="git-commit-time"><time datetime="2026-07-01T18:01:30.0000000+08:00"><span class="git-commit-time-full">2026-07-01 18:01:30</span><span class="git-commit-time-compact">07-01 18:01</span></time></td>
+<td class="git-commit-subject">今天没那么忙，虽然压力也很大，事情也很多，尽量不给自己太大压力</td>
+<td class="git-commit-body">胸部还是疼，但是不让自己太过恐慌。给Docear添加了任务设置功能，希望对未来有帮助。</td>
+</tr>
+<tr class="git-commit-row">
+<td class="git-commit-time"><time datetime="2026-06-30T15:22:06.0000000+08:00"><span class="git-commit-time-full">2026-06-30 15:22:06</span><span class="git-commit-time-compact">06-30 15:22</span></time></td>
 <td class="git-commit-subject">胸部好疼，CT结果出了，我得去医院，然后回家吃止疼药</td>
 <td class="git-commit-body">下午确实难受，怎么都不舒服。看来止疼药还是得吃。</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-30T12:07:39.0000000+08:00">2026-06-30 12:07:39</time></td>
+<td class="git-commit-time"><time datetime="2026-06-30T12:07:39.0000000+08:00"><span class="git-commit-time-full">2026-06-30 12:07:39</span><span class="git-commit-time-compact">06-30 12:07</span></time></td>
 <td class="git-commit-subject">又是艰难的两三天，胸口疼得厉害了，工作还在缓慢推进</td>
 <td class="git-commit-body">茜茜回北京了，可是我的状态很差，不敢见她。真的觉得自己不配，想消失了，可是又不甘心，在矛盾中纠结，无论如何等身体恢复了再说吧。</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-27T05:43:23.0000000+08:00">2026-06-27 05:43:23</time></td>
+<td class="git-commit-time"><time datetime="2026-06-27T05:43:23.0000000+08:00"><span class="git-commit-time-full">2026-06-27 05:43:23</span><span class="git-commit-time-compact">06-27 05:43</span></time></td>
 <td class="git-commit-subject">把HashPhoto的记录导进了，并写了总结。工作还是没做完，周末需要加班。</td>
 <td class="git-commit-body">总结了一下，发现自己真的挺可悲的。过得并不精彩。
 到了周末，其他人都在玩，希望自己恢复状态吧，把工作捋顺，真的不希望工作成为我最大的烦恼。还有我的腿和胳膊还在疼，这周真的是我的噩梦周。吴茜似乎烦我了，我也提前从心理上切割，避免收到太大打击。
 希望，下周一切都能好起来吧。</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-25T22:11:47.0000000+08:00">2026-06-25 22:11:47</time></td>
+<td class="git-commit-time"><time datetime="2026-06-25T22:11:47.0000000+08:00"><span class="git-commit-time-full">2026-06-25 22:11:47</span><span class="git-commit-time-compact">06-25 22:11</span></time></td>
 <td class="git-commit-subject">要下班了，有什么事，明天再说，着急也没用</td>
 <td class="git-commit-body">还挺喜欢晚上的时间的，没人打扰，可是工作还是没做完</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-25T21:42:56.0000000+08:00">2026-06-25 21:42:56</time></td>
+<td class="git-commit-time"><time datetime="2026-06-25T21:42:56.0000000+08:00"><span class="git-commit-time-full">2026-06-25 21:42:56</span><span class="git-commit-time-compact">06-25 21:42</span></time></td>
 <td class="git-commit-subject">又到了晚上了，工作还是没有做完</td>
 <td class="git-commit-body">明天再说吧</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-24T22:55:33.0000000+08:00">2026-06-24 22:55:33</time></td>
+<td class="git-commit-time"><time datetime="2026-06-24T22:55:33.0000000+08:00"><span class="git-commit-time-full">2026-06-24 22:55:33</span><span class="git-commit-time-compact">06-24 22:55</span></time></td>
 <td class="git-commit-subject">要回家了，真的累了，明天再弄吧</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-24T21:24:29.0000000+08:00">2026-06-24 21:24:29</time></td>
+<td class="git-commit-time"><time datetime="2026-06-24T21:24:29.0000000+08:00"><span class="git-commit-time-full">2026-06-24 21:24:29</span><span class="git-commit-time-compact">06-24 21:24</span></time></td>
 <td class="git-commit-subject">还没走，真的好累</td>
 <td class="git-commit-body">需要同步一下Dropbox，先提交一下</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-24T18:31:35.0000000+08:00">2026-06-24 18:31:35</time></td>
+<td class="git-commit-time"><time datetime="2026-06-24T18:31:35.0000000+08:00"><span class="git-commit-time-full">2026-06-24 18:31:35</span><span class="git-commit-time-compact">06-24 18:31</span></time></td>
 <td class="git-commit-subject">膝盖好疼，这就下班了</td>
 <td class="git-commit-body">还有好多工作没做完</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-24T16:35:11.0000000+08:00">2026-06-24 16:35:11</time></td>
+<td class="git-commit-time"><time datetime="2026-06-24T16:35:11.0000000+08:00"><span class="git-commit-time-full">2026-06-24 16:35:11</span><span class="git-commit-time-compact">06-24 16:35</span></time></td>
 <td class="git-commit-subject">添加了紧急联系人，今天还是一直在处理模板</td>
 <td class="git-commit-body">移动了一些文件，删除了一些非必要文件</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-24T11:31:26.0000000+08:00">2026-06-24 11:31:26</time></td>
+<td class="git-commit-time"><time datetime="2026-06-24T11:31:26.0000000+08:00"><span class="git-commit-time-full">2026-06-24 11:31:26</span><span class="git-commit-time-compact">06-24 11:31</span></time></td>
 <td class="git-commit-subject">早上摔了一跤，好疼啊。。。</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-24T06:07:48.0000000+08:00">2026-06-24 06:07:48</time></td>
+<td class="git-commit-time"><time datetime="2026-06-24T06:07:48.0000000+08:00"><span class="git-commit-time-full">2026-06-24 06:07:48</span><span class="git-commit-time-compact">06-24 06:07</span></time></td>
 <td class="git-commit-subject">Create .gitignore</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-23T21:24:16.0000000+08:00">2026-06-23 21:24:16</time></td>
+<td class="git-commit-time"><time datetime="2026-06-23T21:24:16.0000000+08:00"><span class="git-commit-time-full">2026-06-23 21:24:16</span><span class="git-commit-time-compact">06-23 21:24</span></time></td>
 <td class="git-commit-subject">还是回家吧，晚安</td>
 <td class="git-commit-body">今天，只处理了几个模板效率并不高。但还好，也处理了几个问题，希望明天把进度赶一赶。</td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-23T19:31:42.0000000+08:00">2026-06-23 19:31:42</time></td>
+<td class="git-commit-time"><time datetime="2026-06-23T19:31:42.0000000+08:00"><span class="git-commit-time-full">2026-06-23 19:31:42</span><span class="git-commit-time-compact">06-23 19:31</span></time></td>
 <td class="git-commit-subject">最近修改，通过Docear提交</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-18T17:29:50.0000000+08:00">2026-06-18 17:29:50</time></td>
+<td class="git-commit-time"><time datetime="2026-06-18T17:29:50.0000000+08:00"><span class="git-commit-time-full">2026-06-18 17:29:50</span><span class="git-commit-time-compact">06-18 17:29</span></time></td>
 <td class="git-commit-subject">端午节了</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-16T21:03:39.0000000+08:00">2026-06-16 21:03:39</time></td>
+<td class="git-commit-time"><time datetime="2026-06-16T21:03:39.0000000+08:00"><span class="git-commit-time-full">2026-06-16 21:03:39</span><span class="git-commit-time-compact">06-16 21:03</span></time></td>
 <td class="git-commit-subject">最近添加了AI工具</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-06-05T17:46:40.0000000+08:00">2026-06-05 17:46:40</time></td>
+<td class="git-commit-time"><time datetime="2026-06-05T17:46:40.0000000+08:00"><span class="git-commit-time-full">2026-06-05 17:46:40</span><span class="git-commit-time-compact">06-05 17:46</span></time></td>
 <td class="git-commit-subject">最近的修改，感觉也不是很多</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-05-29T18:37:44.0000000+08:00">2026-05-29 18:37:44</time></td>
+<td class="git-commit-time"><time datetime="2026-05-29T18:37:44.0000000+08:00"><span class="git-commit-time-full">2026-05-29 18:37:44</span><span class="git-commit-time-compact">05-29 18:37</span></time></td>
 <td class="git-commit-subject">又到了周末，全身无力</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-05-21T09:10:44.0000000+08:00">2026-05-21 09:10:44</time></td>
+<td class="git-commit-time"><time datetime="2026-05-21T09:10:44.0000000+08:00"><span class="git-commit-time-full">2026-05-21 09:10:44</span><span class="git-commit-time-compact">05-21 09:10</span></time></td>
 <td class="git-commit-subject">切换了一些目录</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-05-20T17:39:47.0000000+08:00">2026-05-20 17:39:47</time></td>
+<td class="git-commit-time"><time datetime="2026-05-20T17:39:47.0000000+08:00"><span class="git-commit-time-full">2026-05-20 17:39:47</span><span class="git-commit-time-compact">05-20 17:39</span></time></td>
 <td class="git-commit-subject">最近整理了目录</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-04-30T17:20:18.0000000+08:00">2026-04-30 17:20:18</time></td>
+<td class="git-commit-time"><time datetime="2026-04-30T17:20:18.0000000+08:00"><span class="git-commit-time-full">2026-04-30 17:20:18</span><span class="git-commit-time-compact">04-30 17:20</span></time></td>
 <td class="git-commit-subject">最近用AI比较多，还把自己蒸馏了一下，不错</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-04-22T08:59:03.0000000+08:00">2026-04-22 08:59:03</time></td>
+<td class="git-commit-time"><time datetime="2026-04-22T08:59:03.0000000+08:00"><span class="git-commit-time-full">2026-04-22 08:59:03</span><span class="git-commit-time-compact">04-22 08:59</span></time></td>
 <td class="git-commit-subject">最近的修改</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-03-27T16:43:28.0000000+08:00">2026-03-27 16:43:28</time></td>
+<td class="git-commit-time"><time datetime="2026-03-27T16:43:28.0000000+08:00"><span class="git-commit-time-full">2026-03-27 16:43:28</span><span class="git-commit-time-compact">03-27 16:43</span></time></td>
 <td class="git-commit-subject">最近一段时间的修改</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-03-19T18:11:05.0000000+08:00">2026-03-19 18:11:05</time></td>
+<td class="git-commit-time"><time datetime="2026-03-19T18:11:05.0000000+08:00"><span class="git-commit-time-full">2026-03-19 18:11:05</span><span class="git-commit-time-compact">03-19 18:11</span></time></td>
 <td class="git-commit-subject">最近的修改</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-03-13T17:03:14.0000000+08:00">2026-03-13 17:03:14</time></td>
+<td class="git-commit-time"><time datetime="2026-03-13T17:03:14.0000000+08:00"><span class="git-commit-time-full">2026-03-13 17:03:14</span><span class="git-commit-time-compact">03-13 17:03</span></time></td>
 <td class="git-commit-subject">最近修改文件很少</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-03-06T17:47:33.0000000+08:00">2026-03-06 17:47:33</time></td>
+<td class="git-commit-time"><time datetime="2026-03-06T17:47:33.0000000+08:00"><span class="git-commit-time-full">2026-03-06 17:47:33</span><span class="git-commit-time-compact">03-06 17:47</span></time></td>
 <td class="git-commit-subject">又一周过去了。。。</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-03-02T18:57:40.0000000+08:00">2026-03-02 18:57:40</time></td>
+<td class="git-commit-time"><time datetime="2026-03-02T18:57:40.0000000+08:00"><span class="git-commit-time-full">2026-03-02 18:57:40</span><span class="git-commit-time-compact">03-02 18:57</span></time></td>
 <td class="git-commit-subject">这几天也没做别的</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-02-28T17:30:35.0000000+08:00">2026-02-28 17:30:35</time></td>
+<td class="git-commit-time"><time datetime="2026-02-28T17:30:35.0000000+08:00"><span class="git-commit-time-full">2026-02-28 17:30:35</span><span class="git-commit-time-compact">02-28 17:30</span></time></td>
 <td class="git-commit-subject">新的一年了</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-02-13T17:41:08.0000000+08:00">2026-02-13 17:41:08</time></td>
+<td class="git-commit-time"><time datetime="2026-02-13T17:41:08.0000000+08:00"><span class="git-commit-time-full">2026-02-13 17:41:08</span><span class="git-commit-time-compact">02-13 17:41</span></time></td>
 <td class="git-commit-subject">今年结束了，明年见！！</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-02-13T17:17:58.0000000+08:00">2026-02-13 17:17:58</time></td>
+<td class="git-commit-time"><time datetime="2026-02-13T17:17:58.0000000+08:00"><span class="git-commit-time-full">2026-02-13 17:17:58</span><span class="git-commit-time-compact">02-13 17:17</span></time></td>
 <td class="git-commit-subject">一年快结束了</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-02-12T11:43:12.0000000+08:00">2026-02-12 11:43:12</time></td>
+<td class="git-commit-time"><time datetime="2026-02-12T11:43:12.0000000+08:00"><span class="git-commit-time-full">2026-02-12 11:43:12</span><span class="git-commit-time-compact">02-12 11:43</span></time></td>
 <td class="git-commit-subject">最近一段时间的修改，还挺多的</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-27T17:42:51.0000000+08:00">2026-01-27 17:42:51</time></td>
+<td class="git-commit-time"><time datetime="2026-01-27T17:42:51.0000000+08:00"><span class="git-commit-time-full">2026-01-27 17:42:51</span><span class="git-commit-time-compact">01-27 17:42</span></time></td>
 <td class="git-commit-subject">加油</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-23T17:30:32.0000000+08:00">2026-01-23 17:30:32</time></td>
+<td class="git-commit-time"><time datetime="2026-01-23T17:30:32.0000000+08:00"><span class="git-commit-time-full">2026-01-23 17:30:32</span><span class="git-commit-time-compact">01-23 17:30</span></time></td>
 <td class="git-commit-subject">下班了，周一再说吧</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-23T16:55:59.0000000+08:00">2026-01-23 16:55:59</time></td>
+<td class="git-commit-time"><time datetime="2026-01-23T16:55:59.0000000+08:00"><span class="git-commit-time-full">2026-01-23 16:55:59</span><span class="git-commit-time-compact">01-23 16:55</span></time></td>
 <td class="git-commit-subject">调整文件目录</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-23T15:58:50.0000000+08:00">2026-01-23 15:58:50</time></td>
+<td class="git-commit-time"><time datetime="2026-01-23T15:58:50.0000000+08:00"><span class="git-commit-time-full">2026-01-23 15:58:50</span><span class="git-commit-time-compact">01-23 15:58</span></time></td>
 <td class="git-commit-subject">导图</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-23T15:57:03.0000000+08:00">2026-01-23 15:57:03</time></td>
+<td class="git-commit-time"><time datetime="2026-01-23T15:57:03.0000000+08:00"><span class="git-commit-time-full">2026-01-23 15:57:03</span><span class="git-commit-time-compact">01-23 15:57</span></time></td>
 <td class="git-commit-subject">更新任务</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-23T11:27:44.0000000+08:00">2026-01-23 11:27:44</time></td>
+<td class="git-commit-time"><time datetime="2026-01-23T11:27:44.0000000+08:00"><span class="git-commit-time-full">2026-01-23 11:27:44</span><span class="git-commit-time-compact">01-23 11:27</span></time></td>
 <td class="git-commit-subject">修改了很多文件的目录</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-22T17:38:56.0000000+08:00">2026-01-22 17:38:56</time></td>
+<td class="git-commit-time"><time datetime="2026-01-22T17:38:56.0000000+08:00"><span class="git-commit-time-full">2026-01-22 17:38:56</span><span class="git-commit-time-compact">01-22 17:38</span></time></td>
 <td class="git-commit-subject">Update 服务经销商需求.mm</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-22T17:38:48.0000000+08:00">2026-01-22 17:38:48</time></td>
+<td class="git-commit-time"><time datetime="2026-01-22T17:38:48.0000000+08:00"><span class="git-commit-time-full">2026-01-22 17:38:48</span><span class="git-commit-time-compact">01-22 17:38</span></time></td>
 <td class="git-commit-subject">下班了</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-22T14:27:14.0000000+08:00">2026-01-22 14:27:14</time></td>
+<td class="git-commit-time"><time datetime="2026-01-22T14:27:14.0000000+08:00"><span class="git-commit-time-full">2026-01-22 14:27:14</span><span class="git-commit-time-compact">01-22 14:27</span></time></td>
 <td class="git-commit-subject">工作文件夹进入版本库了</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-22T14:14:01.0000000+08:00">2026-01-22 14:14:01</time></td>
+<td class="git-commit-time"><time datetime="2026-01-22T14:14:01.0000000+08:00"><span class="git-commit-time-full">2026-01-22 14:14:01</span><span class="git-commit-time-compact">01-22 14:14</span></time></td>
 <td class="git-commit-subject">移动一些文件的目录</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-20T17:52:56.0000000+08:00">2026-01-20 17:52:56</time></td>
+<td class="git-commit-time"><time datetime="2026-01-20T17:52:56.0000000+08:00"><span class="git-commit-time-full">2026-01-20 17:52:56</span><span class="git-commit-time-compact">01-20 17:52</span></time></td>
 <td class="git-commit-subject">。。。</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-20T17:52:27.0000000+08:00">2026-01-20 17:52:27</time></td>
+<td class="git-commit-time"><time datetime="2026-01-20T17:52:27.0000000+08:00"><span class="git-commit-time-full">2026-01-20 17:52:27</span><span class="git-commit-time-compact">01-20 17:52</span></time></td>
 <td class="git-commit-subject">下班了</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-15T17:47:15.0000000+08:00">2026-01-15 17:47:15</time></td>
+<td class="git-commit-time"><time datetime="2026-01-15T17:47:15.0000000+08:00"><span class="git-commit-time-full">2026-01-15 17:47:15</span><span class="git-commit-time-compact">01-15 17:47</span></time></td>
 <td class="git-commit-subject">.</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-13T17:23:37.0000000+08:00">2026-01-13 17:23:37</time></td>
+<td class="git-commit-time"><time datetime="2026-01-13T17:23:37.0000000+08:00"><span class="git-commit-time-full">2026-01-13 17:23:37</span><span class="git-commit-time-compact">01-13 17:23</span></time></td>
 <td class="git-commit-subject">终于下班了</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-13T15:35:35.0000000+08:00">2026-01-13 15:35:35</time></td>
+<td class="git-commit-time"><time datetime="2026-01-13T15:35:35.0000000+08:00"><span class="git-commit-time-full">2026-01-13 15:35:35</span><span class="git-commit-time-compact">01-13 15:35</span></time></td>
 <td class="git-commit-subject">有条不紊</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-13T15:10:00.0000000+08:00">2026-01-13 15:10:00</time></td>
+<td class="git-commit-time"><time datetime="2026-01-13T15:10:00.0000000+08:00"><span class="git-commit-time-full">2026-01-13 15:10:00</span><span class="git-commit-time-compact">01-13 15:10</span></time></td>
 <td class="git-commit-subject">修改了一个目录，其他正常</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-13T07:33:04.0000000+08:00">2026-01-13 07:33:04</time></td>
+<td class="git-commit-time"><time datetime="2026-01-13T07:33:04.0000000+08:00"><span class="git-commit-time-full">2026-01-13 07:33:04</span><span class="git-commit-time-compact">01-13 07:33</span></time></td>
 <td class="git-commit-subject">初次配置大部分文件大部分文件</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
 <tr class="git-commit-row">
-<td class="git-commit-time"><time datetime="2026-01-13T07:25:32.0000000+08:00">2026-01-13 07:25:32</time></td>
+<td class="git-commit-time"><time datetime="2026-01-13T07:25:32.0000000+08:00"><span class="git-commit-time-full">2026-01-13 07:25:32</span><span class="git-commit-time-compact">01-13 07:25</span></time></td>
 <td class="git-commit-subject">Begin</td>
 <td class="git-commit-body"><span class="git-commit-body-empty" aria-hidden="true">—</span></td>
 </tr>
@@ -534,7 +551,7 @@ var _hmt = _hmt || [];
 })();
 </script></div>
 </main>
-<aside class="layout-tags" aria-label="书签、图册与搜索">
+<aside class="layout-tags" id="layout-tags" aria-label="书签、图册与搜索">
 <div class="right-aside-stack">
 <div class="aside-main-blocks">
 <section class="aside-profile-wrap" aria-label="站长">
@@ -689,6 +706,94 @@ var _hmt = _hmt || [];
       });
     });
   });
+})();
+</script>
+<script>
+(function () {
+  var MQ = window.matchMedia("(max-width: 960px)");
+  var navBtn = document.getElementById("site-mobile-nav-toggle");
+  var asideBtn = document.getElementById("site-mobile-aside-toggle");
+  var backdrop = document.getElementById("site-mobile-backdrop");
+  var nav = document.getElementById("layout-nav");
+  var tags = document.getElementById("layout-tags");
+  if (!navBtn || !asideBtn) return;
+
+  function setBackdrop(on) {
+    if (!backdrop) return;
+    backdrop.hidden = !on;
+    backdrop.setAttribute("aria-hidden", on ? "false" : "true");
+  }
+
+  function closePanels() {
+    document.body.classList.remove("mobile-nav-open", "mobile-aside-open", "mobile-panel-open");
+    navBtn.classList.remove("is-active");
+    asideBtn.classList.remove("is-active");
+    navBtn.setAttribute("aria-expanded", "false");
+    asideBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(false);
+  }
+
+  function openNav() {
+    document.body.classList.add("mobile-nav-open", "mobile-panel-open");
+    document.body.classList.remove("mobile-aside-open");
+    navBtn.classList.add("is-active");
+    asideBtn.classList.remove("is-active");
+    navBtn.setAttribute("aria-expanded", "true");
+    asideBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(true);
+  }
+
+  function openAside() {
+    document.body.classList.add("mobile-aside-open", "mobile-panel-open");
+    document.body.classList.remove("mobile-nav-open");
+    asideBtn.classList.add("is-active");
+    navBtn.classList.remove("is-active");
+    asideBtn.setAttribute("aria-expanded", "true");
+    navBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(true);
+  }
+
+  navBtn.addEventListener("click", function () {
+    if (!MQ.matches) return;
+    if (document.body.classList.contains("mobile-nav-open")) closePanels();
+    else openNav();
+  });
+
+  asideBtn.addEventListener("click", function () {
+    if (!MQ.matches) return;
+    if (document.body.classList.contains("mobile-aside-open")) closePanels();
+    else openAside();
+  });
+
+  if (backdrop) backdrop.addEventListener("click", closePanels);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closePanels();
+  });
+
+  if (typeof MQ.addEventListener === "function") {
+    MQ.addEventListener("change", function (e) {
+      if (!e.matches) closePanels();
+    });
+  } else if (typeof MQ.addListener === "function") {
+    MQ.addListener(function (e) {
+      if (!e.matches) closePanels();
+    });
+  }
+
+  if (nav) {
+    nav.addEventListener("click", function (e) {
+      if (MQ.matches && e.target.closest && e.target.closest("a")) closePanels();
+    });
+  }
+
+  if (tags) {
+    tags.addEventListener("click", function (e) {
+      if (!MQ.matches || !e.target.closest || !e.target.closest("a")) return;
+      if (e.target.closest(".search-aside-wrap input")) return;
+      closePanels();
+    });
+  }
 })();
 </script>
 <script>

@@ -529,11 +529,15 @@ public sealed class StaticSiteGenerator
             foreach (var c in snapshot.Commits)
             {
                 inner.AppendLine("<tr class=\"git-commit-row\">");
+                var local = c.CommittedAt.ToLocalTime();
                 inner.Append("<td class=\"git-commit-time\"><time datetime=\"")
                     .Append(WebUtility.HtmlEncode(c.CommittedAt.ToString("O")))
-                    .Append("\">")
-                    .Append(WebUtility.HtmlEncode(c.CommittedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")))
-                    .AppendLine("</time></td>");
+                    .Append("\">");
+                inner.Append("<span class=\"git-commit-time-full\">")
+                    .Append(WebUtility.HtmlEncode(local.ToString("yyyy-MM-dd HH:mm:ss")))
+                    .Append("</span><span class=\"git-commit-time-compact\">")
+                    .Append(WebUtility.HtmlEncode(local.ToString("MM-dd HH:mm")))
+                    .AppendLine("</span></time></td>");
                 inner.Append("<td class=\"git-commit-subject\">")
                     .Append(WebUtility.HtmlEncode(c.Subject))
                     .AppendLine("</td>");
@@ -1123,18 +1127,28 @@ public sealed class StaticSiteGenerator
         IReadOnlyDictionary<string, ArticleVersionDocument>? versionDocs,
         bool enableSortTabs = false)
     {
-        IEnumerable<BlogArticle> ordered = descending
-            ? arts.OrderByDescending(selectLocalTime)
-            : arts.OrderBy(selectLocalTime);
+        IEnumerable<BlogArticle> ordered;
+        if (enableSortTabs)
+        {
+            ordered = descending
+                ? arts.OrderByDescending(a => GetPublishedAt(a, TryGetVersionDoc(versionDocs, scanRoot, a)).LocalDateTime)
+                : arts.OrderBy(a => GetPublishedAt(a, TryGetVersionDoc(versionDocs, scanRoot, a)).LocalDateTime);
+        }
+        else
+        {
+            ordered = descending
+                ? arts.OrderByDescending(selectLocalTime)
+                : arts.OrderBy(selectLocalTime);
+        }
 
         if (enableSortTabs)
         {
-            sb.AppendLine("<div class=\"timeline-shell\" data-timeline-sort=\"modified\">");
+            sb.AppendLine("<div class=\"timeline-shell\" data-timeline-sort=\"published\">");
             sb.AppendLine("<div class=\"timeline-tabs\" role=\"tablist\" aria-label=\"时间轴排序\">");
             sb.AppendLine(
-                "<button type=\"button\" class=\"timeline-tab is-active\" role=\"tab\" data-sort=\"modified\" aria-selected=\"true\">更新时间</button>");
+                "<button type=\"button\" class=\"timeline-tab is-active\" role=\"tab\" data-sort=\"published\" aria-selected=\"true\">入站时间</button>");
             sb.AppendLine(
-                "<button type=\"button\" class=\"timeline-tab\" role=\"tab\" data-sort=\"published\" aria-selected=\"false\">入站时间</button>");
+                "<button type=\"button\" class=\"timeline-tab\" role=\"tab\" data-sort=\"modified\" aria-selected=\"false\">更新时间</button>");
             sb.AppendLine("</div>");
         }
 
@@ -1142,12 +1156,14 @@ public sealed class StaticSiteGenerator
         DateTime? prevDate = null;
         foreach (var art in ordered)
         {
-            var local = selectLocalTime(art);
+            var versionDoc = TryGetVersionDoc(versionDocs, scanRoot, art);
+            var local = enableSortTabs
+                ? GetPublishedAt(art, versionDoc).LocalDateTime
+                : selectLocalTime(art);
             var excerpt = BuildExcerpt(art);
             var isSameDate = prevDate.HasValue && prevDate.Value.Date == local.Date;
             prevDate = local.Date;
 
-            var versionDoc = TryGetVersionDoc(versionDocs, scanRoot, art);
             if (enableSortTabs)
             {
                 var publishedLocal = GetPublishedAt(art, versionDoc).LocalDateTime;
@@ -1226,7 +1242,7 @@ public sealed class StaticSiteGenerator
         center.AppendLine("<div class=\"page-index\">");
         center.AppendLine("<header class=\"hero\">");
         center.AppendLine("<h1 class=\"page-title\">时间轴</h1>");
-        center.AppendLine("<p class=\"page-lead\">默认按<strong>更新时间</strong>排列；可用上方 Tab 切换为<strong>入站时间</strong>。左侧时间轴随 Tab 变化；卡片内始终展示入站与更新两个时间。书签：明细里 <code>#话题</code>；未写 # 时用图册根名称归类。</p>");
+        center.AppendLine("<p class=\"page-lead\">默认按<strong>入站时间</strong>排列；可用上方 Tab 切换为<strong>更新时间</strong>。左侧时间轴随 Tab 变化；卡片内始终展示入站与更新两个时间。书签：明细里 <code>#话题</code>；未写 # 时用图册根名称归类。</p>");
         center.AppendLine("</header>");
 
         AppendTimelineList(center, sortedArticles, a => a.Modified.LocalDateTime, descending: true, names, idx, scanRoot,
@@ -1262,7 +1278,7 @@ public sealed class StaticSiteGenerator
             inner.AppendLine("<header class=\"hero\">");
             inner.Append("<h1 class=\"page-title\">书签：").Append(WebUtility.HtmlEncode(tag)).AppendLine("</h1>");
             inner.Append("<p class=\"page-lead\">共 <strong>").Append(inTag.Count)
-                .AppendLine("</strong> 篇文章；可用 Tab 在「更新时间」与「入站时间」间切换排序。</p>");
+                .AppendLine("</strong> 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。</p>");
             inner.AppendLine("</header>");
             AppendTimelineList(inner, inTag, a => a.Modified.LocalDateTime, descending: true, names, fileName, scanRoot,
                 versionDocs, enableSortTabs: true);
@@ -1766,6 +1782,46 @@ body.site-body {
   flex-wrap: wrap;
 }
 
+.site-topbar-mobile-actions {
+  display: none;
+}
+
+.site-mobile-btn {
+  margin: 0;
+  padding: 0.24rem 0.55rem;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.site-mobile-btn:hover {
+  border-color: rgba(67, 56, 202, 0.32);
+  color: var(--text-primary);
+}
+
+.site-mobile-btn.is-active {
+  border-color: var(--accent);
+  color: var(--accent-deep);
+  background: var(--accent-soft);
+}
+
+.site-mobile-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.site-mobile-backdrop {
+  display: none;
+}
+
 .site-topbar-swatches {
   display: inline-flex;
   align-items: center;
@@ -1950,6 +2006,16 @@ html.theme-dark .site-topbar-swatch {
 
 html.theme-dark .site-topbar-color-input {
   border-color: rgba(255, 255, 255, 0.22);
+}
+
+html.theme-dark .site-mobile-btn {
+  background: rgba(26, 31, 44, 0.95);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+html.theme-dark .site-mobile-backdrop {
+  background: rgba(0, 0, 0, 0.58);
 }
 
 html.theme-dark .rev-dock {
@@ -3603,6 +3669,10 @@ td.gen-history-empty {
   white-space: nowrap;
 }
 
+.git-commit-time-compact {
+  display: none;
+}
+
 .git-commit-subject {
   font-weight: 600;
   color: var(--text-primary);
@@ -4582,31 +4652,108 @@ html.theme-dark article.content .note-box {
     justify-self: center;
   }
 
+  .site-topbar-inner {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .site-topbar-brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    font-size: clamp(0.88rem, 4.2vw, 1.06rem);
+    letter-spacing: 0.06em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .site-topbar-mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.28rem;
+    flex-shrink: 0;
+  }
+
+  .site-topbar-controls {
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    gap: 0.28rem;
+  }
+
+  .site-topbar-swatches,
+  .site-topbar-color-label {
+    display: none;
+  }
+
+  .site-topbar-chip {
+    padding: 0.2rem 0.48rem;
+    font-size: 0.72rem;
+  }
+
+  body.mobile-panel-open {
+    overflow: hidden;
+  }
+
+  .site-mobile-backdrop {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--site-topbar-h);
+    bottom: calc(var(--site-footer-occupy) + env(safe-area-inset-bottom, 0px));
+    z-index: 260;
+    background: rgba(15, 23, 42, 0.42);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .site-mobile-backdrop[hidden] {
+    display: none !important;
+  }
+
   .layout-shell {
-    grid-template-columns: 1fr;
+    display: block;
     max-width: none;
   }
+
   .layout-nav,
   .layout-tags {
-    position: relative;
+    position: fixed;
+    z-index: 280;
+    top: var(--site-topbar-h);
+    bottom: calc(var(--site-footer-occupy) + env(safe-area-inset-bottom, 0px));
+    width: min(88vw, 320px);
     max-height: none;
-    border: none;
-    border-bottom: 1px solid var(--border);
+    margin: 0;
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: var(--shadow-float);
+    transition: transform 0.24s ease;
+    -webkit-overflow-scrolling: touch;
   }
+
   .layout-nav {
-    margin-bottom: 48px;
+    left: 0;
+    transform: translateX(-105%);
+    border-right: 1px solid var(--border);
+    border-bottom: none;
   }
+
+  body.mobile-nav-open .layout-nav {
+    transform: translateX(0);
+  }
+
   .layout-tags {
-    padding-bottom: calc(var(--site-footer-occupy) + 0.9rem);
+    right: 0;
+    left: auto;
+    transform: translateX(105%);
+    border-left: 1px solid var(--border);
+    border-bottom: none;
+    padding-bottom: 1.25rem;
   }
-  .right-aside-stack {
-    padding-bottom: 0.65rem;
+
+  body.mobile-aside-open .layout-tags {
+    transform: translateX(0);
   }
-  .search-aside-wrap {
-    margin-bottom: 0;
-  }
+
   .layout-main {
     padding: 1.25rem 1rem 2.5rem;
   }
@@ -4619,6 +4766,14 @@ html.theme-dark article.content .note-box {
     font-size: 0.86rem;
     line-height: 1.52;
     max-width: none;
+  }
+
+  .page-index .page-lead,
+  .page-with-timeline .page-lead {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .page-with-timeline .hero {
     margin-bottom: 0.72rem;
@@ -4661,6 +4816,55 @@ html.theme-dark article.content .note-box {
   .rev-dock {
     bottom: calc(var(--site-footer-occupy) + max(1rem, env(safe-area-inset-bottom)));
   }
+
+  .git-commit-table thead {
+    display: none;
+  }
+
+  .git-commit-table tbody tr.git-commit-row {
+    display: block;
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .git-commit-table tbody tr.git-commit-row:last-child {
+    border-bottom: none;
+  }
+
+  .git-commit-table td {
+    display: block;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0.12rem 0;
+    border-bottom: none;
+    text-align: left !important;
+  }
+
+  .git-commit-time {
+    white-space: normal;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .git-commit-time-full {
+    display: none;
+  }
+
+  .git-commit-time-compact {
+    display: inline;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .git-commit-subject {
+    max-width: none;
+    font-size: 0.88rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .git-commit-body {
+    font-size: 0.82rem;
+  }
 }
 
 @media (min-width: 961px) {
@@ -4669,6 +4873,11 @@ html.theme-dark article.content .note-box {
   }
   .nav-cal-fold > .nav-cal-fold-body {
     display: block !important;
+  }
+
+  body.mobile-nav-open .layout-nav,
+  body.mobile-aside-open .layout-tags {
+    transform: none;
   }
 }
 

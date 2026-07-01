@@ -60,6 +60,12 @@ internal static class HtmlLayout
         sb.AppendLine("<div class=\"site-topbar-inner\">");
         sb.Append("<a class=\"site-topbar-brand\" href=\"").Append(WebUtility.HtmlEncode(homeHref)).AppendLine("\">")
             .Append(WebUtility.HtmlEncode(SiteProfile.BlogTitle)).AppendLine("</a>");
+        sb.AppendLine("<div class=\"site-topbar-mobile-actions\">");
+        sb.AppendLine(
+            "<button type=\"button\" class=\"site-mobile-btn\" id=\"site-mobile-nav-toggle\" aria-expanded=\"false\" aria-controls=\"layout-nav\">目录</button>");
+        sb.AppendLine(
+            "<button type=\"button\" class=\"site-mobile-btn\" id=\"site-mobile-aside-toggle\" aria-expanded=\"false\" aria-controls=\"layout-tags\">书签</button>");
+        sb.AppendLine("</div>");
         sb.AppendLine("<div class=\"site-topbar-controls\" role=\"group\" aria-label=\"强调色、灰度与夜间模式\">");
         sb.AppendLine("<span class=\"site-topbar-swatches\" aria-hidden=\"false\">");
         sb.AppendLine(
@@ -80,20 +86,22 @@ internal static class HtmlLayout
         sb.AppendLine(
             "<button type=\"button\" class=\"site-topbar-chip site-topbar-night\" id=\"site-theme-dark-toggle\" aria-pressed=\"false\" title=\"夜间模式\">夜间</button>");
         sb.AppendLine("</div></div></header>");
+        sb.AppendLine("<div class=\"site-mobile-backdrop\" id=\"site-mobile-backdrop\" hidden aria-hidden=\"true\"></div>");
         sb.AppendLine("<div class=\"layout-shell\">");
-        sb.AppendLine("<aside class=\"layout-nav\" aria-label=\"目录与导图导航\">");
+        sb.AppendLine("<aside class=\"layout-nav\" id=\"layout-nav\" aria-label=\"目录与导图导航\">");
         sb.AppendLine(navLeftHtml);
         sb.AppendLine("</aside>");
         sb.AppendLine("<main class=\"layout-main\">");
         sb.Append(innerMain);
         sb.AppendLine("</main>");
-        sb.AppendLine("<aside class=\"layout-tags\" aria-label=\"书签、图册与搜索\">");
+        sb.AppendLine("<aside class=\"layout-tags\" id=\"layout-tags\" aria-label=\"书签、图册与搜索\">");
         sb.AppendLine(tagAsideHtml);
         sb.AppendLine("</aside>");
         sb.AppendLine("</div>");
         if (siteNames != null)
             sb.Append(BuildSiteFooter(currentPageWebPath, siteNames));
         AppendNavAccordionScript(sb);
+        AppendMobileShellScript(sb);
         AppendImageProtectionScript(sb);
         AppendRevisionDockScript(sb);
         AppendTopbarThemeScript(sb);
@@ -219,6 +227,103 @@ internal static class HtmlLayout
                   });
                 });
               });
+            })();
+            """
+        );
+        sb.AppendLine("</script>");
+    }
+
+    /// <summary>窄屏：目录/书签抽屉、遮罩与正文优先展示。</summary>
+    private static void AppendMobileShellScript(StringBuilder sb)
+    {
+        sb.AppendLine("<script>");
+        sb.AppendLine(
+            """
+            (function () {
+              var MQ = window.matchMedia("(max-width: 960px)");
+              var navBtn = document.getElementById("site-mobile-nav-toggle");
+              var asideBtn = document.getElementById("site-mobile-aside-toggle");
+              var backdrop = document.getElementById("site-mobile-backdrop");
+              var nav = document.getElementById("layout-nav");
+              var tags = document.getElementById("layout-tags");
+              if (!navBtn || !asideBtn) return;
+
+              function setBackdrop(on) {
+                if (!backdrop) return;
+                backdrop.hidden = !on;
+                backdrop.setAttribute("aria-hidden", on ? "false" : "true");
+              }
+
+              function closePanels() {
+                document.body.classList.remove("mobile-nav-open", "mobile-aside-open", "mobile-panel-open");
+                navBtn.classList.remove("is-active");
+                asideBtn.classList.remove("is-active");
+                navBtn.setAttribute("aria-expanded", "false");
+                asideBtn.setAttribute("aria-expanded", "false");
+                setBackdrop(false);
+              }
+
+              function openNav() {
+                document.body.classList.add("mobile-nav-open", "mobile-panel-open");
+                document.body.classList.remove("mobile-aside-open");
+                navBtn.classList.add("is-active");
+                asideBtn.classList.remove("is-active");
+                navBtn.setAttribute("aria-expanded", "true");
+                asideBtn.setAttribute("aria-expanded", "false");
+                setBackdrop(true);
+              }
+
+              function openAside() {
+                document.body.classList.add("mobile-aside-open", "mobile-panel-open");
+                document.body.classList.remove("mobile-nav-open");
+                asideBtn.classList.add("is-active");
+                navBtn.classList.remove("is-active");
+                asideBtn.setAttribute("aria-expanded", "true");
+                navBtn.setAttribute("aria-expanded", "false");
+                setBackdrop(true);
+              }
+
+              navBtn.addEventListener("click", function () {
+                if (!MQ.matches) return;
+                if (document.body.classList.contains("mobile-nav-open")) closePanels();
+                else openNav();
+              });
+
+              asideBtn.addEventListener("click", function () {
+                if (!MQ.matches) return;
+                if (document.body.classList.contains("mobile-aside-open")) closePanels();
+                else openAside();
+              });
+
+              if (backdrop) backdrop.addEventListener("click", closePanels);
+
+              document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") closePanels();
+              });
+
+              if (typeof MQ.addEventListener === "function") {
+                MQ.addEventListener("change", function (e) {
+                  if (!e.matches) closePanels();
+                });
+              } else if (typeof MQ.addListener === "function") {
+                MQ.addListener(function (e) {
+                  if (!e.matches) closePanels();
+                });
+              }
+
+              if (nav) {
+                nav.addEventListener("click", function (e) {
+                  if (MQ.matches && e.target.closest && e.target.closest("a")) closePanels();
+                });
+              }
+
+              if (tags) {
+                tags.addEventListener("click", function (e) {
+                  if (!MQ.matches || !e.target.closest || !e.target.closest("a")) return;
+                  if (e.target.closest(".search-aside-wrap input")) return;
+                  closePanels();
+                });
+              }
             })();
             """
         );
