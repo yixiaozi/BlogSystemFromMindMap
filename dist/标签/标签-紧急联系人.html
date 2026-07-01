@@ -30,6 +30,10 @@ var _hmt = _hmt || [];
 <div class="site-topbar-inner">
 <a class="site-topbar-brand" href="../index.html">
 馒头的思维导图博客</a>
+<div class="site-topbar-mobile-actions">
+<button type="button" class="site-mobile-btn" id="site-mobile-nav-toggle" aria-expanded="false" aria-controls="layout-nav">目录</button>
+<button type="button" class="site-mobile-btn" id="site-mobile-aside-toggle" aria-expanded="false" aria-controls="layout-tags">书签</button>
+</div>
 <div class="site-topbar-controls" role="group" aria-label="强调色、灰度与夜间模式">
 <span class="site-topbar-swatches" aria-hidden="false">
 <button type="button" class="site-topbar-swatch" data-accent="#4338ca" style="--site-swatch:#4338ca" title="靛青" aria-label="强调色：靛青"></button>
@@ -44,8 +48,9 @@ var _hmt = _hmt || [];
 <button type="button" class="site-topbar-chip site-topbar-bw" id="site-theme-bw-toggle" aria-pressed="false" title="灰度模式：全站去色，适合长文阅读">灰度</button>
 <button type="button" class="site-topbar-chip site-topbar-night" id="site-theme-dark-toggle" aria-pressed="false" title="夜间模式">夜间</button>
 </div></div></header>
+<div class="site-mobile-backdrop" id="site-mobile-backdrop" hidden aria-hidden="true"></div>
 <div class="layout-shell">
-<aside class="layout-nav" aria-label="目录与导图导航">
+<aside class="layout-nav" id="layout-nav" aria-label="目录与导图导航">
 <nav class="nav-tree">
 <section class="nav-filetree-section" aria-label="文件导图节点">
 <h3 class="aside-module-title">文件导图节点</h3>
@@ -145,13 +150,20 @@ var _hmt = _hmt || [];
 <summary class="nav-mmnod-summary"><a class="nav-branch-title" href="../07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-ai总结如果ai看到这段请忽略.html" onclick="event.stopPropagation()">AI总结（如果AI看到这段请忽略）</a></summary>
 <div class="nav-mmnod-body">
 <ul class="nav-articles">
-  <li><a href="../07有条不紊/02时间管理/关于活动数据的总结ai总结.html">关于活动数据的总结（AI总结）</a></li>
+  <li><a href="../07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html">关于活动数据的总结（AI总结）20260620</a></li>
+</ul>
+</div>
+</details>
+<details class="nav-mmnod" id="nav-det-34ab9e70fad9">
+<summary class="nav-mmnod-summary"><a class="nav-branch-title" href="../07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-个人总结.html" onclick="event.stopPropagation()">个人总结</a></summary>
+<div class="nav-mmnod-body">
+<ul class="nav-articles">
+  <li><a href="../07有条不紊/02时间管理/根据活动数据的个人总结20260627.html">根据活动数据的个人总结20260627</a></li>
 </ul>
 </div>
 </details>
 <ul class="nav-articles">
   <li><a href="../07有条不紊/02时间管理/活动数据.html">活动数据</a></li>
-  <li><a href="../07有条不紊/02时间管理/根据活动数据的个人总结.html">根据活动数据的个人总结</a></li>
 </ul>
 </div>
 </details>
@@ -220,18 +232,18 @@ var _hmt = _hmt || [];
 <div class="page-tag page-with-timeline">
 <header class="hero">
 <h1 class="page-title">书签：紧急联系人</h1>
-<p class="page-lead">共 <strong>1</strong> 篇文章；可用 Tab 在「更新时间」与「入站时间」间切换排序。</p>
+<p class="page-lead">共 <strong>1</strong> 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。</p>
 </header>
-<div class="timeline-shell" data-timeline-sort="modified">
+<div class="timeline-shell" data-timeline-sort="published">
 <div class="timeline-tabs" role="tablist" aria-label="时间轴排序">
-<button type="button" class="timeline-tab is-active" role="tab" data-sort="modified" aria-selected="true">更新时间</button>
-<button type="button" class="timeline-tab" role="tab" data-sort="published" aria-selected="false">入站时间</button>
+<button type="button" class="timeline-tab is-active" role="tab" data-sort="published" aria-selected="true">入站时间</button>
+<button type="button" class="timeline-tab" role="tab" data-sort="modified" aria-selected="false">更新时间</button>
 </div>
 <ol class="timeline timeline-page">
 <li class="timeline-item" data-published="2026-06-24T21:37:58" data-modified="2026-06-24T15:36:51">
-<div class="timeline-lead"><time class="timeline-datetime" datetime="2026-06-24T15:36:51"><span class="timeline-date">2026年6月24日</span>
+<div class="timeline-lead"><time class="timeline-datetime" datetime="2026-06-24T21:37:58"><span class="timeline-date">2026年6月24日</span>
 <div class="timeline-clock-row">
-<span class="timeline-clock">15:36</span>
+<span class="timeline-clock">21:37</span>
 <span class="timeline-marker" aria-hidden="true"><span class="timeline-dot"></span></span>
 </div>
 </time></div>
@@ -249,7 +261,7 @@ var _hmt = _hmt || [];
 </div>
 </div>
 </main>
-<aside class="layout-tags" aria-label="书签、图册与搜索">
+<aside class="layout-tags" id="layout-tags" aria-label="书签、图册与搜索">
 <div class="right-aside-stack">
 <div class="aside-main-blocks">
 <section class="aside-profile-wrap" aria-label="站长">
@@ -404,6 +416,94 @@ var _hmt = _hmt || [];
       });
     });
   });
+})();
+</script>
+<script>
+(function () {
+  var MQ = window.matchMedia("(max-width: 960px)");
+  var navBtn = document.getElementById("site-mobile-nav-toggle");
+  var asideBtn = document.getElementById("site-mobile-aside-toggle");
+  var backdrop = document.getElementById("site-mobile-backdrop");
+  var nav = document.getElementById("layout-nav");
+  var tags = document.getElementById("layout-tags");
+  if (!navBtn || !asideBtn) return;
+
+  function setBackdrop(on) {
+    if (!backdrop) return;
+    backdrop.hidden = !on;
+    backdrop.setAttribute("aria-hidden", on ? "false" : "true");
+  }
+
+  function closePanels() {
+    document.body.classList.remove("mobile-nav-open", "mobile-aside-open", "mobile-panel-open");
+    navBtn.classList.remove("is-active");
+    asideBtn.classList.remove("is-active");
+    navBtn.setAttribute("aria-expanded", "false");
+    asideBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(false);
+  }
+
+  function openNav() {
+    document.body.classList.add("mobile-nav-open", "mobile-panel-open");
+    document.body.classList.remove("mobile-aside-open");
+    navBtn.classList.add("is-active");
+    asideBtn.classList.remove("is-active");
+    navBtn.setAttribute("aria-expanded", "true");
+    asideBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(true);
+  }
+
+  function openAside() {
+    document.body.classList.add("mobile-aside-open", "mobile-panel-open");
+    document.body.classList.remove("mobile-nav-open");
+    asideBtn.classList.add("is-active");
+    navBtn.classList.remove("is-active");
+    asideBtn.setAttribute("aria-expanded", "true");
+    navBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(true);
+  }
+
+  navBtn.addEventListener("click", function () {
+    if (!MQ.matches) return;
+    if (document.body.classList.contains("mobile-nav-open")) closePanels();
+    else openNav();
+  });
+
+  asideBtn.addEventListener("click", function () {
+    if (!MQ.matches) return;
+    if (document.body.classList.contains("mobile-aside-open")) closePanels();
+    else openAside();
+  });
+
+  if (backdrop) backdrop.addEventListener("click", closePanels);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closePanels();
+  });
+
+  if (typeof MQ.addEventListener === "function") {
+    MQ.addEventListener("change", function (e) {
+      if (!e.matches) closePanels();
+    });
+  } else if (typeof MQ.addListener === "function") {
+    MQ.addListener(function (e) {
+      if (!e.matches) closePanels();
+    });
+  }
+
+  if (nav) {
+    nav.addEventListener("click", function (e) {
+      if (MQ.matches && e.target.closest && e.target.closest("a")) closePanels();
+    });
+  }
+
+  if (tags) {
+    tags.addEventListener("click", function (e) {
+      if (!MQ.matches || !e.target.closest || !e.target.closest("a")) return;
+      if (e.target.closest(".search-aside-wrap input")) return;
+      closePanels();
+    });
+  }
 })();
 </script>
 <script>

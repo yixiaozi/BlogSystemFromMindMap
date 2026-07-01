@@ -1,6 +1,28 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-01T10:01:40.5691371+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 3,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 627,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 9,
+      "totalPlainChars": 16587,
+      "mindmapFileCount": 7,
+      "distinctBookmarkCount": 7,
+      "articlesWithReminder": 0,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "活动数据",
+        "根据活动数据的个人总结20260627",
+        "胸部损伤"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-06-30T07:22:16.8027795+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4595,25 +4617,25 @@
     }
   ],
   "lastSnapshot": {
-    "b560bff35f3ff586d93e0f3c": {
-      "title": "胸部损伤",
-      "plainChars": 286,
-      "contentHash8": "5f7e1d21318cb8ab"
+    "b939f364d041dc4fb8f4b8e3": {
+      "title": "活动数据",
+      "plainChars": 10646,
+      "contentHash8": "a67cbbe88884e02c"
     },
     "7bc1722c5ebc0e07d4c1a33e": {
-      "title": "关于活动数据的总结（AI总结）",
+      "title": "关于活动数据的总结（AI总结）20260620",
       "plainChars": 1894,
       "contentHash8": "8ab4553d1d86fe11"
     },
-    "b939f364d041dc4fb8f4b8e3": {
-      "title": "活动数据",
-      "plainChars": 10047,
-      "contentHash8": "d0cfb431f029232d"
-    },
     "5b1ea3146eb0aca0918baf65": {
-      "title": "根据活动数据的个人总结",
+      "title": "根据活动数据的个人总结20260627",
       "plainChars": 969,
-      "contentHash8": "db9b58d6b439057a"
+      "contentHash8": "228881e862b974c4"
+    },
+    "b560bff35f3ff586d93e0f3c": {
+      "title": "胸部损伤",
+      "plainChars": 314,
+      "contentHash8": "983f2dec8aff3a17"
     },
     "ec54914fe84876f4fc7250b3": {
       "title": "个人信息及紧急联系人",

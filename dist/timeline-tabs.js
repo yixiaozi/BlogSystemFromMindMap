@@ -37,10 +37,10 @@
     return sortKey === "published" ? "data-published" : "data-modified";
   }
 
-  function refreshDateLabels(shell) {
+    function refreshDateLabels(shell) {
     var list = shell.querySelector(".timeline");
     if (!list) return;
-    var sortKey = shell.getAttribute("data-timeline-sort") || "modified";
+    var sortKey = shell.getAttribute("data-timeline-sort") || "published";
     var attr = sortKeyToAttr(sortKey);
     var items = list.querySelectorAll(".timeline-item");
     var prevDate = null;
@@ -113,7 +113,7 @@
       saved = localStorage.getItem(storageKey);
     } catch (e) {}
 
-    var initial = saved === "published" ? "published" : "modified";
+    var initial = saved === "modified" ? "modified" : "published";
     var initialBtn = tabs.find(function (b) {
       return b.getAttribute("data-sort") === initial;
     });
@@ -132,7 +132,7 @@
     });
 
     setActiveTab(tabs, initialBtn);
-    sortList(shell, initialBtn.getAttribute("data-sort") || "modified");
+    sortList(shell, initialBtn.getAttribute("data-sort") || "published");
   }
 
   document.addEventListener("DOMContentLoaded", function () {
