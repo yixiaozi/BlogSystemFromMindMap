@@ -3,8 +3,14 @@
   "scanRoot": "D:\\Dropbox\\yixiaozi",
   "repoRoot": "D:/Dropbox/yixiaozi",
   "branch": "master",
-  "collectedAtUtc": "2026-07-01T10:01:43.8358431+00:00",
+  "collectedAtUtc": "2026-07-02T11:08:29.0064522+00:00",
   "commits": [
+    {
+      "hash": "fc175d33c23ddc01f7a80383080d3b3d3710133d",
+      "committedAt": "2026-07-02T19:08:15+08:00",
+      "subject": "今天解决了几个问题，给软件加了MCP太棒了",
+      "body": "电子签测试的事情搞定了，不再那么头疼了。"
+    },
     {
       "hash": "1e068f6c9101ba5b2db2e3f41554a6f5e997e656",
       "committedAt": "2026-07-01T18:01:30+08:00",
