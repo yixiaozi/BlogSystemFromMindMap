@@ -1,6 +1,27 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-02T11:45:52.9402785+00:00",
+      "articlesAdded": 2,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 389,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 12,
+      "totalPlainChars": 17285,
+      "mindmapFileCount": 10,
+      "distinctBookmarkCount": 10,
+      "articlesWithReminder": 0,
+      "addedTitles": [
+        "洋，缺发票，所有消费都记得开发票，普通发票就行。",
+        "愿望礼物清单"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-07-02T11:08:26.0063746+00:00",
       "articlesAdded": 1,
       "articlesRemoved": 0,
@@ -4639,6 +4660,16 @@
     }
   ],
   "lastSnapshot": {
+    "c009e0e0179686ee05422478": {
+      "title": "洋，缺发票，所有消费都记得开发票，普通发票就行。",
+      "plainChars": 131,
+      "contentHash8": "bee42e29c1ad23fb"
+    },
+    "26195d12f3630948d94c03db": {
+      "title": "愿望礼物清单",
+      "plainChars": 258,
+      "contentHash8": "93aa95efc0827c7a"
+    },
     "1e02340a897f75dcaa05baa2": {
       "title": "我的保险",
       "plainChars": 152,
