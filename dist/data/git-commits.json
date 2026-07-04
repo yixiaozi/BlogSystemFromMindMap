@@ -3,8 +3,20 @@
   "scanRoot": "D:\\Dropbox\\yixiaozi",
   "repoRoot": "D:/Dropbox/yixiaozi",
   "branch": "master",
-  "collectedAtUtc": "2026-07-04T17:35:19.1290496+00:00",
+  "collectedAtUtc": "2026-07-04T21:10:50.7516894+00:00",
   "commits": [
+    {
+      "hash": "5f70e5836c0865323aa96f558c27a639034bf4e0",
+      "committedAt": "2026-07-05T05:10:38+08:00",
+      "subject": "导出了他们3个的聊天记录，开始好好看书",
+      "body": "我难受是我的事，他们放下了，似乎我也没必要纠结了。没有人会安慰我，我活该。确实是"
+    },
+    {
+      "hash": "9a82fc13a863c75df69ba5daeeb594c610a21ee8",
+      "committedAt": "2026-07-05T02:31:25+08:00",
+      "subject": "3个人的聊天记录",
+      "body": "群组的消息还没有导出后面再一起导出。虽然占用了670MB+的数据，1300个文件，但是我还是决定让它出现在我的库里。"
+    },
     {
       "hash": "6b7c171d8e51952f20940125d194433033568fd7",
       "committedAt": "2026-07-05T01:27:11+08:00",
