@@ -1,6 +1,26 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-07T13:02:57.168046+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 1,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 83,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 12,
+      "totalPlainChars": 17374,
+      "mindmapFileCount": 10,
+      "distinctBookmarkCount": 10,
+      "articlesWithReminder": 0,
+      "addedTitles": [],
+      "removedTitles": [
+        "为了茜茜的离开，我要做的纪念"
+      ],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-07-07T10:55:08.8499613+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4796,11 +4816,6 @@
     }
   ],
   "lastSnapshot": {
-    "2fe158f81347a2b9ee1065ca": {
-      "title": "为了茜茜的离开，我要做的纪念",
-      "plainChars": 83,
-      "contentHash8": "90d5e60bcc9fe317"
-    },
     "c009e0e0179686ee05422478": {
       "title": "洋，缺发票，所有消费都记得开发票，普通发票就行。",
       "plainChars": 131,
