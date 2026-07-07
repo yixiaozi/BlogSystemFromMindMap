@@ -1,6 +1,26 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-07T10:55:08.8499613+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 1,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 63,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 13,
+      "totalPlainChars": 17457,
+      "mindmapFileCount": 11,
+      "distinctBookmarkCount": 11,
+      "articlesWithReminder": 0,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "胸部损伤"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-07-06T10:29:21.1120892+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4818,8 +4838,8 @@
     },
     "b560bff35f3ff586d93e0f3c": {
       "title": "胸部损伤",
-      "plainChars": 340,
-      "contentHash8": "c62103d611dffd7a"
+      "plainChars": 403,
+      "contentHash8": "d27fbb2d20d665f6"
     },
     "ec54914fe84876f4fc7250b3": {
       "title": "个人信息及紧急联系人",
