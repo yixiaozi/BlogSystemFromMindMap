@@ -8,18 +8,47 @@ internal static class HtmlLayout
 {
     public const string SiteFooterCopyrightLine = "© 2026 WangYang. All rights reserved.";
 
+    /// <summary>时间轴列表页静态壳（标题与列表由 timeline-page.js + JSON 填充）。</summary>
+    public const string TimelinePageShellInner =
+        """
+        <div id="timeline-page-root" class="page-with-timeline">
+        <header class="hero">
+        <h1 class="page-title" id="timeline-page-title">…</h1>
+        <p class="page-lead" id="timeline-page-sub" hidden></p>
+        <p class="page-lead" id="timeline-page-lead" hidden></p>
+        </header>
+        <div id="timeline-page-host" class="site-page-loading">加载时间轴…</div>
+        </div>
+        """;
+
+    /// <summary>词频页静态壳（统计与词云由 word-frequency-page.js + JSON 填充）。</summary>
+    public const string WordFrequencyPageShellInner =
+        """
+        <div class="page-wordfreq" id="wordfreq-page-root">
+        <header class="hero">
+        <h1 class="page-title">词频</h1>
+        <p class="page-lead">基于全部文章的标题、正文段落、图册说明与书签文本；中文使用 jieba 精确模式分词，并过滤常见虚词（停用词表）、导图「变量 → 词频过滤」中的词条，以及出现 2 次及以下的词。气泡大小表示相对频次。</p>
+        </header>
+        <div id="wordfreq-page-host" class="site-page-loading">加载词频…</div>
+        </div>
+        """;
+
     public static string BuildDocument(
         string pageTitle,
         string headExtra,
         string innerMain,
-        string navLeftHtml,
-        string tagAsideHtml,
         string? currentPageWebPath,
         string? rssFeedWebPath,
-        SiteFileNames? siteNames = null)
+        SiteFileNames? siteNames = null,
+        string? activeHtmlFile = null,
+        string? highlightTag = null,
+        bool isSearchPage = false,
+        bool timelinePageShell = false,
+        bool wordFrequencyPageShell = false)
     {
         var sb = new StringBuilder();
         var cssHref = SitePathHelper.RelFromTo(currentPageWebPath, "site.css");
+        var chromeScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "site-chrome.js");
         sb.AppendLine("<!DOCTYPE html>");
         sb.AppendLine("<html lang=\"zh-CN\">");
         sb.AppendLine("<head>");
@@ -52,7 +81,16 @@ internal static class HtmlLayout
             sb.AppendLine(headExtra);
         AppendBaiduAnalytics(sb);
         sb.AppendLine("</head>");
-        sb.AppendLine("<body class=\"site-body\">");
+        sb.Append("<body class=\"site-body\"");
+        if (!string.IsNullOrEmpty(currentPageWebPath))
+            sb.Append(" data-page-path=\"").Append(WebUtility.HtmlEncode(currentPageWebPath.Replace('\\', '/'))).Append("\"");
+        if (!string.IsNullOrEmpty(activeHtmlFile))
+            sb.Append(" data-active-article=\"").Append(WebUtility.HtmlEncode(activeHtmlFile.Replace('\\', '/'))).Append("\"");
+        if (!string.IsNullOrEmpty(highlightTag))
+            sb.Append(" data-highlight-tag=\"").Append(WebUtility.HtmlEncode(highlightTag)).Append("\"");
+        if (isSearchPage)
+            sb.Append(" data-is-search-page=\"1\"");
+        sb.AppendLine(">");
         var homeHref = string.IsNullOrEmpty(currentPageWebPath)
             ? "index.html"
             : SitePathHelper.RelFromTo(currentPageWebPath, "index.html");
@@ -89,17 +127,28 @@ internal static class HtmlLayout
         sb.AppendLine("<div class=\"site-mobile-backdrop\" id=\"site-mobile-backdrop\" hidden aria-hidden=\"true\"></div>");
         sb.AppendLine("<div class=\"layout-shell\">");
         sb.AppendLine("<aside class=\"layout-nav\" id=\"layout-nav\" aria-label=\"目录与导图导航\">");
-        sb.AppendLine(navLeftHtml);
+        sb.AppendLine("<p class=\"site-chrome-placeholder\" id=\"site-chrome-nav-host\">加载目录…</p>");
         sb.AppendLine("</aside>");
         sb.AppendLine("<main class=\"layout-main\">");
         sb.Append(innerMain);
         sb.AppendLine("</main>");
         sb.AppendLine("<aside class=\"layout-tags\" id=\"layout-tags\" aria-label=\"书签、图册与搜索\">");
-        sb.AppendLine(tagAsideHtml);
+        sb.AppendLine("<p class=\"site-chrome-placeholder\" id=\"site-chrome-aside-host\">加载侧栏…</p>");
         sb.AppendLine("</aside>");
         sb.AppendLine("</div>");
         if (siteNames != null)
             sb.Append(BuildSiteFooter(currentPageWebPath, siteNames));
+        sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(chromeScriptHref)).AppendLine("\" defer></script>");
+        if (timelinePageShell)
+        {
+            var timelineScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "timeline-page.js");
+            sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(timelineScriptHref)).AppendLine("\" defer></script>");
+        }
+        if (wordFrequencyPageShell)
+        {
+            var wfScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "word-frequency-page.js");
+            sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wfScriptHref)).AppendLine("\" defer></script>");
+        }
         AppendNavAccordionScript(sb);
         AppendMobileShellScript(sb);
         AppendImageProtectionScript(sb);
@@ -132,6 +181,7 @@ internal static class HtmlLayout
         sb.AppendLine(
             """
             (function () {
+              window.MindmapBlogInitNav = function () {
               var KEY_OPEN = "mindmapblog-nav-open-details";
               var KEY_SCROLL = "mindmapblog-nav-scroll";
 
@@ -191,7 +241,7 @@ internal static class HtmlLayout
                 });
               }
 
-              document.addEventListener("DOMContentLoaded", function () {
+              function bindNavTree() {
                 restoreOpen();
                 persistOpen();
                 restoreScroll();
@@ -226,7 +276,10 @@ internal static class HtmlLayout
                     persistOpen();
                   });
                 });
-              });
+              }
+
+              bindNavTree();
+              };
             })();
             """
         );

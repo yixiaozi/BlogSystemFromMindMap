@@ -143,26 +143,27 @@ public sealed class StaticSiteGenerator
             var bodyHtml = RenderBodyHtml(article, copiedImages);
 
             var inner = BuildArticleInner(article, bodyHtml, doc, names);
-            var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRoot, htmlName, htmlName, names);
-            var tags = HtmlLayout.BuildRightAside(sortedArticles, null, names, htmlName, galleryItems, avatarSitePath);
 
             var page = HtmlLayout.BuildDocument(
                 article.Title,
                 headExtra: "",
                 innerMain: inner,
-                navLeftHtml: nav,
-                tagAsideHtml: tags,
                 htmlName,
                 names.RssFeedWebPath,
-                names);
+                names,
+                activeHtmlFile: htmlName);
 
             WriteUtf8Web(outDir, htmlName, page);
         }
 
-        WriteBranchListPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
-        WriteCalendarListPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
-        WriteIndex(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
-        WriteTagPages(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, versionDocs);
+        SiteChromeStore.Write(outDir, sortedArticles, scanRoot, names, galleryItems, avatarSitePath);
+
+        TimelinePageStore.Reset();
+        WriteBranchListPages(outDir, scanRoot, sortedArticles, names, avatarSitePath, versionDocs);
+        WriteCalendarListPages(outDir, scanRoot, sortedArticles, names, avatarSitePath, versionDocs);
+        WriteIndex(outDir, scanRoot, sortedArticles, names, avatarSitePath, versionDocs);
+        WriteTagPages(outDir, scanRoot, sortedArticles, names, avatarSitePath, versionDocs);
+        TimelinePageStore.FlushManifest(outDir);
         WriteGalleryPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
         WriteAboutPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
         WriteSearchPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
@@ -187,6 +188,9 @@ public sealed class StaticSiteGenerator
         WriteSearchIndex(outDir, sortedArticles);
         CopySearchAsideScript(outDir);
         CopyTimelineTabsScript(outDir);
+        CopyTimelinePageScript(outDir);
+        CopyWordFrequencyPageScript(outDir);
+        CopySiteChromeScript(outDir);
 
         WriteStylesheet(Path.Combine(outDir, "site.css"));
     }
@@ -290,6 +294,42 @@ public sealed class StaticSiteGenerator
         File.Copy(src, Path.Combine(outDir, "search-aside.js"), overwrite: true);
     }
 
+    private static void CopyTimelinePageScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "timeline-page.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/timeline-page.js，时间轴列表页不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "timeline-page.js"), overwrite: true);
+    }
+
+    private static void CopyWordFrequencyPageScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "word-frequency-page.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/word-frequency-page.js，词频页不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "word-frequency-page.js"), overwrite: true);
+    }
+
+    private static void CopySiteChromeScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "site-chrome.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/site-chrome.js，目录与侧栏不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "site-chrome.js"), overwrite: true);
+    }
+
     private static void CopyTimelineTabsScript(string outDir)
     {
         var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "timeline-tabs.js");
@@ -313,8 +353,6 @@ public sealed class StaticSiteGenerator
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         var cur = HtmlLayout.GenerationHistoryPageFileName;
-        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, cur, names);
-        var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, cur, galleryEntries, avatarSitePath);
 
         var inner = new StringBuilder();
         inner.AppendLine("<div class=\"page-gen-history\">");
@@ -447,7 +485,7 @@ public sealed class StaticSiteGenerator
         inner.Append(GenerationHistoryInteractiveScript);
         inner.AppendLine("</div>");
 
-        var page = HtmlLayout.BuildDocument("网站生成记录", "", inner.ToString(), nav, aside, cur,
+        var page = HtmlLayout.BuildDocument("网站生成记录", "", inner.ToString(), cur,
             names.RssFeedWebPath,
             names);
         WriteUtf8Web(outDir, HtmlLayout.GenerationHistoryPageFileName, page);
@@ -464,8 +502,6 @@ public sealed class StaticSiteGenerator
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         var cur = HtmlLayout.GitCommitHistoryPageFileName;
-        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, cur, names);
-        var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, cur, galleryEntries, avatarSitePath);
 
         var inner = new StringBuilder();
         inner.AppendLine("<div class=\"page-git-commits\">");
@@ -574,7 +610,7 @@ public sealed class StaticSiteGenerator
 
         inner.AppendLine("</div>");
 
-        var page = HtmlLayout.BuildDocument("提交记录", "", inner.ToString(), nav, aside, cur, names.RssFeedWebPath, names);
+        var page = HtmlLayout.BuildDocument("提交记录", "", inner.ToString(), cur, names.RssFeedWebPath, names);
         WriteUtf8Web(outDir, cur, page);
     }
 
@@ -787,9 +823,29 @@ public sealed class StaticSiteGenerator
 </script>
 """;
 
+    private static void WriteTimelineListPage(
+        string outDir,
+        SiteFileNames names,
+        string fileName,
+        TimelinePageFile pageData,
+        string? highlightTag = null)
+    {
+        TimelinePageStore.WritePage(outDir, pageData);
+        var html = HtmlLayout.BuildDocument(
+            SiteProfile.BlogTitle,
+            "",
+            HtmlLayout.TimelinePageShellInner,
+            fileName,
+            names.RssFeedWebPath,
+            names,
+            highlightTag: highlightTag,
+            timelinePageShell: true);
+        WriteUtf8Web(outDir, fileName, html);
+    }
+
     /// <summary>为每个磁盘文件夹分支、每个导图文件及导图内路径前缀生成「该分支全部文章」列表页（时间轴样式）。</summary>
     private static void WriteBranchListPages(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles,
-        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        SiteFileNames names, string? avatarSitePath,
         IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
@@ -800,28 +856,19 @@ public sealed class StaticSiteGenerator
             if (!written.Add(fileName))
                 return;
 
-            var inner = new StringBuilder();
-            inner.AppendLine("<div class=\"page-branch page-with-timeline\">");
-            inner.AppendLine("<header class=\"hero\">");
-            inner.Append("<h1 class=\"page-title\">").Append(WebUtility.HtmlEncode(heading)).AppendLine("</h1>");
-            inner.Append("<p class=\"page-lead\">").Append(WebUtility.HtmlEncode(subLine)).AppendLine("</p>");
-            inner.AppendLine("</header>");
-            AppendTimelineList(inner, arts, a => a.Modified.LocalDateTime, descending: true, names, fileName, scanRoot,
-                versionDocs, enableSortTabs: true);
-            inner.AppendLine("</div>");
-
-            var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, fileName, names);
-            var tags = HtmlLayout.BuildRightAside(sortedArticles, null, names, fileName, galleryEntries, avatarSitePath);
-            var page = HtmlLayout.BuildDocument(
-                heading + " · 分支文章",
-                "",
-                inner.ToString(),
-                nav,
-                tags,
+            var pageData = TimelinePageStore.BuildPage(
                 fileName,
-                names.RssFeedWebPath,
-                names);
-            WriteUtf8Web(outDir, fileName, page);
+                heading + " · 分支文章",
+                heading,
+                subLine,
+                leadHtml: null,
+                wrapperClass: "page-branch page-with-timeline",
+                arts,
+                scanRootFull,
+                names,
+                versionDocs,
+                enableSortTabs: true);
+            WriteTimelineListPage(outDir, names, fileName, pageData);
         }
 
         var folderRoot = NavTreeBuilder.BuildFolderTree(sortedArticles, scanRootFull);
@@ -875,7 +922,7 @@ public sealed class StaticSiteGenerator
 
     /// <summary>按节点提醒日期生成 年 / 月 / 日 计划列表页（与左侧日期导航对应，时间轴样式）。</summary>
     private static void WriteCalendarListPages(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles,
-        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        SiteFileNames names, string? avatarSitePath,
         IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var planned = sortedArticles.Where(a => a.ReminderAt.HasValue).ToList();
@@ -890,35 +937,20 @@ public sealed class StaticSiteGenerator
             if (!written.Add(fileName))
                 return;
 
-            var inner = new StringBuilder();
-            inner.AppendLine("<div class=\"page-branch page-with-timeline\">");
-            inner.AppendLine("<header class=\"hero\">");
-            inner.Append("<h1 class=\"page-title\">").Append(WebUtility.HtmlEncode(heading)).AppendLine("</h1>");
-            inner.Append("<p class=\"page-lead\">").Append(WebUtility.HtmlEncode(subLine)).AppendLine("</p>");
-            inner.AppendLine("</header>");
-            AppendTimelineList(
-                inner,
-                arts,
-                a => a.ReminderAt!.Value.LocalDateTime,
-                descending: false,
-                names,
+            var pageData = TimelinePageStore.BuildPage(
                 fileName,
-                scanRoot,
-                versionDocs);
-            inner.AppendLine("</div>");
-
-            var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, fileName, names);
-            var tags = HtmlLayout.BuildRightAside(sortedArticles, null, names, fileName, galleryEntries, avatarSitePath);
-            var page = HtmlLayout.BuildDocument(
                 heading + " · 计划",
-                "",
-                inner.ToString(),
-                nav,
-                tags,
-                fileName,
-                names.RssFeedWebPath,
-                names);
-            WriteUtf8Web(outDir, fileName, page);
+                heading,
+                subLine,
+                leadHtml: null,
+                wrapperClass: "page-branch page-with-timeline",
+                arts,
+                scanRootFull,
+                names,
+                versionDocs,
+                enableSortTabs: false,
+                timeSource: "reminder");
+            WriteTimelineListPage(outDir, names, fileName, pageData);
         }
 
         foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Year).OrderBy(g => g.Key))
@@ -1230,33 +1262,31 @@ public sealed class StaticSiteGenerator
     }
 
     private static void WriteIndex(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles, SiteFileNames names,
-        IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        string? avatarSitePath,
         IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         const string idx = "index.html";
-        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, idx, names);
-        var tagsAside = HtmlLayout.BuildRightAside(sortedArticles, null, names, idx, galleryEntries, avatarSitePath);
+        const string lead =
+            "默认按<strong>入站时间</strong>排列；可用上方 Tab 切换为<strong>更新时间</strong>。左侧时间轴随 Tab 变化；卡片内始终展示入站与更新两个时间。书签：明细里 <code>#话题</code>；未写 # 时用图册根名称归类。";
 
-        var center = new StringBuilder();
-        center.AppendLine("<div class=\"page-index\">");
-        center.AppendLine("<header class=\"hero\">");
-        center.AppendLine("<h1 class=\"page-title\">时间轴</h1>");
-        center.AppendLine("<p class=\"page-lead\">默认按<strong>入站时间</strong>排列；可用上方 Tab 切换为<strong>更新时间</strong>。左侧时间轴随 Tab 变化；卡片内始终展示入站与更新两个时间。书签：明细里 <code>#话题</code>；未写 # 时用图册根名称归类。</p>");
-        center.AppendLine("</header>");
-
-        AppendTimelineList(center, sortedArticles, a => a.Modified.LocalDateTime, descending: true, names, idx, scanRoot,
-            versionDocs, enableSortTabs: true);
-        center.AppendLine("</div>");
-
-        var html = HtmlLayout.BuildDocument($"{SiteProfile.BlogTitle} · 时间轴", "", center.ToString(), nav, tagsAside, idx,
-            names.RssFeedWebPath,
-            names);
-        WriteUtf8Web(outDir, idx, html);
+        var pageData = TimelinePageStore.BuildPage(
+            idx,
+            $"{SiteProfile.BlogTitle} · 时间轴",
+            "时间轴",
+            subLine: null,
+            leadHtml: lead,
+            wrapperClass: "page-index page-with-timeline",
+            sortedArticles,
+            scanRootFull,
+            names,
+            versionDocs,
+            enableSortTabs: true);
+        WriteTimelineListPage(outDir, names, idx, pageData);
     }
 
     private static void WriteTagPages(string outDir, string scanRoot, IReadOnlyList<BlogArticle> sortedArticles,
-        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        SiteFileNames names, string? avatarSitePath,
         IReadOnlyDictionary<string, ArticleVersionDocument> versionDocs)
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
@@ -1270,24 +1300,20 @@ public sealed class StaticSiteGenerator
                 continue;
 
             var fileName = names.TagPageFile(tag);
-            var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, fileName, names);
-            var tagsAside = HtmlLayout.BuildRightAside(sortedArticles, tag, names, fileName, galleryEntries, avatarSitePath);
-
-            var inner = new StringBuilder();
-            inner.AppendLine("<div class=\"page-tag page-with-timeline\">");
-            inner.AppendLine("<header class=\"hero\">");
-            inner.Append("<h1 class=\"page-title\">书签：").Append(WebUtility.HtmlEncode(tag)).AppendLine("</h1>");
-            inner.Append("<p class=\"page-lead\">共 <strong>").Append(inTag.Count)
-                .AppendLine("</strong> 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。</p>");
-            inner.AppendLine("</header>");
-            AppendTimelineList(inner, inTag, a => a.Modified.LocalDateTime, descending: true, names, fileName, scanRoot,
-                versionDocs, enableSortTabs: true);
-            inner.AppendLine("</div>");
-
-            var page = HtmlLayout.BuildDocument($"书签：{tag}", "", inner.ToString(), nav, tagsAside, fileName,
-                names.RssFeedWebPath,
-                names);
-            WriteUtf8Web(outDir, fileName, page);
+            var subLine = $"共 {inTag.Count} 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。";
+            var pageData = TimelinePageStore.BuildPage(
+                fileName,
+                $"书签：{tag}",
+                $"书签：{tag}",
+                subLine,
+                leadHtml: null,
+                wrapperClass: "page-tag page-with-timeline",
+                inTag,
+                scanRootFull,
+                names,
+                versionDocs,
+                enableSortTabs: true);
+            WriteTimelineListPage(outDir, names, fileName, pageData, highlightTag: tag);
         }
     }
 
@@ -1296,10 +1322,8 @@ public sealed class StaticSiteGenerator
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         var webPath = names.GalleryPageWebPath;
-        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, webPath, names);
-        var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, webPath, galleryEntries, avatarSitePath);
         var inner = HtmlLayout.BuildGalleryPageMain(galleryEntries, sortedArticles, webPath);
-        var page = HtmlLayout.BuildDocument("图册", "", inner, nav, aside, webPath, names.RssFeedWebPath, names);
+        var page = HtmlLayout.BuildDocument("图册", "", inner, webPath, names.RssFeedWebPath, names);
         WriteUtf8Web(outDir, webPath, page);
     }
 
@@ -1308,8 +1332,6 @@ public sealed class StaticSiteGenerator
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         var webPath = names.AboutPageWebPath;
-        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, webPath, names);
-        var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, webPath, galleryEntries, avatarSitePath);
 
         var inner = new StringBuilder();
         inner.AppendLine("<div class=\"page-about\">");
@@ -1341,7 +1363,7 @@ public sealed class StaticSiteGenerator
         inner.AppendLine("</div>");
         inner.AppendLine("</div>");
 
-        var page = HtmlLayout.BuildDocument("关于我", "", inner.ToString(), nav, aside, webPath,
+        var page = HtmlLayout.BuildDocument("关于我", "", inner.ToString(), webPath,
             names.RssFeedWebPath,
             names);
         WriteUtf8Web(outDir, webPath, page);
@@ -1352,10 +1374,8 @@ public sealed class StaticSiteGenerator
     {
         var scanRootFull = Path.GetFullPath(scanRoot);
         var webPath = names.SearchPageWebPath;
-        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, webPath, names);
-        var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, webPath, galleryEntries, avatarSitePath);
         var inner = HtmlLayout.BuildSearchPageMain(webPath, names.SearchPageWebPath);
-        var page = HtmlLayout.BuildDocument("搜索", "", inner, nav, aside, webPath, names.RssFeedWebPath, names);
+        var page = HtmlLayout.BuildDocument("搜索", "", inner, webPath, names.RssFeedWebPath, names, isSearchPage: true);
         WriteUtf8Web(outDir, webPath, page);
     }
 
@@ -1363,18 +1383,22 @@ public sealed class StaticSiteGenerator
         IReadOnlyList<BlogArticle> sortedArticles,
         SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath)
     {
-        var scanRootFull = Path.GetFullPath(scanRoot);
         var webPath = names.WordFrequencyPageWebPath;
-        var nav = HtmlLayout.BuildLeftNavTree(sortedArticles, scanRootFull, null, webPath, names);
-        var aside = HtmlLayout.BuildRightAside(sortedArticles, null, names, webPath, galleryEntries, avatarSitePath);
         var stats = WordFrequencyService.Compute(
             sortedArticles,
             maxTerms: 50,
             extraStopwords: SiteProfile.WordFrequencyFilter,
             minOccurrences: 3);
         var hits = WordFrequencyService.BuildTopTermHits(sortedArticles, stats.TopTerms);
-        var inner = BuildWordFrequencyInner(stats, hits, webPath);
-        var page = HtmlLayout.BuildDocument("词频", "", inner, nav, aside, webPath, names.RssFeedWebPath, names);
+        WordFrequencyPageStore.Write(outDir, WordFrequencyPageStore.Build(stats, hits));
+        var page = HtmlLayout.BuildDocument(
+            "词频",
+            "",
+            HtmlLayout.WordFrequencyPageShellInner,
+            webPath,
+            names.RssFeedWebPath,
+            names,
+            wordFrequencyPageShell: true);
         WriteUtf8Web(outDir, webPath, page);
     }
 
@@ -2298,6 +2322,19 @@ html.theme-dark .bm-pill:hover {
   position: sticky;
   top: var(--site-topbar-h);
   box-shadow: var(--shadow-nav);
+}
+
+.site-chrome-placeholder {
+  margin: 0.75rem 0;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.82rem;
+  color: var(--text-muted, #6b7280);
+}
+
+.site-page-loading {
+  margin: 1rem 0;
+  font-size: 0.88rem;
+  color: var(--text-muted, #6b7280);
 }
 
 .layout-main {
