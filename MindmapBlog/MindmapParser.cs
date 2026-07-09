@@ -8,7 +8,7 @@ namespace MindmapBlog;
 /// <summary>
 /// 解析 FreeMind / Docear 的 .mm。
 /// 在图册根节点之下的<strong>任意深度</strong>查找带互联网图标（BUILTIN=internet）的节点作为文章根；
-/// 带「不发布」图标（BUILTIN=closed）的节点及其子树跳过，不作为文章也不写入正文（含图册根节点）；
+/// 带「不发布」图标（由导图「变量」→「不发布的图标」配置，默认 closed）的节点及其子树跳过，不作为文章也不写入正文（含图册根节点）；
 /// 名为「变量」的节点仅作站点配置，不发布为文章。
 /// 分区路径为从根到该节点父链上的节点标题（如 2026 / 5 / 1）；
 /// 书签从节点明细中解析 #标签；无 # 时仅用图册根节点标题归类（不再用路径作伪标签）。
@@ -31,6 +31,9 @@ public static class MindmapParser
     private static readonly Regex MultiWhitespaceRegex = new(@"\s{2,}", RegexOptions.Compiled);
 
     internal const string SiteVariablesNodeLabel = "变量";
+    internal const string UnpublishIconsVariableLabel = "不发布的图标";
+
+    private static IReadOnlySet<string> UnpublishIconSet => SiteProfile.UnpublishIcons;
 
     private static IReadOnlyDictionary<string, string>? _activeStyleFormats;
 
@@ -129,6 +132,7 @@ public static class MindmapParser
                     string? aboutBody = null;
                     string? aboutBodyHtml = null;
                     List<string>? wordFrequencyFilter = null;
+                    List<string>? unpublishIcons = null;
 
                     foreach (var child in variablesNode.Elements(NodeName))
                     {
@@ -174,6 +178,9 @@ public static class MindmapParser
                                     .Select(s => s.Trim())
                                     .ToList();
                                 break;
+                            case UnpublishIconsVariableLabel:
+                                unpublishIcons = ExtractUnpublishIcons(child);
+                                break;
                         }
                     }
 
@@ -183,7 +190,8 @@ public static class MindmapParser
                         signature,
                         aboutBody,
                         aboutBodyHtml,
-                        wordFrequencyFilter);
+                        wordFrequencyFilter,
+                        unpublishIcons);
                 }
                 finally
                 {
@@ -209,6 +217,36 @@ public static class MindmapParser
             return string.Join("\n", parts);
 
         return ParseNodeContent(keyNode)?.PlainText;
+    }
+
+    /// <summary>从「不发布的图标」子树收集各节点上的 icon BUILTIN 值。</summary>
+    private static List<string> ExtractUnpublishIcons(XElement sectionNode)
+    {
+        var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        CollectIconBuiltins(sectionNode, set);
+        foreach (var n in sectionNode.Descendants(NodeName))
+        {
+            if (ReferenceEquals(n, sectionNode))
+                continue;
+            CollectIconBuiltins(n, set);
+        }
+
+        return set.Count > 0 ? set.ToList() : [];
+    }
+
+    private static void CollectIconBuiltins(XElement node, HashSet<string> set)
+    {
+        var iconAttr = node.Attribute("ICON_BUILTIN")?.Value
+            ?? node.Attribute("ICON")?.Value;
+        if (!string.IsNullOrWhiteSpace(iconAttr))
+            set.Add(iconAttr.Trim());
+
+        foreach (var icon in node.Elements(IconName))
+        {
+            var b = icon.Attribute("BUILTIN")?.Value;
+            if (!string.IsNullOrWhiteSpace(b))
+                set.Add(b.Trim());
+        }
     }
 
     private static IReadOnlyDictionary<string, string> ParseStyleFormats(XElement map)
@@ -362,19 +400,18 @@ public static class MindmapParser
         return parts.Count > 0 ? string.Join(" / ", parts) : "未分区";
     }
 
-    /// <summary>节点上包含「不发布」图标（FreeMind：icon BUILTIN=closed）。</summary>
+    /// <summary>节点上包含「不发布」图标（由「变量」→「不发布的图标」配置，默认 closed）。</summary>
     public static bool HasUnpublishIcon(XElement node)
     {
         var iconAttr = node.Attribute("ICON_BUILTIN")?.Value
             ?? node.Attribute("ICON")?.Value;
-        if (!string.IsNullOrEmpty(iconAttr)
-            && string.Equals(iconAttr, "closed", StringComparison.OrdinalIgnoreCase))
+        if (!string.IsNullOrEmpty(iconAttr) && UnpublishIconSet.Contains(iconAttr))
             return true;
 
         foreach (var icon in node.Elements(IconName))
         {
             var b = icon.Attribute("BUILTIN")?.Value;
-            if (string.Equals(b, "closed", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(b) && UnpublishIconSet.Contains(b))
                 return true;
         }
 

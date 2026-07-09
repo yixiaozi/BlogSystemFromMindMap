@@ -7,4 +7,5 @@ public sealed record SiteVariables(
     string? Signature,
     string? AboutBody,
     string? AboutBodyHtml = null,
-    IReadOnlyList<string>? WordFrequencyFilter = null);
+    IReadOnlyList<string>? WordFrequencyFilter = null,
+    IReadOnlyList<string>? UnpublishIcons = null);

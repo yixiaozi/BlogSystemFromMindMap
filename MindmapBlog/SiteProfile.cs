@@ -12,6 +12,10 @@ internal static class SiteProfile
     public static string AboutBody { get; private set; } = DefaultAboutBody;
     public static string? AboutBodyHtml { get; private set; }
     public static IReadOnlyList<string> WordFrequencyFilter { get; private set; } = Array.Empty<string>();
+    public static IReadOnlySet<string> UnpublishIcons { get; private set; } =
+        new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "closed" };
+
+    private static readonly IReadOnlySet<string> DefaultUnpublishIcons = UnpublishIcons;
 
     /// <summary>重置为默认值，再应用从导图解析到的变量（未提供的项保持默认）。</summary>
     public static void Apply(SiteVariables? variables)
@@ -21,6 +25,7 @@ internal static class SiteProfile
         AboutBody = DefaultAboutBody;
         AboutBodyHtml = null;
         WordFrequencyFilter = Array.Empty<string>();
+        UnpublishIcons = DefaultUnpublishIcons;
 
         if (variables == null)
             return;
@@ -45,6 +50,9 @@ internal static class SiteProfile
 
         if (variables.WordFrequencyFilter is { Count: > 0 } filter)
             WordFrequencyFilter = filter;
+
+        if (variables.UnpublishIcons is { Count: > 0 } unpublish)
+            UnpublishIcons = new HashSet<string>(unpublish, StringComparer.OrdinalIgnoreCase);
     }
 
     private static readonly HashSet<string> ImageExtensions =
