@@ -1,6 +1,30 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-09T09:42:55.6104895+00:00",
+      "articlesAdded": 2,
+      "articlesRemoved": 0,
+      "articlesModified": 2,
+      "charsInNewArticles": 271,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 105,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 15,
+      "totalPlainChars": 17789,
+      "mindmapFileCount": 13,
+      "distinctBookmarkCount": 13,
+      "articlesWithReminder": 0,
+      "addedTitles": [
+        "个人信息披露",
+        "2026全年目标"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "胸部损伤",
+        "系统日志"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-07-09T04:22:14.0394034+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4912,6 +4936,16 @@
     }
   ],
   "lastSnapshot": {
+    "2726956729583f450b3332f1": {
+      "title": "个人信息披露",
+      "plainChars": 66,
+      "contentHash8": "395516d948c306c9"
+    },
+    "2e886f4f64f4466d14a852a0": {
+      "title": "2026全年目标",
+      "plainChars": 205,
+      "contentHash8": "adfb832cf9cd30dd"
+    },
     "0752ecef999c51fd7a45d398": {
       "title": "Cursor个人数据",
       "plainChars": 28,
@@ -4954,8 +4988,8 @@
     },
     "b560bff35f3ff586d93e0f3c": {
       "title": "胸部损伤",
-      "plainChars": 403,
-      "contentHash8": "d27fbb2d20d665f6"
+      "plainChars": 467,
+      "contentHash8": "2fa3016c9b4087f1"
     },
     "ec54914fe84876f4fc7250b3": {
       "title": "个人信息及紧急联系人",
@@ -4969,8 +5003,8 @@
     },
     "71a91e6f440530d9e12e39ca": {
       "title": "系统日志",
-      "plainChars": 195,
-      "contentHash8": "b60eb02f24dde500"
+      "plainChars": 236,
+      "contentHash8": "23e732df1fb7faf4"
     },
     "d9aadc03deba76fca5ae2ec0": {
       "title": "过程大于结果，纯敲字版",

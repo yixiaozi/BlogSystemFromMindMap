@@ -1,0 +1,96 @@
+{
+  "profile": {
+    "aboutPage": "关于我.html",
+    "avatar": "media/site-avatar.jpg",
+    "signature": "以增加选项为己任，无视强者唤醒弱者，一个透明，纯粹，善良的人"
+  },
+  "tags": [
+    {
+      "name": "Cursor",
+      "page": "标签/标签-cursor.html",
+      "count": 1
+    },
+    {
+      "name": "Docear改造",
+      "page": "标签/标签-docear改造.html",
+      "count": 1
+    },
+    {
+      "name": "HashPhotos",
+      "page": "标签/标签-hashphotos.html",
+      "count": 3
+    },
+    {
+      "name": "交换礼物",
+      "page": "标签/标签-交换礼物.html",
+      "count": 1
+    },
+    {
+      "name": "保险",
+      "page": "标签/标签-保险.html",
+      "count": 1
+    },
+    {
+      "name": "发票",
+      "page": "标签/标签-发票.html",
+      "count": 1
+    },
+    {
+      "name": "微信读书",
+      "page": "标签/标签-微信读书.html",
+      "count": 1
+    },
+    {
+      "name": "每天一千字",
+      "page": "标签/标签-每天一千字.html",
+      "count": 1
+    },
+    {
+      "name": "目标管理",
+      "page": "标签/标签-目标管理.html",
+      "count": 1
+    },
+    {
+      "name": "系统日志",
+      "page": "标签/标签-系统日志.html",
+      "count": 1
+    },
+    {
+      "name": "紧急联系人",
+      "page": "标签/标签-紧急联系人.html",
+      "count": 1
+    },
+    {
+      "name": "网络世界的我",
+      "page": "标签/标签-网络世界的我.html",
+      "count": 1
+    },
+    {
+      "name": "身体",
+      "page": "标签/标签-身体.html",
+      "count": 1
+    }
+  ],
+  "gallery": {
+    "page": "图册.html",
+    "total": 2,
+    "preview": [
+      {
+        "media": "media/b560bff35f3ff586d93e0f3c_0_20260629CT报告.png",
+        "article": "07有条不紊/07饮食健康/05身体状况/胸部损伤.html",
+        "imageIndex": 0,
+        "caption": "20260629CT报告.png"
+      },
+      {
+        "media": "media/d9aadc03deba76fca5ae2ec0_0_美丽的楸树.png",
+        "article": "02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html",
+        "imageIndex": 0,
+        "caption": "美丽的楸树.png"
+      }
+    ]
+  },
+  "search": {
+    "page": "搜索.html",
+    "index": "data/search-index.json"
+  }
+}

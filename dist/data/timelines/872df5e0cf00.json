@@ -1,0 +1,50 @@
+{
+  "pagePath": "标签/标签-hashphotos.html",
+  "documentTitle": "书签：HashPhotos",
+  "heading": "书签：HashPhotos",
+  "subLine": "共 3 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。",
+  "wrapperClass": "page-tag page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "07有条不紊/02时间管理/活动数据.html",
+      "title": "活动数据",
+      "published": "2026-06-27T05:43:33",
+      "modified": "2026-07-01T17:09:45",
+      "bookmarks": [
+        "HashPhotos"
+      ],
+      "bookmarkPages": {
+        "HashPhotos": "标签/标签-hashphotos.html"
+      },
+      "excerpt": "2010年10月19日"
+    },
+    {
+      "href": "07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html",
+      "title": "关于活动数据的总结（AI总结）20260620",
+      "published": "2026-06-27T05:43:33",
+      "modified": "2026-07-01T17:09:28",
+      "bookmarks": [
+        "HashPhotos"
+      ],
+      "bookmarkPages": {
+        "HashPhotos": "标签/标签-hashphotos.html"
+      },
+      "excerpt": "这一阶段记录还不算密，但能看出你当时的生活核心更多围绕关系、见面、出游，活动地点也偏北京本地景点和短途玩乐，生活气质比较“跟着人和关系走”。"
+    },
+    {
+      "href": "07有条不紊/02时间管理/根据活动数据的个人总结20260627.html",
+      "title": "根据活动数据的个人总结20260627",
+      "published": "2026-06-27T05:43:33",
+      "modified": "2026-07-01T17:09:23",
+      "bookmarks": [
+        "HashPhotos"
+      ],
+      "bookmarkPages": {
+        "HashPhotos": "标签/标签-hashphotos.html"
+      },
+      "excerpt": "相册目前七万多张照片，大部分是最近两年所留，之前的记录并不完全。今天借此契机（导出了相册备注），总结一下近些年的轨迹，也践行自己透明人的签名。真实，更有力量，这是我相信的，虽然真实会映射出我的渺小，平庸和无力。"
+    }
+  ]
+}

@@ -657,6 +657,19 @@ html.theme-dark .bm-pill:hover {
   box-shadow: var(--shadow-nav);
 }
 
+.site-chrome-placeholder {
+  margin: 0.75rem 0;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.82rem;
+  color: var(--text-muted, #6b7280);
+}
+
+.site-page-loading {
+  margin: 1rem 0;
+  font-size: 0.88rem;
+  color: var(--text-muted, #6b7280);
+}
+
 .layout-main {
   box-sizing: border-box;
   min-width: 0;

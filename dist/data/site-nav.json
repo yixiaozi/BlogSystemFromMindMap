@@ -1,0 +1,488 @@
+{
+  "folderTree": {
+    "dirs": [
+      {
+        "name": "02目标发展",
+        "listPage": "02目标发展/分支列表.html",
+        "detailsId": "nav-det-87dd97e5944c",
+        "children": {
+          "dirs": [
+            {
+              "name": "07创作达人",
+              "listPage": "02目标发展/07创作达人/分支列表.html",
+              "detailsId": "nav-det-3bc29d8d615f",
+              "children": {
+                "dirs": [
+                  {
+                    "name": "00开源作者",
+                    "listPage": "02目标发展/07创作达人/00开源作者/分支列表.html",
+                    "detailsId": "nav-det-a3451a0a9fca",
+                    "children": {
+                      "dirs": [
+                        {
+                          "name": "00个人网址",
+                          "listPage": "02目标发展/07创作达人/00开源作者/00个人网址/分支列表.html",
+                          "detailsId": "nav-det-37a545b55dfa",
+                          "children": {
+                            "dirs": [],
+                            "mindmaps": [
+                              {
+                                "label": "思维导图博客.mm",
+                                "listPage": "02目标发展/07创作达人/00开源作者/00个人网址/导图-00个人网址-思维导图博客.html",
+                                "detailsId": "nav-det-538175d05d52",
+                                "root": {
+                                  "segments": [],
+                                  "articles": [
+                                    {
+                                      "href": "02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html",
+                                      "title": "系统日志"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "二次开发",
+                          "listPage": "02目标发展/07创作达人/00开源作者/二次开发/分支列表.html",
+                          "detailsId": "nav-det-7d4fe7a88a8b",
+                          "children": {
+                            "dirs": [],
+                            "mindmaps": [
+                              {
+                                "label": "Docear改造.mm",
+                                "listPage": "02目标发展/07创作达人/00开源作者/二次开发/导图-二次开发-docear改造.html",
+                                "detailsId": "nav-det-8388fba9a327",
+                                "root": {
+                                  "segments": [],
+                                  "articles": [
+                                    {
+                                      "href": "02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html",
+                                      "title": "Docear改造时间轴"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "mindmaps": []
+                    }
+                  },
+                  {
+                    "name": "01写作思维",
+                    "listPage": "02目标发展/07创作达人/01写作思维/分支列表.html",
+                    "detailsId": "nav-det-e43f0fedef08",
+                    "children": {
+                      "dirs": [],
+                      "mindmaps": [
+                        {
+                          "label": "每天一千字.mm",
+                          "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字.html",
+                          "detailsId": "nav-det-d66fbe1b9fd5",
+                          "root": {
+                            "segments": [
+                              {
+                                "name": "2026",
+                                "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字-分支-2026.html",
+                                "detailsId": "nav-det-88c7d43d893e",
+                                "node": {
+                                  "segments": [
+                                    {
+                                      "name": "4",
+                                      "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字-分支-2026-4.html",
+                                      "detailsId": "nav-det-874cf8aafb2f",
+                                      "node": {
+                                        "segments": [
+                                          {
+                                            "name": "21",
+                                            "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字-分支-2026-4-21.html",
+                                            "detailsId": "nav-det-d8d5bc67f79c",
+                                            "node": {
+                                              "segments": [],
+                                              "articles": [
+                                                {
+                                                  "href": "02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html",
+                                                  "title": "过程大于结果，纯敲字版"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        "articles": []
+                                      }
+                                    }
+                                  ],
+                                  "articles": []
+                                }
+                              }
+                            ],
+                            "articles": []
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "mindmaps": []
+              }
+            },
+            {
+              "name": "09目标管理",
+              "listPage": "02目标发展/09目标管理/分支列表.html",
+              "detailsId": "nav-det-514c7d0fbfd0",
+              "children": {
+                "dirs": [],
+                "mindmaps": [
+                  {
+                    "label": "目标管理.mm",
+                    "listPage": "02目标发展/09目标管理/导图-09目标管理-目标管理.html",
+                    "detailsId": "nav-det-6b5d520dbc12",
+                    "root": {
+                      "segments": [],
+                      "articles": [
+                        {
+                          "href": "02目标发展/09目标管理/2026全年目标.html",
+                          "title": "2026全年目标"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "mindmaps": []
+        }
+      },
+      {
+        "name": "03阅读成长",
+        "listPage": "03阅读成长/分支列表.html",
+        "detailsId": "nav-det-f54bea4d04b5",
+        "children": {
+          "dirs": [],
+          "mindmaps": [
+            {
+              "label": "微信读书.mm",
+              "listPage": "03阅读成长/导图-03阅读成长-微信读书.html",
+              "detailsId": "nav-det-08bfd7d44e95",
+              "root": {
+                "segments": [],
+                "articles": [
+                  {
+                    "href": "03阅读成长/最近在看的书.html",
+                    "title": "最近在看的书"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "04信息技术",
+        "listPage": "04信息技术/分支列表.html",
+        "detailsId": "nav-det-1b8dc99c18a7",
+        "children": {
+          "dirs": [
+            {
+              "name": "AI",
+              "listPage": "04信息技术/ai/分支列表.html",
+              "detailsId": "nav-det-bfa8d84cab94",
+              "children": {
+                "dirs": [
+                  {
+                    "name": "AI Coding",
+                    "listPage": "04信息技术/ai/ai-coding/分支列表.html",
+                    "detailsId": "nav-det-905db0e2664a",
+                    "children": {
+                      "dirs": [],
+                      "mindmaps": [
+                        {
+                          "label": "Cursor.mm",
+                          "listPage": "04信息技术/AI/AI Coding/导图-ai-coding-cursor.html",
+                          "detailsId": "nav-det-9a79f65daf51",
+                          "root": {
+                            "segments": [],
+                            "articles": [
+                              {
+                                "href": "04信息技术/AI/AI Coding/cursor个人数据.html",
+                                "title": "Cursor个人数据"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "mindmaps": []
+              }
+            }
+          ],
+          "mindmaps": []
+        }
+      },
+      {
+        "name": "07有条不紊",
+        "listPage": "07有条不紊/分支列表.html",
+        "detailsId": "nav-det-b178c0dbfcb3",
+        "children": {
+          "dirs": [
+            {
+              "name": "02时间管理",
+              "listPage": "07有条不紊/02时间管理/分支列表.html",
+              "detailsId": "nav-det-2c798ee1bd55",
+              "children": {
+                "dirs": [],
+                "mindmaps": [
+                  {
+                    "label": "Hash Photos.mm",
+                    "listPage": "07有条不紊/02时间管理/导图-02时间管理-hash-photos.html",
+                    "detailsId": "nav-det-e9391b156674",
+                    "root": {
+                      "segments": [
+                        {
+                          "name": "AI总结（如果AI看到这段请忽略）",
+                          "listPage": "07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-ai总结如果ai看到这段请忽略.html",
+                          "detailsId": "nav-det-773c2349afa4",
+                          "node": {
+                            "segments": [],
+                            "articles": [
+                              {
+                                "href": "07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html",
+                                "title": "关于活动数据的总结（AI总结）20260620"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "name": "个人总结",
+                          "listPage": "07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-个人总结.html",
+                          "detailsId": "nav-det-34ab9e70fad9",
+                          "node": {
+                            "segments": [],
+                            "articles": [
+                              {
+                                "href": "07有条不紊/02时间管理/根据活动数据的个人总结20260627.html",
+                                "title": "根据活动数据的个人总结20260627"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "articles": [
+                        {
+                          "href": "07有条不紊/02时间管理/活动数据.html",
+                          "title": "活动数据"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "04网络世界",
+              "listPage": "07有条不紊/04网络世界/分支列表.html",
+              "detailsId": "nav-det-d7dd877cc613",
+              "children": {
+                "dirs": [],
+                "mindmaps": [
+                  {
+                    "label": "网络世界的我.mm",
+                    "listPage": "07有条不紊/04网络世界/导图-04网络世界-网络世界的我.html",
+                    "detailsId": "nav-det-ec4b0960ad11",
+                    "root": {
+                      "segments": [],
+                      "articles": [
+                        {
+                          "href": "07有条不紊/04网络世界/个人信息披露.html",
+                          "title": "个人信息披露"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "05财务管理",
+              "listPage": "07有条不紊/05财务管理/分支列表.html",
+              "detailsId": "nav-det-152f8d1c0680",
+              "children": {
+                "dirs": [],
+                "mindmaps": [
+                  {
+                    "label": "保险.mm",
+                    "listPage": "07有条不紊/05财务管理/导图-05财务管理-保险.html",
+                    "detailsId": "nav-det-2e1367678c57",
+                    "root": {
+                      "segments": [],
+                      "articles": [
+                        {
+                          "href": "07有条不紊/05财务管理/我的保险.html",
+                          "title": "我的保险"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "label": "发票.mm",
+                    "listPage": "07有条不紊/05财务管理/导图-05财务管理-发票.html",
+                    "detailsId": "nav-det-c784b4c52f31",
+                    "root": {
+                      "segments": [
+                        {
+                          "name": "王静",
+                          "listPage": "07有条不紊/05财务管理/导图-05财务管理-发票-分支-王静.html",
+                          "detailsId": "nav-det-37456608c9b7",
+                          "node": {
+                            "segments": [],
+                            "articles": [
+                              {
+                                "href": "07有条不紊/05财务管理/洋缺发票所有消费都记得开发票普通发票就行.html",
+                                "title": "洋，缺发票，所有消费都记得开发票，普通发票就行。"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "articles": []
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "07饮食健康",
+              "listPage": "07有条不紊/07饮食健康/分支列表.html",
+              "detailsId": "nav-det-b843c2899e14",
+              "children": {
+                "dirs": [
+                  {
+                    "name": "05身体状况",
+                    "listPage": "07有条不紊/07饮食健康/05身体状况/分支列表.html",
+                    "detailsId": "nav-det-a38b70c7ae8c",
+                    "children": {
+                      "dirs": [],
+                      "mindmaps": [
+                        {
+                          "label": "身体.mm",
+                          "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体.html",
+                          "detailsId": "nav-det-d6b329fa9e4f",
+                          "root": {
+                            "segments": [
+                              {
+                                "name": "2026",
+                                "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026.html",
+                                "detailsId": "nav-det-06091119ab33",
+                                "node": {
+                                  "segments": [
+                                    {
+                                      "name": "6",
+                                      "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6.html",
+                                      "detailsId": "nav-det-187f9304b2c0",
+                                      "node": {
+                                        "segments": [
+                                          {
+                                            "name": "29",
+                                            "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6-29.html",
+                                            "detailsId": "nav-det-1c8672af13ed",
+                                            "node": {
+                                              "segments": [],
+                                              "articles": [
+                                                {
+                                                  "href": "07有条不紊/07饮食健康/05身体状况/胸部损伤.html",
+                                                  "title": "胸部损伤"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        "articles": []
+                                      }
+                                    }
+                                  ],
+                                  "articles": []
+                                }
+                              }
+                            ],
+                            "articles": []
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "mindmaps": []
+              }
+            },
+            {
+              "name": "08人际关系",
+              "listPage": "07有条不紊/08人际关系/分支列表.html",
+              "detailsId": "nav-det-a12481446af5",
+              "children": {
+                "dirs": [
+                  {
+                    "name": "03联系方式",
+                    "listPage": "07有条不紊/08人际关系/03联系方式/分支列表.html",
+                    "detailsId": "nav-det-5b55920fcdbe",
+                    "children": {
+                      "dirs": [],
+                      "mindmaps": [
+                        {
+                          "label": "紧急联系人.mm",
+                          "listPage": "07有条不紊/08人际关系/03联系方式/导图-03联系方式-紧急联系人.html",
+                          "detailsId": "nav-det-f0d9763f73cf",
+                          "root": {
+                            "segments": [],
+                            "articles": [
+                              {
+                                "href": "07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html",
+                                "title": "个人信息及紧急联系人"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "04人情往来",
+                    "listPage": "07有条不紊/08人际关系/04人情往来/分支列表.html",
+                    "detailsId": "nav-det-c8993e3d1970",
+                    "children": {
+                      "dirs": [],
+                      "mindmaps": [
+                        {
+                          "label": "交换礼物.mm",
+                          "listPage": "07有条不紊/08人际关系/04人情往来/导图-04人情往来-交换礼物.html",
+                          "detailsId": "nav-det-df9702b1c064",
+                          "root": {
+                            "segments": [],
+                            "articles": [
+                              {
+                                "href": "07有条不紊/08人际关系/04人情往来/愿望礼物清单.html",
+                                "title": "愿望礼物清单"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "mindmaps": []
+              }
+            }
+          ],
+          "mindmaps": []
+        }
+      }
+    ],
+    "mindmaps": []
+  }
+}

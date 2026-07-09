@@ -1,0 +1,37 @@
+{
+  "pagePath": "07有条不紊/05财务管理/分支列表.html",
+  "documentTitle": "文件夹：07有条不紊 / 05财务管理 · 分支文章",
+  "heading": "文件夹：07有条不紊 / 05财务管理",
+  "subLine": "共 2 篇（含本文件夹及子文件夹内导图）",
+  "wrapperClass": "page-branch page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "07有条不紊/05财务管理/洋缺发票所有消费都记得开发票普通发票就行.html",
+      "title": "洋，缺发票，所有消费都记得开发票，普通发票就行。",
+      "published": "2026-07-02T19:45:52",
+      "modified": "2026-07-02T19:22:04",
+      "bookmarks": [
+        "发票"
+      ],
+      "bookmarkPages": {
+        "发票": "标签/标签-发票.html"
+      },
+      "excerpt": "你把你的滴滴出行，京东，和美团，所有购物能开的发票，休息的时候补开一下好不好"
+    },
+    {
+      "href": "07有条不紊/05财务管理/我的保险.html",
+      "title": "我的保险",
+      "published": "2026-07-02T19:08:26",
+      "modified": "2026-07-02T12:02:40",
+      "bookmarks": [
+        "保险"
+      ],
+      "bookmarkPages": {
+        "保险": "标签/标签-保险.html"
+      },
+      "excerpt": "友邦"
+    }
+  ]
+}

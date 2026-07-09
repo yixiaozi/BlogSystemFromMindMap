@@ -1,0 +1,24 @@
+{
+  "pagePath": "03阅读成长/分支列表.html",
+  "documentTitle": "文件夹：03阅读成长 · 分支文章",
+  "heading": "文件夹：03阅读成长",
+  "subLine": "共 1 篇（含本文件夹及子文件夹内导图）",
+  "wrapperClass": "page-branch page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "03阅读成长/最近在看的书.html",
+      "title": "最近在看的书",
+      "published": "2026-06-24T21:37:58",
+      "modified": "2026-06-23T21:04:23",
+      "bookmarks": [
+        "微信读书"
+      ],
+      "bookmarkPages": {
+        "微信读书": "标签/标签-微信读书.html"
+      },
+      "excerpt": "《如何在一天内修复你的人生》"
+    }
+  ]
+}
