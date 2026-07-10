@@ -3,8 +3,32 @@
   "scanRoot": "D:\\Dropbox\\yixiaozi",
   "repoRoot": "D:/Dropbox/yixiaozi",
   "branch": "master",
-  "collectedAtUtc": "2026-07-09T14:37:23.4467855+00:00",
+  "collectedAtUtc": "2026-07-10T06:24:53.5378406+00:00",
   "commits": [
+    {
+      "hash": "36751a40932f7f06944d75f9fee1973cafbeaaf9",
+      "committedAt": "2026-07-10T14:24:47+08:00",
+      "subject": "特约单据停留时间功能开发基本完成了，等下班前说一下，尽量周一上线吧",
+      "body": "质量的需求又变，她们的特点就是UAT的意见都挺多，不过她们做事挺认真的需求也都比较合理。"
+    },
+    {
+      "hash": "fec0840f8d5f1ceeb03facf703b91d240a26c312",
+      "committedAt": "2026-07-10T12:40:09+08:00",
+      "subject": "把Cursor记录，存到了思维导图里，方便回忆查看",
+      "body": "以后尽量把自己产生的数据都记录下来，这次已经创建了09记录存档文件夹"
+    },
+    {
+      "hash": "cd639ab5dbe7d03780f8dbb88dc9273dba7cc791",
+      "committedAt": "2026-07-10T07:29:03+08:00",
+      "subject": "昨晚十一点公司关灯了，电脑就直接关了，没有提交。",
+      "body": "晚上去吃了个毛豆花生，没有喝酒。"
+    },
+    {
+      "hash": "1d42568d7b341124fe7c28296ee04cebe133f0fc",
+      "committedAt": "2026-07-10T06:52:44+08:00",
+      "subject": "看到Obsidian可以支持微信操作了，又受刺激了，看来这周末有事情做了",
+      "body": "如果微信可以处理消息，那么以后的文章，就可以自动整理了。后面看一下实现原理和难度。"
+    },
     {
       "hash": "84c96f90f873f27b05546535fe5bc664cf187c4c",
       "committedAt": "2026-07-09T22:36:51+08:00",

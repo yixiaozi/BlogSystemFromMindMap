@@ -27,7 +27,7 @@ internal static class HtmlLayout
         <div class="page-wordfreq" id="wordfreq-page-root">
         <header class="hero">
         <h1 class="page-title">词频</h1>
-        <p class="page-lead">基于全部文章的标题、正文段落、图册说明与书签文本；中文使用 jieba 精确模式分词，并过滤常见虚词（停用词表）、导图「变量 → 词频过滤」中的词条，以及出现 2 次及以下的词。气泡大小表示相对频次。</p>
+        <p class="page-lead">基于全部文章与独立页（关于我、提交记录等）的标题与正文；中文使用 jieba 精确模式分词。过滤常见虚词（停用词表）与导图「变量 → 词频过滤」；出现 2 次及以下的词默认不展示；「变量 → 词频强制」中的词条始终出现。气泡大小表示相对频次。</p>
         </header>
         <div id="wordfreq-page-host" class="site-page-loading">加载词频…</div>
         </div>

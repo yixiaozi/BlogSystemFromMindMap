@@ -167,21 +167,22 @@ public sealed class StaticSiteGenerator
         WriteGalleryPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
         WriteAboutPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
         WriteSearchPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
-        WriteWordFrequencyPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath);
+
+        var gitSnapshot = GitCommitCollector.Collect(scanRoot);
+        GitCommitStore.Save(outDir, gitSnapshot);
+        WriteGitCommitPage(outDir, scanRoot, gitSnapshot, sortedArticles, names, galleryItems, avatarSitePath);
+        if (gitSnapshot.IsGitRepo)
+            Console.WriteLine($"已读取 Git 提交 {gitSnapshot.Commits.Count} 条（分支 {gitSnapshot.Branch}，已排除合并提交）。");
+        else
+            Console.WriteLine("扫描目录不在 Git 仓库内，提交记录页将为空。");
+
+        WriteWordFrequencyPage(outDir, scanRoot, sortedArticles, names, galleryItems, avatarSitePath, gitSnapshot);
 
         historyFile.Runs.Insert(0, runRecord);
         historyFile.LastSnapshot = fingerprints;
         GenerationHistoryStore.Save(historyPath, historyFile);
         WriteGenerationHistoryPage(outDir, scanRoot, historyFile.Runs, sortedArticles, names, galleryItems,
             avatarSitePath);
-
-        var gitSnapshot = GitCommitCollector.Collect(scanRoot);
-        GitCommitStore.Save(outDir, gitSnapshot);
-        WriteGitCommitPage(outDir, scanRoot, gitSnapshot, sortedArticles, names, galleryItems, avatarSitePath);
-        if (gitSnapshot.IsGitRepo)
-            Console.WriteLine($"已读取 Git 提交 {gitSnapshot.Commits.Count} 条（分支 {gitSnapshot.Branch}）。");
-        else
-            Console.WriteLine("扫描目录不在 Git 仓库内，提交记录页将为空。");
 
         WriteRssFeed(outDir, sortedArticles, names, siteBaseUrl, generatedAt);
 
@@ -516,7 +517,7 @@ public sealed class StaticSiteGenerator
         else
         {
             inner.AppendLine(
-                "<p class=\"page-lead\">读取<strong>扫描目录</strong>所在 Git 仓库的全部提交历史（生成时快照；若扫描路径为子目录则仅含影响该目录的提交）。</p>");
+                "<p class=\"page-lead\">读取<strong>扫描目录</strong>所在 Git 仓库的提交历史（生成时快照；已排除合并提交；若扫描路径为子目录则仅含影响该目录的提交）。</p>");
             inner.Append("<p class=\"git-repo-meta\">仓库 <code>")
                 .Append(WebUtility.HtmlEncode(snapshot.RepoRoot ?? ""))
                 .Append("</code>");
@@ -1381,15 +1382,21 @@ public sealed class StaticSiteGenerator
 
     private static void WriteWordFrequencyPage(string outDir, string scanRoot,
         IReadOnlyList<BlogArticle> sortedArticles,
-        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath)
+        SiteFileNames names, IReadOnlyList<ArticleGalleryItem> galleryEntries, string? avatarSitePath,
+        GitCommitHistorySnapshot? gitCommits = null)
     {
         var webPath = names.WordFrequencyPageWebPath;
-        var stats = WordFrequencyService.Compute(
+        var corpus = WordFrequencyService.BuildCorpus(
             sortedArticles,
+            gitCommits,
+            names.AboutPageWebPath);
+        var stats = WordFrequencyService.Compute(
+            corpus,
             maxTerms: 50,
             extraStopwords: SiteProfile.WordFrequencyFilter,
-            minOccurrences: 3);
-        var hits = WordFrequencyService.BuildTopTermHits(sortedArticles, stats.TopTerms);
+            minOccurrences: 3,
+            forceInclude: SiteProfile.WordFrequencyForce);
+        var hits = WordFrequencyService.BuildTopTermHits(corpus, stats.TopTerms);
         WordFrequencyPageStore.Write(outDir, WordFrequencyPageStore.Build(stats, hits));
         var page = HtmlLayout.BuildDocument(
             "词频",
@@ -1412,11 +1419,11 @@ public sealed class StaticSiteGenerator
         sb.AppendLine("<header class=\"hero\">");
         sb.AppendLine("<h1 class=\"page-title\">词频</h1>");
         sb.AppendLine(
-            "<p class=\"page-lead\">基于全部文章的标题、正文段落、图册说明与书签文本；中文使用 jieba 精确模式分词，并过滤常见虚词（停用词表）、导图「变量 → 词频过滤」中的词条，以及出现 2 次及以下的词。气泡大小表示相对频次。</p>");
+            "<p class=\"page-lead\">基于全部文章与独立页（关于我、提交记录等）的标题与正文；中文使用 jieba 精确模式分词。过滤常见虚词（停用词表）与导图「变量 → 词频过滤」；出现 2 次及以下的词默认不展示；「变量 → 词频强制」中的词条始终出现。气泡大小表示相对频次。</p>");
         sb.AppendLine("</header>");
 
         sb.Append("<p class=\"wordfreq-stats\">")
-            .Append(stats.ArticleCount.ToString(CultureInfo.InvariantCulture)).Append(" 篇文章 · ")
+            .Append(stats.DocumentCount.ToString(CultureInfo.InvariantCulture)).Append(" 篇文档 · ")
             .Append(stats.TotalTokenOccurrences.ToString(CultureInfo.InvariantCulture)).Append(" 次词命中 · ")
             .Append(stats.UniqueTokens.ToString(CultureInfo.InvariantCulture)).Append(" 个不同词形 · 本页列出前 ")
             .Append(stats.TopTerms.Count.ToString(CultureInfo.InvariantCulture)).AppendLine(" 个高频词</p>");

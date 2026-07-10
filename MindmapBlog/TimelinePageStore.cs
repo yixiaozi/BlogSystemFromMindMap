@@ -188,7 +188,7 @@ internal static class WordFrequencyPageStore
     {
         return new WordFrequencyPageFile
         {
-            ArticleCount = stats.ArticleCount,
+            ArticleCount = stats.DocumentCount,
             TotalTokenOccurrences = stats.TotalTokenOccurrences,
             UniqueTokens = stats.UniqueTokens,
             MinCount = stats.MinCount,

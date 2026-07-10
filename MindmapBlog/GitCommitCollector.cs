@@ -31,6 +31,7 @@ internal static class GitCommitCollector
         var logArgs = new List<string>
         {
             "log",
+            "--no-merges",
             "--date=iso-strict",
             $"--pretty=format:%H{FieldSep}%aI{FieldSep}%s{FieldSep}%b{RecordSep}",
         };
@@ -58,6 +59,9 @@ internal static class GitCommitCollector
                 continue;
 
             var subject = parts[2].Trim();
+            if (IsMergeCommitSubject(subject))
+                continue;
+
             var body = parts.Length >= 4 ? parts[3].Trim() : "";
 
             snapshot.Commits.Add(new GitCommitRecord
@@ -70,6 +74,19 @@ internal static class GitCommitCollector
         }
 
         return snapshot;
+    }
+
+    /// <summary>兜底过滤：即使未带 <c>--no-merges</c>，也跳过常见合并提交说明。</summary>
+    internal static bool IsMergeCommitSubject(string subject)
+    {
+        if (string.IsNullOrWhiteSpace(subject))
+            return false;
+
+        var s = subject.Trim();
+        return s.StartsWith("Merge branch ", StringComparison.OrdinalIgnoreCase)
+               || s.StartsWith("Merge pull request ", StringComparison.OrdinalIgnoreCase)
+               || s.StartsWith("Merge remote-tracking branch ", StringComparison.OrdinalIgnoreCase)
+               || s.Equals("Merge branch", StringComparison.OrdinalIgnoreCase);
     }
 
     private static string? GetLogScopeRelative(string repoRoot, string scanFull)

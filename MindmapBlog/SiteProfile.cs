@@ -12,6 +12,7 @@ internal static class SiteProfile
     public static string AboutBody { get; private set; } = DefaultAboutBody;
     public static string? AboutBodyHtml { get; private set; }
     public static IReadOnlyList<string> WordFrequencyFilter { get; private set; } = Array.Empty<string>();
+    public static IReadOnlyList<string> WordFrequencyForce { get; private set; } = Array.Empty<string>();
     public static IReadOnlySet<string> UnpublishIcons { get; private set; } =
         new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "closed" };
 
@@ -25,6 +26,7 @@ internal static class SiteProfile
         AboutBody = DefaultAboutBody;
         AboutBodyHtml = null;
         WordFrequencyFilter = Array.Empty<string>();
+        WordFrequencyForce = Array.Empty<string>();
         UnpublishIcons = DefaultUnpublishIcons;
 
         if (variables == null)
@@ -50,6 +52,9 @@ internal static class SiteProfile
 
         if (variables.WordFrequencyFilter is { Count: > 0 } filter)
             WordFrequencyFilter = filter;
+
+        if (variables.WordFrequencyForce is { Count: > 0 } force)
+            WordFrequencyForce = force;
 
         if (variables.UnpublishIcons is { Count: > 0 } unpublish)
             UnpublishIcons = new HashSet<string>(unpublish, StringComparer.OrdinalIgnoreCase);

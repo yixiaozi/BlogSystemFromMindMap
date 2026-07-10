@@ -79,7 +79,7 @@
     var stats =
       '<p class="wordfreq-stats">' +
       esc(String(data.articleCount)) +
-      " 篇文章 · " +
+      " 篇文档 · " +
       esc(String(data.totalTokenOccurrences)) +
       " 次词命中 · " +
       esc(String(data.uniqueTokens)) +
@@ -109,10 +109,10 @@
     }
     html += "</div>";
     html +=
-      '<section class="wordfreq-hits" aria-live="polite" aria-label="词条关联文章">';
-    html += '<h2 class="wordfreq-chart-title">关联文章与句子</h2>';
+      '<section class="wordfreq-hits" aria-live="polite" aria-label="词条关联文档">';
+    html += '<h2 class="wordfreq-chart-title">关联文档与句子</h2>';
     html +=
-      '<p id="wordfreq-hits-empty" class="wordfreq-hits-empty">点击上方词条，查看它出现在哪些文章里，以及对应句子。</p>';
+      '<p id="wordfreq-hits-empty" class="wordfreq-hits-empty">点击上方词条，查看它出现在哪些文档里，以及对应句子。</p>';
     html +=
       '<div id="wordfreq-hits-list" class="wordfreq-hits-list" hidden></div></section>';
 
@@ -135,7 +135,7 @@
       if (!rows.length) {
         list.setAttribute("hidden", "hidden");
         list.innerHTML = "";
-        empty.textContent = "“" + token + "” 暂无关联文章。";
+        empty.textContent = "“" + token + "” 暂无关联文档。";
         empty.removeAttribute("hidden");
         return;
       }

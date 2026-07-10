@@ -132,6 +132,7 @@ public static class MindmapParser
                     string? aboutBody = null;
                     string? aboutBodyHtml = null;
                     List<string>? wordFrequencyFilter = null;
+                    List<string>? wordFrequencyForce = null;
                     List<string>? unpublishIcons = null;
 
                     foreach (var child in variablesNode.Elements(NodeName))
@@ -178,6 +179,13 @@ public static class MindmapParser
                                     .Select(s => s.Trim())
                                     .ToList();
                                 break;
+                            case "词频强制":
+                                wordFrequencyForce = child.Elements(NodeName)
+                                    .Select(GetNodeLabel)
+                                    .Where(s => !string.IsNullOrWhiteSpace(s))
+                                    .Select(s => s.Trim())
+                                    .ToList();
+                                break;
                             case UnpublishIconsVariableLabel:
                                 unpublishIcons = ExtractUnpublishIcons(child);
                                 break;
@@ -191,6 +199,7 @@ public static class MindmapParser
                         aboutBody,
                         aboutBodyHtml,
                         wordFrequencyFilter,
+                        wordFrequencyForce,
                         unpublishIcons);
                 }
                 finally
