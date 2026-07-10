@@ -680,7 +680,7 @@
         escAttr(searchPageHref) +
         '">搜索</a></h3>';
       html +=
-        "<p class=\"search-aside-lead\">标题 · 正文 · 书签 · 配图说明 · 分区 · 导图文件名</p>";
+        "<p class=\"search-aside-lead\">标题 · 正文 · 书签 · 配图 · 分区 · 导图 · 关于我 · 提交记录</p>";
       html +=
         '<label class="search-aside-label visually-hidden" for="site-search-q">搜索文章</label>';
       html +=

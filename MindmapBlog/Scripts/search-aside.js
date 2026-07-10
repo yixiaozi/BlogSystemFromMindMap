@@ -64,6 +64,49 @@
       });
   }
 
+  function parseSearchQueryParam() {
+    var raw = "";
+    try {
+      var u = new URL(window.location.href);
+      raw =
+        u.searchParams.get("q") ||
+        u.searchParams.get("term") ||
+        u.searchParams.get("query") ||
+        "";
+    } catch (e) {}
+    if (!raw && window.location.search) {
+      var m = /[?&](?:q|term|query)=([^&]*)/i.exec(window.location.search);
+      if (m) {
+        try {
+          raw = decodeURIComponent(m[1].replace(/\+/g, " "));
+        } catch (e2) {
+          raw = m[1];
+        }
+      }
+    }
+    return String(raw || "").trim();
+  }
+
+  function isSearchPage() {
+    return !!(document.body && document.body.getAttribute("data-is-search-page") === "1");
+  }
+
+  function syncSearchUrl(query) {
+    if (!isSearchPage()) return;
+    try {
+      var u = new URL(window.location.href);
+      query = String(query || "").trim();
+      u.searchParams.delete("term");
+      u.searchParams.delete("query");
+      if (query) u.searchParams.set("q", query);
+      else u.searchParams.delete("q");
+      var next = u.pathname + u.search + u.hash;
+      if (next !== window.location.pathname + window.location.search + window.location.hash) {
+        window.history.replaceState(null, "", next);
+      }
+    } catch (e) {}
+  }
+
   function matchHay(hayLower, tms) {
     for (var i = 0; i < tms.length; i++) {
       if (hayLower.indexOf(tms[i]) < 0) return false;
@@ -71,21 +114,68 @@
     return tms.length > 0;
   }
 
-  function snippet(hay, tms, maxLen) {
-    maxLen = maxLen || 96;
-    if (!hay) return "";
-    var lower = hay.toLowerCase();
-    var pos = lower.length;
-    for (var i = 0; i < tms.length; i++) {
-      var p = lower.indexOf(tms[i]);
-      if (p >= 0 && p < pos) pos = p;
+  function normalizeLine(raw) {
+    return (raw || "").replace(/\s+/g, " ").trim();
+  }
+
+  function displayLine(line, maxLen) {
+    maxLen = maxLen || 160;
+    line = normalizeLine(line);
+    return line.length > maxLen ? line.slice(0, maxLen) + "\u2026" : line;
+  }
+
+  function searchLines(e) {
+    var lines = [];
+    var seen = {};
+
+    function add(raw) {
+      var s = normalizeLine(raw);
+      if (!s || seen[s]) return;
+      seen[s] = true;
+      lines.push(s);
     }
-    if (pos >= lower.length) pos = 0;
-    var start = Math.max(0, pos - 28);
-    var s = hay.substring(start, start + maxLen);
-    if (start > 0) s = "\u2026" + s;
-    if (start + maxLen < hay.length) s = s + "\u2026";
-    return s.replace(/\s+/g, " ").trim();
+
+    add(e.title);
+    if (e.body) {
+      e.body.split("\n").forEach(function (raw) {
+        add(raw);
+      });
+    }
+    (e.bookmarks || []).forEach(add);
+    (e.imageAlts || []).forEach(add);
+    add(e.section);
+    add(e.notebook);
+    add(e.reminder);
+    add(e.sourceFile);
+    return lines;
+  }
+
+  function collectGroupedHits(data, tms) {
+    var groups = [];
+    for (var i = 0; i < data.length; i++) {
+      var e = data[i];
+      var hayLower = joinAll(e).toLowerCase();
+      if (!matchHay(hayLower, tms)) continue;
+
+      var matched = [];
+      var lineSeen = {};
+      var lines = searchLines(e);
+      for (var j = 0; j < lines.length; j++) {
+        var line = lines[j];
+        if (!matchHay(line.toLowerCase(), tms)) continue;
+        if (lineSeen[line]) continue;
+        lineSeen[line] = true;
+        matched.push(line);
+      }
+
+      if (matched.length === 0) continue;
+      groups.push({
+        href: e.href,
+        title: e.title,
+        lines: matched,
+      });
+    }
+    return groups;
   }
 
   var root = document.getElementById("site-search-aside");
@@ -135,6 +225,22 @@
     return escapeHtml(s).replace(/'/g, "&#39;");
   }
 
+  function escReg(s) {
+    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function markTerms(text, tms) {
+    var out = escapeHtml(displayLine(text));
+    for (var i = 0; i < tms.length; i++) {
+      var token = tms[i];
+      if (!token) continue;
+      var isLatin = /[a-zA-Z]/.test(token);
+      var re = new RegExp("(" + escReg(token) + ")", isLatin ? "ig" : "g");
+      out = out.replace(re, '<mark class="wordfreq-hit">$1</mark>');
+    }
+    return out;
+  }
+
   function render(data, tms) {
     if (tms.length === 0) {
       list.innerHTML = "";
@@ -142,52 +248,70 @@
       status.textContent = "";
       return;
     }
-    var hits = [];
-    for (var i = 0; i < data.length; i++) {
-      var e = data[i];
-      var hay = joinAll(e);
-      var hayLower = hay.toLowerCase();
-      if (matchHay(hayLower, tms)) hits.push(e);
-    }
-    if (hits.length === 0) {
+
+    var groups = collectGroupedHits(data, tms);
+    if (groups.length === 0) {
       list.innerHTML = "";
       list.hidden = true;
       status.textContent = "\u672a\u627e\u5230\u5339\u914d";
       return;
     }
+
+    var nodeCount = 0;
+    for (var g = 0; g < groups.length; g++) nodeCount += groups[g].lines.length;
+
     status.textContent =
-      "\u627e\u5230 " +
-      hits.length +
-      " \u7bc7\uff08\u6700\u591a\u663e\u793a 20 \u6761\uff09";
+      "\u627e\u5230 " + nodeCount + " \u4e2a\u8282\u70b9\uff08" + groups.length + " \u7bc7\uff09";
     list.hidden = false;
+
     var html = "";
-    var maxShow = Math.min(20, hits.length);
-    for (var j = 0; j < maxShow; j++) {
-      var e = hits[j];
-      var href = relFromTo(pagePath, e.href);
-      var sn = snippet(joinAll(e), tms, 100);
+    for (var i = 0; i < groups.length; i++) {
+      var group = groups[i];
+      var href = relFromTo(pagePath, group.href);
+      html += '<li class="search-hit-group">';
       html +=
-        '<li class="search-hit-item"><a class="search-hit-link" href="' +
+        '<a class="search-hit-link search-hit-group-title" href="' +
         escapeAttr(href) +
         '"><span class="search-hit-title">' +
-        escapeHtml(e.title) +
-        '</span><span class="search-hit-snippet">' +
-        escapeHtml(sn) +
-        "</span></a></li>";
+        escapeHtml(group.title) +
+        "</span></a>";
+      html += '<ul class="search-hit-nodes">';
+      for (var j = 0; j < group.lines.length; j++) {
+        html +=
+          '<li class="search-hit-item"><a class="search-hit-link" href="' +
+          escapeAttr(href) +
+          '"><span class="search-hit-snippet">' +
+          markTerms(group.lines[j], tms) +
+          "</span></a></li>";
+      }
+      html += "</ul></li>";
     }
     list.innerHTML = html;
   }
 
-  function schedule() {
+  function schedule(immediate) {
     if (timer) clearTimeout(timer);
-    timer = setTimeout(function () {
+    var run = function () {
       var tms = terms(input.value);
+      syncSearchUrl(input.value);
       load(function (data) {
         render(data, tms);
       });
-    }, 280);
+    };
+    if (immediate) run();
+    else timer = setTimeout(run, 280);
   }
 
-  input.addEventListener("input", schedule);
-  input.addEventListener("search", schedule);
+  var initialQuery = parseSearchQueryParam();
+  if (initialQuery) {
+    input.value = initialQuery;
+    schedule(true);
+  }
+
+  input.addEventListener("input", function () {
+    schedule(false);
+  });
+  input.addEventListener("search", function () {
+    schedule(true);
+  });
 })();

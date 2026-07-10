@@ -74,4 +74,39 @@ internal sealed class SearchIndexRecord
             All = all,
         };
     }
+
+    public static SearchIndexRecord FromDocument(WordFrequencyDocument doc)
+    {
+        var lines = doc.PlainText.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var bodyLines = lines.Length > 0 && lines[0] == doc.Title
+            ? lines.Skip(1).ToList()
+            : lines.ToList();
+        var body = string.Join("\n", bodyLines);
+
+        return new SearchIndexRecord
+        {
+            Href = doc.HtmlFileName.Replace('\\', '/'),
+            Title = doc.Title,
+            Body = body,
+            All = doc.PlainText,
+        };
+    }
+
+    public static List<SearchIndexRecord> Build(
+        IReadOnlyList<BlogArticle> articles,
+        GitCommitHistorySnapshot? gitCommits = null,
+        string? aboutPageWebPath = null)
+    {
+        var list = articles.Select(FromArticle).ToList();
+
+        var about = WordFrequencyService.FromAboutPage(aboutPageWebPath);
+        if (about != null)
+            list.Add(FromDocument(about));
+
+        var commits = WordFrequencyService.FromGitCommitPage(gitCommits);
+        if (commits != null)
+            list.Add(FromDocument(commits));
+
+        return list;
+    }
 }

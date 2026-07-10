@@ -1306,7 +1306,7 @@ internal static class HtmlLayout
         sb.AppendLine("<div class=\"page-search\">");
         sb.AppendLine("<header class=\"hero\">");
         sb.AppendLine("<h1 class=\"page-title\">搜索</h1>");
-        sb.AppendLine("<p class=\"page-lead\">搜索全部内容：文章标题、正文、图片说明、书签、分区与导图文件名。</p>");
+        sb.AppendLine("<p class=\"page-lead\">搜索全部内容：文章标题、正文、图片说明、书签、分区、导图文件名，以及关于我、Git 提交说明。</p>");
         sb.AppendLine("</header>");
         sb.AppendLine(BuildSearchAside(currentPageWebPath, searchPageWebPath));
         sb.AppendLine("</div>");
@@ -1330,7 +1330,7 @@ internal static class HtmlLayout
         sb.Append("<h3 class=\"aside-module-title\"><a class=\"search-aside-title-link\" href=\"")
             .Append(WebUtility.HtmlEncode(searchPageHref))
             .AppendLine("\">搜索</a></h3>");
-        sb.AppendLine("<p class=\"search-aside-lead\">标题 · 正文 · 书签 · 配图说明 · 分区 · 导图文件名</p>");
+        sb.AppendLine("<p class=\"search-aside-lead\">标题 · 正文 · 书签 · 配图 · 分区 · 导图 · 关于我 · 提交记录</p>");
         sb.AppendLine("<label class=\"search-aside-label visually-hidden\" for=\"site-search-q\">搜索文章</label>");
         sb.AppendLine(
             "<input type=\"search\" id=\"site-search-q\" class=\"search-aside-input\" autocomplete=\"off\" placeholder=\"输入关键词…\" />");

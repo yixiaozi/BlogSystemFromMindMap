@@ -55,13 +55,133 @@
   --site-footer-h: 46px;
   /* 固定底栏总占位（与 .site-footer-inner 的上下 padding + min-height 一致），侧栏可视高度与正文底部留白共用 */
   --site-footer-occupy: calc(var(--site-footer-h) + 0.76rem);
+
+  --scrollbar-size: 7px;
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(67, 56, 202, 0.24);
+  --scrollbar-thumb-hover: rgba(67, 56, 202, 0.42);
 }
 
 * { box-sizing: border-box; }
 
-/* 减少「有/无纵向滚动条」时主栏可用宽度来回变；与 footbar 一起调视觉时建议保留 */
+/*
+  滚动条策略
+  · 整页（html）：始终隐藏滚动条，滚轮/触控/键盘仍可滚动。
+  · 有 max-height 且 overflow:auto 的面板：默认隐藏；悬停或键盘聚焦时显示细滚动条，提示「此处还有内容」。
+*/
 html {
-  scrollbar-gutter: stable;
+  background: var(--surface-page);
+  scrollbar-gutter: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.layout-nav,
+.layout-tags,
+.search-aside-list,
+.article-outline-scroll,
+.rev-aside.rev-aside--scrollable,
+.gen-history-table-wrap {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.layout-nav::-webkit-scrollbar,
+.layout-tags::-webkit-scrollbar,
+.search-aside-list::-webkit-scrollbar,
+.article-outline-scroll::-webkit-scrollbar,
+.rev-aside.rev-aside--scrollable::-webkit-scrollbar,
+.gen-history-table-wrap::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+.layout-nav::-webkit-scrollbar-track,
+.layout-tags::-webkit-scrollbar-track,
+.search-aside-list::-webkit-scrollbar-track,
+.article-outline-scroll::-webkit-scrollbar-track,
+.rev-aside.rev-aside--scrollable::-webkit-scrollbar-track,
+.gen-history-table-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.layout-nav::-webkit-scrollbar-thumb,
+.layout-tags::-webkit-scrollbar-thumb,
+.search-aside-list::-webkit-scrollbar-thumb,
+.article-outline-scroll::-webkit-scrollbar-thumb,
+.rev-aside.rev-aside--scrollable::-webkit-scrollbar-thumb,
+.gen-history-table-wrap::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.layout-nav:hover,
+.layout-nav:focus-within,
+.layout-tags:hover,
+.layout-tags:focus-within,
+.search-aside-list:hover,
+.search-aside-list:focus-within,
+.article-outline-scroll:hover,
+.article-outline-scroll:focus-within,
+.rev-aside.rev-aside--scrollable:hover,
+.rev-aside.rev-aside--scrollable:focus-within,
+.gen-history-table-wrap:hover,
+.gen-history-table-wrap:focus-within {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+.layout-nav:hover::-webkit-scrollbar-thumb,
+.layout-nav:focus-within::-webkit-scrollbar-thumb,
+.layout-tags:hover::-webkit-scrollbar-thumb,
+.layout-tags:focus-within::-webkit-scrollbar-thumb,
+.search-aside-list:hover::-webkit-scrollbar-thumb,
+.search-aside-list:focus-within::-webkit-scrollbar-thumb,
+.article-outline-scroll:hover::-webkit-scrollbar-thumb,
+.article-outline-scroll:focus-within::-webkit-scrollbar-thumb,
+.rev-aside.rev-aside--scrollable:hover::-webkit-scrollbar-thumb,
+.rev-aside.rev-aside--scrollable:focus-within::-webkit-scrollbar-thumb,
+.gen-history-table-wrap:hover::-webkit-scrollbar-thumb,
+.gen-history-table-wrap:focus-within::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+}
+
+.layout-nav::-webkit-scrollbar-thumb:hover,
+.layout-tags::-webkit-scrollbar-thumb:hover,
+.search-aside-list::-webkit-scrollbar-thumb:hover,
+.article-outline-scroll::-webkit-scrollbar-thumb:hover,
+.rev-aside.rev-aside--scrollable::-webkit-scrollbar-thumb:hover,
+.gen-history-table-wrap::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+@media (hover: none) {
+  .layout-nav,
+  .layout-tags,
+  .search-aside-list,
+  .article-outline-scroll,
+  .rev-aside.rev-aside--scrollable,
+  .gen-history-table-wrap {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+
+  .layout-nav::-webkit-scrollbar-thumb,
+  .layout-tags::-webkit-scrollbar-thumb,
+  .search-aside-list::-webkit-scrollbar-thumb,
+  .article-outline-scroll::-webkit-scrollbar-thumb,
+  .rev-aside.rev-aside--scrollable::-webkit-scrollbar-thumb,
+  .gen-history-table-wrap::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+  }
 }
 
 body.site-body {
@@ -335,6 +455,10 @@ html.theme-dark {
 
   --border: rgba(255, 255, 255, 0.09);
   --border-focus: rgba(165, 180, 252, 0.45);
+
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(129, 140, 248, 0.32);
+  --scrollbar-thumb-hover: rgba(165, 180, 252, 0.52);
 
   --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.38);
   --shadow-nav:
@@ -651,6 +775,7 @@ html.theme-dark .bm-pill:hover {
   border-right: 1px solid var(--border);
   padding: var(--layout-col-inner-pad-top) var(--layout-col-inner-pad-x) 1.75rem;
   overflow: auto;
+  overscroll-behavior: contain;
   max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   position: sticky;
   top: var(--site-topbar-h);
@@ -684,6 +809,7 @@ html.theme-dark .bm-pill:hover {
   border-left: 1px solid var(--border);
   padding: var(--layout-col-inner-pad-top) var(--layout-tags-pad-x) 1.6rem;
   overflow: auto;
+  overscroll-behavior: contain;
   max-height: calc(100vh - var(--site-topbar-h) - var(--site-footer-occupy));
   position: sticky;
   top: var(--site-topbar-h);
@@ -1825,6 +1951,38 @@ html.theme-dark .wordfreq-label.is-active {
   border-top: 1px solid rgba(21, 28, 40, 0.06);
 }
 
+.search-hit-group {
+  border-bottom: 1px solid rgba(21, 28, 40, 0.06);
+  padding: 0.35rem 0 0.42rem;
+}
+
+.search-hit-group:last-child {
+  border-bottom: none;
+}
+
+.search-hit-group-title {
+  padding-bottom: 0.12rem;
+}
+
+.search-hit-nodes {
+  list-style: none;
+  margin: 0.15rem 0 0;
+  padding: 0 0 0 0.4rem;
+  border-left: 2px solid rgba(67, 56, 202, 0.12);
+}
+
+.search-hit-nodes .search-hit-item {
+  border-bottom: none;
+}
+
+.search-hit-nodes .search-hit-link {
+  padding: 0.26rem 0.12rem;
+}
+
+.page-search .search-aside-list {
+  max-height: none;
+}
+
 .search-hit-item {
   border-bottom: 1px solid rgba(21, 28, 40, 0.06);
 }
@@ -2598,8 +2756,8 @@ article.content > .mm-fold.mm-fold-d1:first-child > summary > .mm-block.mm-depth
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.45rem;
+  justify-content: flex-start;
+  gap: 0.35rem;
   padding: 0.52rem 0.72rem;
   border-bottom: 1px solid rgba(67, 56, 202, 0.1);
   background: rgba(67, 56, 202, 0.05);
@@ -2612,12 +2770,18 @@ article.content > .mm-fold.mm-fold-d1:first-child > summary > .mm-block.mm-depth
 .article-outline-root > summary::-webkit-details-marker { display: none; }
 .article-outline-root > summary::before {
   content: "▸";
+  flex: 0 0 auto;
   color: var(--accent-deep);
   font-size: 0.78rem;
   transition: transform 0.15s ease;
 }
 .article-outline-root[open] > summary::before { transform: rotate(90deg); }
+.article-outline-root > summary .outline-title {
+  flex: 0 1 auto;
+}
 .article-outline-root > summary .outline-meta {
+  margin-left: auto;
+  flex: 0 0 auto;
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -2728,14 +2892,7 @@ html.theme-dark .article-outline-dock {
 
 @media (max-width: 860px) {
   .article-outline-dock {
-    position: static;
-    float: none;
-    width: 100%;
-    max-height: none;
-    margin: 0 0 0.75rem;
-  }
-  .article-outline-scroll {
-    max-height: 14rem;
+    display: none;
   }
 }
 

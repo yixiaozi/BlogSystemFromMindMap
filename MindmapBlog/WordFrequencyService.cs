@@ -264,23 +264,23 @@ internal static class WordFrequencyService
     public static Dictionary<string, List<WordFrequencyArticleHit>> BuildTopTermHits(
         IReadOnlyList<WordFrequencyDocument> documents,
         IReadOnlyList<WordFrequencyItem> topTerms,
-        int maxSnippetsPerArticle = 2)
+        int maxSnippetsPerArticle = 0)
     {
         var termSet = new HashSet<string>(topTerms.Select(t => t.Token), StringComparer.Ordinal);
         var result = topTerms.ToDictionary(t => t.Token, _ => new List<WordFrequencyArticleHit>(), StringComparer.Ordinal);
 
         foreach (var doc in documents)
         {
-            var snippets = CollectCandidateSnippets(doc.PlainText, doc.Title);
+            var lines = CollectNodeLines(doc.PlainText);
             foreach (var term in termSet)
             {
                 var hitSnippets = new List<string>();
-                foreach (var s in snippets)
+                foreach (var line in lines)
                 {
-                    if (!ContainsToken(s, term))
+                    if (!ContainsToken(line, term))
                         continue;
-                    hitSnippets.Add(s);
-                    if (hitSnippets.Count >= Math.Max(1, maxSnippetsPerArticle))
+                    hitSnippets.Add(line);
+                    if (maxSnippetsPerArticle > 0 && hitSnippets.Count >= maxSnippetsPerArticle)
                         break;
                 }
 
@@ -297,7 +297,7 @@ internal static class WordFrequencyService
     public static Dictionary<string, List<WordFrequencyArticleHit>> BuildTopTermHits(
         IReadOnlyList<BlogArticle> articles,
         IReadOnlyList<WordFrequencyItem> topTerms,
-        int maxSnippetsPerArticle = 2) =>
+        int maxSnippetsPerArticle = 0) =>
         BuildTopTermHits(BuildCorpus(articles), topTerms, maxSnippetsPerArticle);
 
     private static string CollectArticlePlainText(BlogArticle article)
@@ -385,26 +385,34 @@ internal static class WordFrequencyService
         return true;
     }
 
-    private static List<string> CollectCandidateSnippets(string plainText, string? title = null)
+    /// <summary>按行/句切分语料，对应导图节点或提交说明等，供词频命中展示。</summary>
+    private static List<string> CollectNodeLines(string plainText)
     {
         var list = new List<string>();
-        void Add(string? text)
+        if (string.IsNullOrWhiteSpace(plainText))
+            return list;
+
+        foreach (var rawLine in plainText.Split('\n', StringSplitOptions.TrimEntries))
         {
-            if (string.IsNullOrWhiteSpace(text))
-                return;
-            foreach (var part in SentenceSplitter.Split(text))
+            if (string.IsNullOrWhiteSpace(rawLine))
+                continue;
+
+            // 单行较长时（如 Git 描述）再按句号拆分；导图节点通常一行一条
+            var parts = rawLine.Length > 160
+                ? SentenceSplitter.Split(rawLine)
+                : [rawLine];
+
+            foreach (var part in parts)
             {
                 var s = part.Trim();
-                if (s.Length < 4)
+                if (s.Length == 0)
                     continue;
-                if (s.Length > 120)
-                    s = s[..120] + "…";
+                if (s.Length > 160)
+                    s = s[..160] + "…";
                 list.Add(s);
             }
         }
 
-        Add(title);
-        Add(plainText);
         return list;
     }
 

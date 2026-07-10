@@ -11,6 +11,10 @@
     var article = document.querySelector("article.content");
     var dock = document.getElementById("article-outline-dock");
     if (!article || !dock) return;
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      dock.remove();
+      return;
+    }
 
     var blocks = Array.prototype.slice.call(article.querySelectorAll(".mm-block"));
     if (blocks.length < 2) {
@@ -140,7 +144,8 @@
     rootDetails.open = true;
     var rootSummary = document.createElement("summary");
     rootSummary.innerHTML =
-      "层级结构 <span class=\"outline-meta\">" +
+      "<span class=\"outline-title\">层级结构</span>" +
+      "<span class=\"outline-meta\">" +
       topLevel +
       " 个一级 · " +
       blocks.length +
