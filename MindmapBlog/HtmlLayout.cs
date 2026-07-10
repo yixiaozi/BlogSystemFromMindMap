@@ -149,6 +149,11 @@ internal static class HtmlLayout
             var wfScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "word-frequency-page.js");
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wfScriptHref)).AppendLine("\" defer></script>");
         }
+        if (!string.IsNullOrEmpty(activeHtmlFile))
+        {
+            var outlineScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "article-outline.js");
+            sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(outlineScriptHref)).AppendLine("\" defer></script>");
+        }
         AppendNavAccordionScript(sb);
         AppendMobileShellScript(sb);
         AppendImageProtectionScript(sb);

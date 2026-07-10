@@ -192,6 +192,7 @@ public sealed class StaticSiteGenerator
         CopyTimelinePageScript(outDir);
         CopyWordFrequencyPageScript(outDir);
         CopySiteChromeScript(outDir);
+        CopyArticleOutlineScript(outDir);
 
         WriteStylesheet(Path.Combine(outDir, "site.css"));
     }
@@ -329,6 +330,18 @@ public sealed class StaticSiteGenerator
         }
 
         File.Copy(src, Path.Combine(outDir, "site-chrome.js"), overwrite: true);
+    }
+
+    private static void CopyArticleOutlineScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "article-outline.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/article-outline.js，文章层级大纲不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "article-outline.js"), overwrite: true);
     }
 
     private static void CopyTimelineTabsScript(string outDir)
@@ -1031,6 +1044,7 @@ public sealed class StaticSiteGenerator
         sb.AppendLine("</header>");
 
         sb.AppendLine("<article class=\"content\">");
+        sb.AppendLine("<div class=\"article-outline-dock\" id=\"article-outline-dock\" hidden></div>");
         sb.Append(bodyHtml);
         sb.AppendLine("</article>");
         sb.Append(revAside);
@@ -4132,6 +4146,12 @@ article.content {
   letter-spacing: 0.018em;
 }
 
+article.content::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 article.content > p:first-of-type {
   margin-top: 0;
   font-size: 1.04em;
@@ -4196,8 +4216,178 @@ article.content .mm-heading {
 }
 
 article.content > .mm-block.mm-depth-1:first-child,
-article.content > p.mm-block.mm-depth-1:first-child {
+article.content > p.mm-block.mm-depth-1:first-child,
+article.content > .mm-fold.mm-fold-d1:first-child > summary > .mm-block.mm-depth-1 {
   margin-top: 0;
+}
+
+/* 正文内悬浮层级大纲：float 靠右 + sticky 随滚动停留在视口内 */
+.article-outline-dock {
+  position: sticky;
+  top: calc(var(--site-topbar-h, 3.25rem) + 0.65rem);
+  float: right;
+  clear: right;
+  z-index: 2;
+  width: min(15.5rem, 44%);
+  max-height: min(24rem, calc(100vh - var(--site-topbar-h, 3.25rem) - 1.25rem));
+  margin: 0 0 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(67, 56, 202, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+}
+.article-outline-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: inherit;
+}
+.article-outline-root > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0.52rem 0.72rem;
+  border-bottom: 1px solid rgba(67, 56, 202, 0.1);
+  background: rgba(67, 56, 202, 0.05);
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.article-outline-root > summary::-webkit-details-marker { display: none; }
+.article-outline-root > summary::before {
+  content: "▸";
+  color: var(--accent-deep);
+  font-size: 0.78rem;
+  transition: transform 0.15s ease;
+}
+.article-outline-root[open] > summary::before { transform: rotate(90deg); }
+.article-outline-root > summary .outline-meta {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.article-outline-scroll {
+  overflow: auto;
+  padding: 0.35rem 0.35rem 0.55rem;
+  max-height: min(20rem, calc(58vh - 2.4rem));
+}
+.article-outline-tree,
+.article-outline-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.article-outline-tree ul {
+  margin-left: 0.35rem;
+  padding-left: 0.35rem;
+  border-left: 1px solid rgba(67, 56, 202, 0.1);
+}
+.article-outline-tree li { margin: 0.08rem 0; }
+.outline-node > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.12rem 0.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.outline-node > summary::-webkit-details-marker { display: none; }
+.outline-node > summary::before {
+  content: "▸";
+  flex: 0 0 auto;
+  width: 0.85rem;
+  font-size: 0.68rem;
+  color: var(--accent-deep);
+  transition: transform 0.15s ease;
+}
+.outline-node[open] > summary::before { transform: rotate(90deg); }
+.outline-node:not(.has-children) > summary::before { visibility: hidden; }
+.outline-jump {
+  flex: 1;
+  min-width: 0;
+  padding: 0.1rem 0.25rem;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.outline-jump:hover { background: rgba(67, 56, 202, 0.08); }
+.outline-jump.is-active {
+  background: rgba(67, 56, 202, 0.14);
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+.outline-jump[data-depth="1"] { font-weight: 600; font-size: 0.8rem; }
+.outline-jump[data-depth="4"],
+.outline-jump[data-depth="5"],
+.outline-jump[data-depth="6"] {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+/* 正文层级折叠 */
+article.content .mm-fold {
+  margin: 0;
+}
+article.content .mm-fold > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+article.content .mm-fold > summary::-webkit-details-marker { display: none; }
+article.content .mm-fold > summary::before {
+  content: "▸";
+  flex: 0 0 auto;
+  margin-top: 0.35em;
+  color: var(--accent-deep);
+  font-size: 0.72rem;
+  transition: transform 0.15s ease;
+}
+article.content .mm-fold[open] > summary::before { transform: rotate(90deg); }
+article.content .mm-fold > summary > .mm-block {
+  flex: 1;
+  margin-top: 0;
+}
+article.content .mm-fold-body {
+  margin-left: 0.15rem;
+  padding-left: 0.35rem;
+  border-left: 2px solid rgba(67, 56, 202, 0.1);
+}
+
+html.theme-dark .article-outline-dock {
+  background: rgba(30, 36, 51, 0.96);
+  border-color: rgba(129, 140, 248, 0.25);
+}
+
+@media (max-width: 860px) {
+  .article-outline-dock {
+    position: static;
+    float: none;
+    width: 100%;
+    max-height: none;
+    margin: 0 0 0.75rem;
+  }
+  .article-outline-scroll {
+    max-height: 14rem;
+  }
 }
 
 article.content .rich-paragraph {
