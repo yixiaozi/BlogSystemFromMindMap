@@ -72,7 +72,7 @@ public static class MindmapParser
                     continue;
 
                 var structuralSection = BuildStructuralPath(notebookRoot, articleRoot);
-                var title = DecodeText(articleRoot.Attribute("TEXT")?.Value) ?? "无标题";
+                var title = ResolveArticleTitle(articleRoot);
                 var id = articleRoot.Attribute("ID")?.Value ?? "";
                 var created = ParseMindTime(articleRoot.Attribute("CREATED")?.Value) ?? DateTimeOffset.UtcNow;
                 var modified = ParseMindTime(articleRoot.Attribute("MODIFIED")?.Value) ?? created;
@@ -666,6 +666,72 @@ public static class MindmapParser
         if (day is null or < 1)
             return $"{year}年{month}月";
         return $"{year}年{month}月{day}日";
+    }
+
+    /// <summary>
+    /// 文章标题：若根节点为「主题 → 年 → 月 → 日」中的纯日节点，
+    /// 则合成「{年}年{月}月{日}日{主题去编号}」；否则用节点原文。
+    /// </summary>
+    private static string ResolveArticleTitle(XElement articleRoot)
+    {
+        var raw = GetNodeLabel(articleRoot);
+        if (string.IsNullOrEmpty(raw))
+            return "无标题";
+
+        if (!TryParseDay(raw, out var day))
+            return raw;
+
+        var monthNode = articleRoot.Parent;
+        if (monthNode == null || monthNode.Name != NodeName)
+            return raw;
+        if (!TryParseMonth(GetNodeLabel(monthNode), out var month))
+            return raw;
+
+        var yearNode = monthNode.Parent;
+        if (yearNode == null || yearNode.Name != NodeName)
+            return raw;
+        if (!TryParseYear(GetNodeLabel(yearNode), out var year))
+            return raw;
+
+        var topicNode = yearNode.Parent;
+        if (topicNode == null || topicNode.Name != NodeName)
+            return raw;
+
+        var topic = GetNodeLabel(topicNode);
+        if (string.IsNullOrWhiteSpace(topic))
+            return raw;
+        // 主题本身不能是年/月/日数字（导图根也可以是主题，如根节点「01每日复盘」）
+        if (TryParseYear(topic, out _) || TryParseMonth(topic, out _) || TryParseDay(topic, out _))
+            return raw;
+
+        var suffix = StripLeadingNumber(topic);
+        return FormatMindDate(year, month, day) + suffix;
+    }
+
+    /// <summary>去掉开头的序号前缀（如 01、1.、①），保留后面正文；去掉后为空则返回原文。</summary>
+    internal static string StripLeadingNumber(string topic)
+    {
+        var t = topic.Trim();
+        if (t.Length == 0)
+            return t;
+
+        // ①–⑳、⑴–⒇、㈠–㈩ 等带圈/括号数字
+        var circled = new Regex(
+            @"^[\u2460-\u2473\u2474-\u2487\u3220-\u3229\u3251-\u325F\u32B1-\u32BF]+",
+            RegexOptions.Compiled);
+        // 01 / 1. / A) 等，编号与正文之间可无分隔符（如 01每日复盘）
+        var ascii = new Regex(
+            @"^(?:\d{1,3}|[A-Za-z])[.\u3001\uFF0E)）\]】\-—_\s]*",
+            RegexOptions.Compiled);
+
+        var m = circled.Match(t);
+        if (!m.Success)
+            m = ascii.Match(t);
+        if (!m.Success)
+            return t;
+
+        var stripped = t[m.Length..].Trim();
+        return stripped.Length > 0 ? stripped : t;
     }
 
     private static string GetNodeLabel(XElement node) => DecodeText(node.Attribute("TEXT")?.Value)?.Trim() ?? "";
