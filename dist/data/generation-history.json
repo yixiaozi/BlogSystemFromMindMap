@@ -1,6 +1,26 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-10T22:57:34.9020223+00:00",
+      "articlesAdded": 1,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 1171,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 17,
+      "totalPlainChars": 18960,
+      "mindmapFileCount": 14,
+      "distinctBookmarkCount": 14,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "2026年7月10日每日复盘"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-07-10T06:24:52.9715283+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -4992,6 +5012,11 @@
     }
   ],
   "lastSnapshot": {
+    "6a336464b44b4c42dfec13fe": {
+      "title": "2026年7月10日每日复盘",
+      "plainChars": 1171,
+      "contentHash8": "c4bcf2afc3520e46"
+    },
     "09ac0ae1a09a039c73ed6a35": {
       "title": "做个CT，复查一次，是否完全恢复",
       "plainChars": 0,

@@ -37,7 +37,7 @@
     return sortKey === "published" ? "data-published" : "data-modified";
   }
 
-    function refreshDateLabels(shell) {
+  function refreshDateLabels(shell) {
     var list = shell.querySelector(".timeline");
     if (!list) return;
     var sortKey = shell.getAttribute("data-timeline-sort") || "published";
@@ -104,6 +104,9 @@
   }
 
   function initShell(shell) {
+    if (shell.getAttribute("data-timeline-tabs-ready") === "1") return;
+    shell.setAttribute("data-timeline-tabs-ready", "1");
+
     var tabs = Array.prototype.slice.call(shell.querySelectorAll(".timeline-tabs [data-sort]"));
     if (!tabs.length) return;
 
@@ -135,7 +138,15 @@
     sortList(shell, initialBtn.getAttribute("data-sort") || "published");
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
+  function bootTabs() {
     document.querySelectorAll(".timeline-shell").forEach(initShell);
-  });
+  }
+
+  window.MindmapBlogInitTimelineTabs = bootTabs;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootTabs);
+  } else {
+    bootTabs();
+  }
 })();
