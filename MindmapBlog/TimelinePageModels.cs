@@ -105,3 +105,13 @@ internal sealed class WordFrequencyHitDto
     [JsonPropertyName("snippets")]
     public List<string> Snippets { get; set; } = [];
 }
+
+/// <summary>全站词频高亮索引（<c>data/word-frequency-terms.json</c>）。</summary>
+internal sealed class WordFrequencyTermsFile
+{
+    [JsonPropertyName("pageWebPath")]
+    public string PageWebPath { get; set; } = "";
+
+    [JsonPropertyName("terms")]
+    public List<string> Terms { get; set; } = [];
+}

@@ -164,6 +164,7 @@ internal static class TimelinePageStore
 internal static class WordFrequencyPageStore
 {
     public const string DataWebPath = "data/word-frequency.json";
+    public const string TermsDataWebPath = "data/word-frequency-terms.json";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -176,6 +177,20 @@ internal static class WordFrequencyPageStore
     public static void Write(string outputRoot, WordFrequencyPageFile data)
     {
         var local = SitePathHelper.CombineLocal(outputRoot, DataWebPath);
+        var dir = Path.GetDirectoryName(local);
+        if (!string.IsNullOrEmpty(dir))
+            Directory.CreateDirectory(dir);
+        File.WriteAllText(local, JsonSerializer.Serialize(data, JsonOptions));
+    }
+
+    public static void WriteTermsIndex(string outputRoot, string wordFrequencyPageWebPath, WordFrequencyResult stats)
+    {
+        var data = new WordFrequencyTermsFile
+        {
+            PageWebPath = wordFrequencyPageWebPath.Replace('\\', '/'),
+            Terms = stats.TopTerms.Select(t => t.Token).ToList(),
+        };
+        var local = SitePathHelper.CombineLocal(outputRoot, TermsDataWebPath);
         var dir = Path.GetDirectoryName(local);
         if (!string.IsNullOrEmpty(dir))
             Directory.CreateDirectory(dir);

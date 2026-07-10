@@ -192,6 +192,8 @@ public sealed class StaticSiteGenerator
         CopyTimelinePageScript(outDir);
         CopyWordFrequencyPageScript(outDir);
         CopySiteChromeScript(outDir);
+        CopyWordfreqSharedScript(outDir);
+        CopyWordfreqHighlightScript(outDir);
         CopyArticleOutlineScript(outDir);
 
         WriteStylesheet(Path.Combine(outDir, "site.css"));
@@ -318,6 +320,30 @@ public sealed class StaticSiteGenerator
         }
 
         File.Copy(src, Path.Combine(outDir, "word-frequency-page.js"), overwrite: true);
+    }
+
+    private static void CopyWordfreqSharedScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "wordfreq-shared.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/wordfreq-shared.js，词频公共脚本不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "wordfreq-shared.js"), overwrite: true);
+    }
+
+    private static void CopyWordfreqHighlightScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "wordfreq-highlight.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/wordfreq-highlight.js，词频高亮不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "wordfreq-highlight.js"), overwrite: true);
     }
 
     private static void CopySiteChromeScript(string outDir)
@@ -1412,6 +1438,7 @@ public sealed class StaticSiteGenerator
             forceInclude: SiteProfile.WordFrequencyForce);
         var hits = WordFrequencyService.BuildTopTermHits(corpus, stats.TopTerms);
         WordFrequencyPageStore.Write(outDir, WordFrequencyPageStore.Build(stats, hits));
+        WordFrequencyPageStore.WriteTermsIndex(outDir, webPath, stats);
         var page = HtmlLayout.BuildDocument(
             "词频",
             "",
@@ -3204,9 +3231,10 @@ html.theme-dark .timeline-tab[aria-selected="true"] {
 
 .wordfreq-chip.is-active,
 .wordfreq-label.is-active {
-  border-color: #ef4444;
-  color: #b91c1c;
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.14);
+  border-color: rgba(67, 56, 202, 0.45);
+  background: rgba(67, 56, 202, 0.14);
+  color: var(--accent-deep);
+  box-shadow: 0 0 0 2px rgba(67, 56, 202, 0.12);
 }
 
 .wordfreq-chart {
@@ -3311,10 +3339,37 @@ html.theme-dark .timeline-tab[aria-selected="true"] {
 }
 
 .wordfreq-hit {
-  color: #b91c1c;
-  background: rgba(248, 113, 113, 0.14);
-  padding: 0 2px;
+  color: inherit;
+  background: rgba(67, 56, 202, 0.12);
+  padding: 0.08em 0.22em;
   border-radius: 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+a.wordfreq-inline {
+  color: inherit;
+  background: rgba(67, 56, 202, 0.11);
+  padding: 0.08em 0.2em;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background 0.12s ease;
+}
+
+a.wordfreq-inline:hover {
+  background: rgba(67, 56, 202, 0.2);
+}
+
+html.theme-dark a.wordfreq-inline {
+  color: inherit;
+  background: rgba(129, 140, 248, 0.16);
+}
+
+html.theme-dark a.wordfreq-inline:hover {
+  background: rgba(129, 140, 248, 0.26);
 }
 
 html.theme-dark .wordfreq-cloud {
@@ -3341,8 +3396,16 @@ html.theme-dark .wordfreq-hit-item {
 }
 
 html.theme-dark .wordfreq-hit {
-  color: #fca5a5;
-  background: rgba(248, 113, 113, 0.2);
+  color: inherit;
+  background: rgba(129, 140, 248, 0.18);
+}
+
+html.theme-dark .wordfreq-chip.is-active,
+html.theme-dark .wordfreq-label.is-active {
+  border-color: rgba(165, 180, 252, 0.55);
+  background: rgba(129, 140, 248, 0.18);
+  color: #c7d2fe;
+  box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.16);
 }
 
 .gallery-empty {

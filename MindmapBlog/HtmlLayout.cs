@@ -139,6 +139,10 @@ internal static class HtmlLayout
         if (siteNames != null)
             sb.Append(BuildSiteFooter(currentPageWebPath, siteNames));
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(chromeScriptHref)).AppendLine("\" defer></script>");
+        var wordfreqSharedHref = SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-shared.js");
+        sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wordfreqSharedHref)).AppendLine("\" defer></script>");
+        var wordfreqHighlightHref = SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-highlight.js");
+        sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wordfreqHighlightHref)).AppendLine("\" defer></script>");
         if (timelinePageShell)
         {
             var timelineScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "timeline-page.js");
