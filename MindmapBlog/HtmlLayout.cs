@@ -145,6 +145,8 @@ internal static class HtmlLayout
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wordfreqHighlightHref)).AppendLine("\" defer></script>");
         if (timelinePageShell)
         {
+            var timelineTabsHref = SitePathHelper.RelFromTo(currentPageWebPath, "timeline-tabs.js");
+            sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(timelineTabsHref)).AppendLine("\" defer></script>");
             var timelineScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "timeline-page.js");
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(timelineScriptHref)).AppendLine("\" defer></script>");
         }

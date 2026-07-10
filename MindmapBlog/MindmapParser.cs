@@ -173,18 +173,10 @@ public static class MindmapParser
                                 break;
                             }
                             case "词频过滤":
-                                wordFrequencyFilter = child.Elements(NodeName)
-                                    .Select(GetNodeLabel)
-                                    .Where(s => !string.IsNullOrWhiteSpace(s))
-                                    .Select(s => s.Trim())
-                                    .ToList();
+                                wordFrequencyFilter = ExtractVariableTermList(child);
                                 break;
                             case "词频强制":
-                                wordFrequencyForce = child.Elements(NodeName)
-                                    .Select(GetNodeLabel)
-                                    .Where(s => !string.IsNullOrWhiteSpace(s))
-                                    .Select(s => s.Trim())
-                                    .ToList();
+                                wordFrequencyForce = ExtractVariableTermList(child);
                                 break;
                             case UnpublishIconsVariableLabel:
                                 unpublishIcons = ExtractUnpublishIcons(child);
@@ -226,6 +218,26 @@ public static class MindmapParser
             return string.Join("\n", parts);
 
         return ParseNodeContent(keyNode)?.PlainText;
+    }
+
+    /// <summary>从变量子树（如「词频过滤」「词频强制」）收集全部层级节点文本，去重保序。</summary>
+    private static List<string> ExtractVariableTermList(XElement sectionNode)
+    {
+        var list = new List<string>();
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var n in sectionNode.Descendants(NodeName))
+        {
+            if (ReferenceEquals(n, sectionNode))
+                continue;
+            var label = GetNodeLabel(n);
+            if (string.IsNullOrWhiteSpace(label))
+                continue;
+            label = label.Trim();
+            if (seen.Add(label))
+                list.Add(label);
+        }
+
+        return list;
     }
 
     /// <summary>从「不发布的图标」子树收集各节点上的 icon BUILTIN 值。</summary>

@@ -36,6 +36,46 @@ internal static class ArticlePlainText
         return Normalize(raw);
     }
 
+    /// <summary>时间轴卡片摘要：仅含超过 <paramref name="minChars"/> 字的段落，至少 <paramref name="minLines"/> 行，最多 <paramref name="maxChars"/> 字。</summary>
+    public static string BuildTimelineExcerpt(BlogArticle article, int minLines = 3, int maxChars = 280, int minChars = 10)
+    {
+        var lines = new List<string>();
+        var total = 0;
+        foreach (var block in article.Blocks)
+        {
+            var text = block switch
+            {
+                ParagraphBlock p => CollapseInline(p.Text),
+                RichParagraphBlock rp => CollapseInline(rp.PlainText),
+                _ => null,
+            };
+            if (string.IsNullOrWhiteSpace(text) || text.Length <= minChars)
+                continue;
+
+            lines.Add(text);
+            total += text.Length;
+            if (lines.Count >= minLines)
+                break;
+            if (total >= maxChars)
+                break;
+        }
+
+        if (lines.Count == 0)
+            return "";
+
+        var excerpt = string.Join('\n', lines);
+        if (excerpt.Length <= maxChars)
+            return excerpt;
+        return excerpt[..maxChars].TrimEnd() + "…";
+    }
+
+    private static string CollapseInline(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return "";
+        return string.Join(' ', text.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
+    }
+
     internal static string Normalize(string text)
     {
         if (string.IsNullOrEmpty(text))

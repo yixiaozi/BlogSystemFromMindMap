@@ -140,14 +140,8 @@ internal static class TimelinePageStore
         return versionDocs.TryGetValue(key, out var doc) ? doc : null;
     }
 
-    private static string BuildExcerpt(BlogArticle article)
-    {
-        var first = article.Blocks.OfType<ParagraphBlock>().FirstOrDefault()?.Text;
-        if (string.IsNullOrWhiteSpace(first))
-            return "";
-        first = first.Trim();
-        return first.Length <= 180 ? first : first[..180] + "…";
-    }
+    private static string BuildExcerpt(BlogArticle article) =>
+        ArticlePlainText.BuildTimelineExcerpt(article);
 
     private static string NormalizeWeb(string? path)
     {

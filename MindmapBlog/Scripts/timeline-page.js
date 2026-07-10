@@ -213,12 +213,8 @@
     }
     host.outerHTML = shell;
 
-    if (data.enableSortTabs) {
-      var tabsScript = relFromTo(pagePath, "timeline-tabs.js");
-      var s = document.createElement("script");
-      s.src = tabsScript;
-      s.defer = true;
-      document.body.appendChild(s);
+    if (data.enableSortTabs && window.MindmapBlogInitTimelineTabs) {
+      window.MindmapBlogInitTimelineTabs();
     }
   }
 

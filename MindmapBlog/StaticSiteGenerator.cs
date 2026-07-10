@@ -1145,14 +1145,8 @@ public sealed class StaticSiteGenerator
             .Append(mod).Append("</span>");
     }
 
-    private static string BuildExcerpt(BlogArticle article)
-    {
-        var first = article.Blocks.OfType<ParagraphBlock>().FirstOrDefault()?.Text;
-        if (string.IsNullOrWhiteSpace(first))
-            return "";
-        first = first.Trim();
-        return first.Length <= 180 ? first : first[..180] + "…";
-    }
+    private static string BuildExcerpt(BlogArticle article) =>
+        ArticlePlainText.BuildTimelineExcerpt(article);
 
     private static string FormatArticleLocalTime(DateTimeOffset dto) =>
         dto.ToLocalTime().ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
@@ -4023,14 +4017,14 @@ td.gen-history-empty {
 }
 
 .timeline-title a {
-  color: var(--text-primary);
+  color: var(--accent-deep);
   text-decoration: none;
   transition: color 0.18s;
 }
 
 .timeline-title a:hover {
   color: var(--accent);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .timeline-bm {
@@ -4046,6 +4040,7 @@ td.gen-history-empty {
   font-size: 0.8rem;
   color: var(--text-muted);
   line-height: 1.5;
+  white-space: pre-line;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
