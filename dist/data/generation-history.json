@@ -1,6 +1,67 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-11T03:03:24.1220317+00:00",
+      "articlesAdded": 6,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 12123,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 23,
+      "totalPlainChars": 31083,
+      "mindmapFileCount": 16,
+      "distinctBookmarkCount": 17,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "写给茜茜的话",
+        "09:55 帮我朗读她今早发给我的全文吧。并把全文写到结果里。如果是文字，也帮忙读出来。",
+        "09:41 告诉我，我该如何挽回她？",
+        "09:38 D:\\Dropbox\\yixiaozi\\02目标发展\\03婚恋性福\\1求偶\\3相亲活动\\.log\\吴茜\\聊天记录\\私聊_にしいゆめ-最后的诀别 帮我读一下这个聊天记录吧，我只看了两条，不敢看心脏承受不住，没有看全部。但我知道这是她给我的诀别 。我很心疼。告诉我她想说什么吧。",
+        "Docear未来开发计划",
+        "思维导图博客的剩余目标"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-07-11T00:16:42.3845078+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 17,
+      "totalPlainChars": 18960,
+      "mindmapFileCount": 14,
+      "distinctBookmarkCount": 14,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
+      "generatedAtUtc": "2026-07-10T23:37:06.6978803+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 17,
+      "totalPlainChars": 18960,
+      "mindmapFileCount": 14,
+      "distinctBookmarkCount": 14,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-07-10T23:27:08.98191+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -5102,6 +5163,36 @@
     }
   ],
   "lastSnapshot": {
+    "236a3b7b4f066e406131bfd1": {
+      "title": "写给茜茜的话",
+      "plainChars": 1609,
+      "contentHash8": "32a6624346b290e2"
+    },
+    "43dbdb651ab876987d600c2b": {
+      "title": "09:55 帮我朗读她今早发给我的全文吧。并把全文写到结果里。如果是文字，也帮忙读出来。",
+      "plainChars": 5391,
+      "contentHash8": "b1f6d3556dc11607"
+    },
+    "ebce85de98f69137ae566869": {
+      "title": "09:41 告诉我，我该如何挽回她？",
+      "plainChars": 2726,
+      "contentHash8": "9b2f2dd846c53152"
+    },
+    "0949c4a569b12146a27a33c5": {
+      "title": "09:38 D:\\Dropbox\\yixiaozi\\02目标发展\\03婚恋性福\\1求偶\\3相亲活动\\.log\\吴茜\\聊天记录\\私聊_にしいゆめ-最后的诀别 帮我读一下这个聊天记录吧，我只看了两条，不敢看心脏承受不住，没有看全部。但我知道这是她给我的诀别 。我很心疼。告诉我她想说什么吧。",
+      "plainChars": 2263,
+      "contentHash8": "cd2b26d508ed0df2"
+    },
+    "9810b7066ac9aa9bbabec6bc": {
+      "title": "Docear未来开发计划",
+      "plainChars": 77,
+      "contentHash8": "4cb0ba57e4d82aa1"
+    },
+    "39fb76cec5618ccbe822a675": {
+      "title": "思维导图博客的剩余目标",
+      "plainChars": 57,
+      "contentHash8": "51f8d3984563bf0b"
+    },
     "6a336464b44b4c42dfec13fe": {
       "title": "2026年7月10日每日复盘",
       "plainChars": 1171,

@@ -206,17 +206,16 @@ public sealed class StaticSiteGenerator
         string? siteBaseUrl,
         DateTimeOffset generatedAt)
     {
-        const int maxItems = 40;
-        var items = sortedArticles.OrderByDescending(a => a.Modified).Take(maxItems).ToList();
+        var items = sortedArticles.OrderByDescending(a => a.Modified).ToList();
 
         var channelTitle = SiteProfile.BlogTitle;
-        var channelDesc = "按文章修改时间推送更新（RSS 2.0）。";
+        var channelDesc = "按文章修改时间推送更新；条目含全文与元数据（RSS 2.0 + content 模块）。";
         var channelLink = CombineSiteUrl(siteBaseUrl, "index.html");
         var selfLink = CombineSiteUrl(siteBaseUrl, names.RssFeedWebPath);
 
         var sb = new StringBuilder();
         sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-        sb.AppendLine("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
+        sb.AppendLine("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:content=\"http://purl.org/rss/1.0/modules/content/\">");
         sb.AppendLine("  <channel>");
         sb.Append("    <title>").Append(XmlEscaped(channelTitle)).AppendLine("</title>");
         sb.Append("    <link>").Append(XmlEscaped(channelLink)).AppendLine("</link>");
@@ -228,7 +227,8 @@ public sealed class StaticSiteGenerator
 
         foreach (var article in items)
         {
-            var excerpt = BuildExcerpt(article);
+            var description = ArticlePlainText.BuildRssDescription(article);
+            var contentHtml = RenderRssBodyHtml(article, siteBaseUrl);
             var path = article.HtmlFileName.Replace('\\', '/');
             var itemLink = CombineSiteUrl(siteBaseUrl, path);
             sb.AppendLine("    <item>");
@@ -236,8 +236,12 @@ public sealed class StaticSiteGenerator
             sb.Append("      <link>").Append(XmlEscaped(itemLink)).AppendLine("</link>");
             sb.Append("      <guid isPermaLink=\"true\">").Append(XmlEscaped(itemLink)).AppendLine("</guid>");
             sb.Append("      <pubDate>").Append(XmlEscaped(Rfc822Date(article.Modified))).AppendLine("</pubDate>");
-            sb.Append("      <description>").Append(XmlEscaped(string.IsNullOrEmpty(excerpt) ? article.Title : excerpt))
+            sb.Append("      <description>").Append(XmlEscaped(string.IsNullOrEmpty(description) ? article.Title : description))
                 .AppendLine("</description>");
+            if (!string.IsNullOrWhiteSpace(contentHtml))
+            {
+                sb.Append("      <content:encoded>").Append(XmlCdata(contentHtml)).AppendLine("</content:encoded>");
+            }
             sb.AppendLine("    </item>");
         }
 
@@ -245,6 +249,81 @@ public sealed class StaticSiteGenerator
         sb.AppendLine("</rss>");
 
         WriteUtf8Web(outDir, names.RssFeedWebPath, sb.ToString());
+    }
+
+    private static string XmlCdata(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return "";
+        return "<![CDATA[" + text.Replace("]]>", "]]]]><![CDATA[>") + "]]>";
+    }
+
+    private static string RenderRssBodyHtml(BlogArticle article, string? siteBaseUrl)
+    {
+        var sb = new StringBuilder();
+        var meta = new StringBuilder();
+        ArticlePlainText.AppendRssMetaHtml(meta, article);
+        if (meta.Length > 0)
+            sb.Append("<div class=\"rss-meta\">").Append(meta).Append("</div>");
+
+        var imageIndex = 0;
+        foreach (var block in article.Blocks)
+        {
+            switch (block)
+            {
+                case ParagraphBlock p:
+                    sb.Append("<p>")
+                        .Append(WebUtility.HtmlEncode(p.Text))
+                        .AppendLine("</p>");
+                    break;
+                case RichParagraphBlock rp:
+                    sb.Append("<div class=\"rich-paragraph\">")
+                        .Append(rp.Html)
+                        .AppendLine("</div>");
+                    break;
+                case NoteBlock n:
+                    sb.Append("<div class=\"note-box\">")
+                        .Append(n.Html)
+                        .AppendLine("</div>");
+                    break;
+                case ImageBlock img:
+                    var imgUrl = ResolvePublishedImageAbsoluteUrl(article, img, ref imageIndex, siteBaseUrl);
+                    if (string.IsNullOrEmpty(imgUrl))
+                    {
+                        sb.Append("<p>图片缺失：")
+                            .Append(WebUtility.HtmlEncode(img.RelativeUri))
+                            .AppendLine("</p>");
+                        break;
+                    }
+
+                    sb.Append("<figure><img src=\"")
+                        .Append(WebUtility.HtmlEncode(imgUrl))
+                        .Append("\" alt=\"")
+                        .Append(WebUtility.HtmlEncode(img.AltText))
+                        .Append("\" /><figcaption>")
+                        .Append(WebUtility.HtmlEncode(img.AltText))
+                        .AppendLine("</figcaption></figure>");
+                    break;
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    private static string? ResolvePublishedImageAbsoluteUrl(
+        BlogArticle article,
+        ImageBlock img,
+        ref int imageIndex,
+        string? siteBaseUrl)
+    {
+        if (string.IsNullOrEmpty(img.ResolvedSourcePath) || !File.Exists(img.ResolvedSourcePath))
+            return null;
+
+        var prefix = ArticleIdentity.ComputeStorageKey(article.SourceMmPath, article.ArticleNodeId);
+        var orig = Path.GetFileName(img.ResolvedSourcePath);
+        var mediaFromRoot = $"media/{prefix}_{imageIndex}_{orig}".Replace('\\', '/');
+        imageIndex++;
+        return CombineSiteUrl(siteBaseUrl, mediaFromRoot);
     }
 
     private static string CombineSiteUrl(string? siteBaseUrl, string webPathFromRoot)

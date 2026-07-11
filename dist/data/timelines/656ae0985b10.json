@@ -2,11 +2,24 @@
   "pagePath": "02目标发展/07创作达人/00开源作者/00个人网址/导图-00个人网址-思维导图博客.html",
   "documentTitle": "导图：思维导图博客.mm（全部） · 分支文章",
   "heading": "导图：思维导图博客.mm（全部）",
-  "subLine": "共 1 篇（该节点及以下全部文章）",
+  "subLine": "共 2 篇（该节点及以下全部文章）",
   "wrapperClass": "page-branch page-with-timeline",
   "enableSortTabs": true,
   "timeSource": "published",
   "items": [
+    {
+      "href": "02目标发展/07创作达人/00开源作者/00个人网址/思维导图博客的剩余目标.html",
+      "title": "思维导图博客的剩余目标",
+      "published": "2026-07-11T11:03:24",
+      "modified": "2026-07-11T08:24:39",
+      "bookmarks": [
+        "思维导图博客"
+      ],
+      "bookmarkPages": {
+        "思维导图博客": "标签/标签-思维导图博客.html"
+      },
+      "excerpt": "给自己的博客上添加评论系统\n给自己的博客上添加AI系统\n目的，方便别人直接提问题，而非查找答案"
+    },
     {
       "href": "02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html",
       "title": "系统日志",

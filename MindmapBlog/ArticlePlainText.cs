@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 
 namespace MindmapBlog;
@@ -67,6 +68,51 @@ internal static class ArticlePlainText
         if (excerpt.Length <= maxChars)
             return excerpt;
         return excerpt[..maxChars].TrimEnd() + "…";
+    }
+
+    /// <summary>RSS 条目：元数据 + 全文（段落、注释、图片占位）。</summary>
+    public static string BuildRssDescription(BlogArticle article)
+    {
+        var sb = new StringBuilder();
+        AppendRssMeta(sb, article);
+        var body = Build(article);
+        if (!string.IsNullOrEmpty(body))
+        {
+            if (sb.Length > 0)
+                sb.AppendLine();
+            sb.Append(body);
+        }
+
+        return sb.ToString().TrimEnd();
+    }
+
+    internal static void AppendRssMetaHtml(StringBuilder sb, BlogArticle article)
+    {
+        if (article.Bookmarks.Count > 0)
+            sb.Append("<p>书签：").Append(WebUtility.HtmlEncode(string.Join("、", article.Bookmarks))).Append("</p>");
+        if (!string.IsNullOrWhiteSpace(article.StructuralSection))
+            sb.Append("<p>分区：").Append(WebUtility.HtmlEncode(article.StructuralSection.Trim())).Append("</p>");
+        if (!string.IsNullOrWhiteSpace(article.NotebookTitle))
+            sb.Append("<p>导图：").Append(WebUtility.HtmlEncode(article.NotebookTitle.Trim())).Append("</p>");
+        if (article.ReminderAt.HasValue)
+            sb.Append("<p>提醒：").Append(WebUtility.HtmlEncode(
+                article.ReminderAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm"))).Append("</p>");
+        if (!string.IsNullOrWhiteSpace(article.SourceMmPath))
+            sb.Append("<p>来源：").Append(WebUtility.HtmlEncode(Path.GetFileName(article.SourceMmPath))).Append("</p>");
+    }
+
+    private static void AppendRssMeta(StringBuilder sb, BlogArticle article)
+    {
+        if (article.Bookmarks.Count > 0)
+            sb.AppendLine("书签：" + string.Join("、", article.Bookmarks));
+        if (!string.IsNullOrWhiteSpace(article.StructuralSection))
+            sb.AppendLine("分区：" + article.StructuralSection.Trim());
+        if (!string.IsNullOrWhiteSpace(article.NotebookTitle))
+            sb.AppendLine("导图：" + article.NotebookTitle.Trim());
+        if (article.ReminderAt.HasValue)
+            sb.AppendLine("提醒：" + article.ReminderAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm"));
+        if (!string.IsNullOrWhiteSpace(article.SourceMmPath))
+            sb.AppendLine("来源：" + Path.GetFileName(article.SourceMmPath));
     }
 
     private static string CollapseInline(string? text)

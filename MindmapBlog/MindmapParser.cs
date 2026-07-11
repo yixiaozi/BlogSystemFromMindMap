@@ -12,6 +12,7 @@ namespace MindmapBlog;
 /// 名为「变量」的节点仅作站点配置，不发布为文章。
 /// 分区路径为从根到该节点父链上的节点标题（如 2026 / 5 / 1）；
 /// 书签从节点明细中解析 #标签；无 # 时仅用图册根节点标题归类（不再用路径作伪标签）。
+/// 节点明细 DETAILS 中首个 [方括号] 内的文字作为博客显示标题（优先于日节点合成标题）。
 /// </summary>
 public static class MindmapParser
 {
@@ -522,6 +523,7 @@ public static class MindmapParser
     }
 
     private static readonly Regex BookmarkHashRegex = new(@"#([^\s#]+)", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(2));
+    private static readonly Regex BracketTitleRegex = new(@"\[([^\[\]]+)\]", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(2));
 
     private static List<BodyBlock> BuildBodyBlocks(XElement articleRoot, string mmDirectory)
     {
@@ -681,11 +683,16 @@ public static class MindmapParser
     }
 
     /// <summary>
-    /// 文章标题：若根节点为「主题 → 年 → 月 → 日」中的纯日节点，
-    /// 则合成「{年}年{月}月{日}日{主题去编号}」；否则用节点原文。
+    /// 文章标题：节点明细 DETAILS 中首个 [名称] 优先；
+    /// 否则若根节点为「主题 → 年 → 月 → 日」中的纯日节点，合成「{年}年{月}月{日}日{主题去编号}」；
+    /// 否则用节点原文。
     /// </summary>
     private static string ResolveArticleTitle(XElement articleRoot)
     {
+        var bracketTitle = TryExtractBracketTitleFromDetails(articleRoot);
+        if (!string.IsNullOrWhiteSpace(bracketTitle))
+            return bracketTitle;
+
         var raw = GetNodeLabel(articleRoot);
         if (string.IsNullOrEmpty(raw))
             return "无标题";
@@ -718,6 +725,33 @@ public static class MindmapParser
 
         var suffix = StripLeadingNumber(topic);
         return FormatMindDate(year, month, day) + suffix;
+    }
+
+    /// <summary>从节点明细 DETAILS 中提取首个 [标题] 作为博客显示名。</summary>
+    internal static string? TryExtractBracketTitleFromDetails(XElement node)
+    {
+        foreach (var rc in node.Elements(RichContentName))
+        {
+            var type = rc.Attribute("TYPE")?.Value ?? "";
+            if (!type.Equals("DETAILS", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            var plain = ExtractRichContentSourceText(rc);
+            if (string.IsNullOrWhiteSpace(plain))
+                plain = DecodeText(rc.Value)?.Trim();
+            if (string.IsNullOrWhiteSpace(plain))
+                continue;
+
+            var m = BracketTitleRegex.Match(plain);
+            if (!m.Success)
+                continue;
+
+            var title = m.Groups[1].Value.Trim();
+            if (!string.IsNullOrWhiteSpace(title))
+                return title;
+        }
+
+        return null;
     }
 
     /// <summary>去掉开头的序号前缀（如 01、1.、①），保留后面正文；去掉后为空则返回原文。</summary>
