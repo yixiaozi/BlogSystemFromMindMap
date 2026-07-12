@@ -2,7 +2,7 @@
   "pagePath": "浏览-全部文章.html",
   "documentTitle": "扫描目录内全部文章 · 分支文章",
   "heading": "扫描目录内全部文章",
-  "subLine": "共 26 篇（含本文件夹及子文件夹内导图）",
+  "subLine": "共 25 篇（含本文件夹及子文件夹内导图）",
   "wrapperClass": "page-branch page-with-timeline",
   "enableSortTabs": true,
   "timeSource": "published",
@@ -305,19 +305,6 @@
         "HashPhotos": "标签/标签-hashphotos.html"
       },
       "excerpt": "相册目前七万多张照片，大部分是最近两年所留，之前的记录并不完全。今天借此契机（导出了相册备注），总结一下近些年的轨迹，也践行自己透明人的签名。真实，更有力量，这是我相信的，虽然真实会映射出我的渺小，平庸和无力。\n目前有3段确定的恋爱史：\n第一段2012年9月到2016年6月(3 年 9 个月)"
-    },
-    {
-      "href": "04信息技术/AI/AI Coding/cursor个人数据.html",
-      "title": "Cursor个人数据",
-      "published": "2026-07-08T13:11:14",
-      "modified": "2026-07-08T12:36:54",
-      "bookmarks": [
-        "Cursor"
-      ],
-      "bookmarkPages": {
-        "Cursor": "标签/标签-cursor.html"
-      },
-      "excerpt": "https://cursor.com/@yixiaozi"
     },
     {
       "href": "04信息技术/AI/AI Coding/Cursor/cursor个人数据.html",

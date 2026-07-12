@@ -428,22 +428,7 @@
                           }
                         }
                       ],
-                      "mindmaps": [
-                        {
-                          "label": "Cursor.mm",
-                          "listPage": "04信息技术/AI/AI Coding/导图-ai-coding-cursor.html",
-                          "detailsId": "nav-det-9a79f65daf51",
-                          "root": {
-                            "segments": [],
-                            "articles": [
-                              {
-                                "href": "04信息技术/AI/AI Coding/cursor个人数据.html",
-                                "title": "Cursor个人数据"
-                              }
-                            ]
-                          }
-                        }
-                      ]
+                      "mindmaps": []
                     }
                   }
                 ],
