@@ -41,6 +41,9 @@ public sealed class StaticSiteGenerator
         {
             foreach (var f in Directory.GetFiles(mediaDir))
             {
+                // 保留已发布站点头像，避免源文件不在扫描目录时重建后侧栏头像消失
+                if (Path.GetFileName(f).StartsWith("site-avatar.", StringComparison.OrdinalIgnoreCase))
+                    continue;
                 try { File.Delete(f); } catch { /* ignore */ }
             }
 
@@ -110,7 +113,7 @@ public sealed class StaticSiteGenerator
             generatedAt);
 
         var names = SiteFileNames.Create(sortedArticles, scanRoot);
-        var avatarSitePath = SiteProfile.TryPublishAvatar(scanRoot, mediaDir);
+        var avatarSitePath = SiteProfile.TryPublishAvatar(scanRoot, mediaDir, outDir);
 
         var galleryItems = new List<ArticleGalleryItem>();
 
@@ -1859,7 +1862,8 @@ public sealed class StaticSiteGenerator
 /*
   滚动条策略
   · 整页（html）：始终隐藏滚动条，滚轮/触控/键盘仍可滚动。
-  · 有 max-height 且 overflow:auto 的面板：默认隐藏；悬停或键盘聚焦时显示细滚动条，提示「此处还有内容」。
+  · 有 max-height 且 overflow:auto 的面板：始终预留滚动条槽位（scrollbar-gutter: stable），
+    默认滑块透明；悬停或键盘聚焦时仅显示滑块颜色，避免宽度跳动。
 */
 html {
   background: var(--surface-page);
@@ -1880,8 +1884,10 @@ html::-webkit-scrollbar {
 .article-outline-scroll,
 .rev-aside.rev-aside--scrollable,
 .gen-history-table-wrap {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  -ms-overflow-style: auto;
 }
 
 .layout-nav::-webkit-scrollbar,
@@ -1927,7 +1933,6 @@ html::-webkit-scrollbar {
 .rev-aside.rev-aside--scrollable:focus-within,
 .gen-history-table-wrap:hover,
 .gen-history-table-wrap:focus-within {
-  scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 

@@ -1,8 +1,8 @@
 $ErrorActionPreference = "Stop"
 
-$ProjectDir = "d:\Dropbox\Code\C#\Project\BlogSystem"
-$ScanDir = "D:\Dropbox\yixiaozi"
-$OutDir = "D:\Dropbox\Code\C#\Project\BlogSystem\dist"
+$ProjectDir = "E:\Develop\BlogSystemFromMindMap"
+$ScanDir = "E:\yixiaozi"
+$OutDir = "E:\Develop\BlogSystem"
 
 Write-Host "========== Build & Publish Started =========="
 

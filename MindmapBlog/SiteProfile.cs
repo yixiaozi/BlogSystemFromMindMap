@@ -70,7 +70,7 @@ internal static class SiteProfile
     /// 在若干根目录下查找头像文件并复制到 <paramref name="mediaDir"/>，
     /// 返回站点相对路径（如 <c>media/site-avatar.jpg</c>）；找不到则返回 null。
     /// </summary>
-    public static string? TryPublishAvatar(string scanRoot, string mediaDir)
+    public static string? TryPublishAvatar(string scanRoot, string mediaDir, string? outputRoot = null)
     {
         var roots = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         try
@@ -90,14 +90,44 @@ internal static class SiteProfile
                 return CopyToMedia(hit, mediaDir);
         }
 
-        // 兼容误放在生成目录 dist/data 下的头像（不推荐，但可避免「有文件却看不到」）
-        var distData = Path.Combine(Environment.CurrentDirectory, "dist", "data");
-        if (Directory.Exists(distData))
+        // 兼容误放在生成目录 data/ 下的头像（不推荐，但可避免「有文件却看不到」）
+        foreach (var dataDir in CollectAvatarDataFallbackDirs(outputRoot))
         {
-            var hit = PickFirstImage(distData, preferNameContains: "Avator");
-            hit ??= PickFirstImage(distData, preferNameContains: null);
+            var hit = PickFirstImage(dataDir, preferNameContains: "Avator");
+            hit ??= PickFirstImage(dataDir, preferNameContains: null);
             if (hit != null)
                 return CopyToMedia(hit, mediaDir);
+        }
+
+        // 源文件找不到时，保留 media/ 里已有的 site-avatar.*
+        return TryFindPublishedAvatar(mediaDir);
+    }
+
+    private static IEnumerable<string> CollectAvatarDataFallbackDirs(string? outputRoot)
+    {
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        if (!string.IsNullOrWhiteSpace(outputRoot))
+        {
+            var fromOut = Path.Combine(Path.GetFullPath(outputRoot), "data");
+            if (seen.Add(fromOut))
+                yield return fromOut;
+        }
+
+        var fromCwd = Path.Combine(Environment.CurrentDirectory, "dist", "data");
+        if (seen.Add(fromCwd))
+            yield return fromCwd;
+    }
+
+    private static string? TryFindPublishedAvatar(string mediaDir)
+    {
+        if (!Directory.Exists(mediaDir))
+            return null;
+
+        foreach (var ext in ImageExtensions)
+        {
+            var path = Path.Combine(mediaDir, "site-avatar" + ext);
+            if (File.Exists(path))
+                return "media/site-avatar" + ext.ToLowerInvariant();
         }
 
         return null;

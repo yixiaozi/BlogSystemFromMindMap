@@ -9,7 +9,7 @@
 [CmdletBinding()]
 param(
     [string]$RepoRoot = "E:\Develop\BlogSystemFromMindMap",
-    [string]$ScanDir = "D:\Dropbox\yixiaozi",
+    [string]$ScanDir = "E:\yixiaozi",
     [string]$OutDir = "E:\Develop\BlogSystemFromMindMap\dist",
     [string]$BaseUrl = "https://yixiaozi.github.io/BlogSystemFromMindMap",
     [string]$GitRemote = "origin",
