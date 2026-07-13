@@ -11,6 +11,19 @@ try {
     Write-Host "Working directory: $ProjectDir"
 
     Write-Host "Running blog generation..."
+    $ProjectDist = Join-Path $ProjectDir "dist"
+    if ($OutDir -ne $ProjectDist) {
+        # 生成到独立输出目录时，先继承 dist 里的生成记录，避免 robocopy /MIR 覆盖后历史从 0 开始
+        $historyRel = Join-Path "data" "generation-history.json"
+        $srcHistory = Join-Path $ProjectDist $historyRel
+        $dstHistory = Join-Path $OutDir $historyRel
+        if (Test-Path -LiteralPath $srcHistory) {
+            New-Item -ItemType Directory -Force -Path (Split-Path -LiteralPath $dstHistory) | Out-Null
+            Copy-Item -LiteralPath $srcHistory -Destination $dstHistory -Force
+            Write-Host "Seeded generation history from project dist."
+        }
+    }
+
     dotnet run --project MindmapBlog --out $OutDir --scan $ScanDir
     if ($LASTEXITCODE -ne 0) {
         throw "Blog generation failed with exit code $LASTEXITCODE"
