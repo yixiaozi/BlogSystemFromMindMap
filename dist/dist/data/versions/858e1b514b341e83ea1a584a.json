@@ -1,0 +1,18 @@
+{
+  "storageKey": "858e1b514b341e83ea1a584a",
+  "articleNodeId": "ID_1396575414",
+  "sourceMmRelativePath": "02目标发展/07创作达人/00开源作者/00个人网址/思维导图博客.mm",
+  "htmlFileName": "02目标发展/07创作达人/00开源作者/00个人网址/脚本.html",
+  "modifyCount": 0,
+  "versions": [
+    {
+      "generatedAtUtc": "2026-07-09T07:38:37.2264204+00:00",
+      "mindmapModifiedUtc": "2026-07-09T07:38:23.111+00:00",
+      "charsAdded": 250,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "cd E:\\Develop\\BlogSystemFromMindMap\n发布脚本\ndotnet run --project MindmapBlog --out \"E:\\Develop\\BlogSystemFromMindMap\\dist\" --scan \"D:\\Dropbox\\yixiaozi\"\n测试脚本\ndotnet run --project MindmapBlog --out \"E:\\Develop\\BlogSystem\\dist\" --scan \"D:\\Dropbox\\yixiaozi\"",
+      "diffHtmlAgainstPrevious": ""
+    }
+  ]
+}

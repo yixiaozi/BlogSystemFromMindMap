@@ -1,0 +1,24 @@
+{
+  "pagePath": "标签/标签-交换礼物.html",
+  "documentTitle": "书签：交换礼物",
+  "heading": "书签：交换礼物",
+  "subLine": "共 1 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。",
+  "wrapperClass": "page-tag page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "07有条不紊/08人际关系/04人情往来/愿望礼物清单.html",
+      "title": "愿望礼物清单",
+      "published": "2026-07-09T15:17:20",
+      "modified": "2026-07-02T19:17:17",
+      "bookmarks": [
+        "交换礼物"
+      ],
+      "bookmarkPages": {
+        "交换礼物": "标签/标签-交换礼物.html"
+      },
+      "excerpt": "用途 — 整理礼物愿望与往来，过节、拜访、还人情时查阅\n记录格式 — 日期 · 对象 · 场合 · 礼物 · 价值/备注\n维护习惯 — 收到即记；送礼前先扫一眼，避免重复或踩雷"
+    }
+  ]
+}

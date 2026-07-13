@@ -1,0 +1,24 @@
+{
+  "pagePath": "07有条不紊/05财务管理/导图-05财务管理-保险.html",
+  "documentTitle": "导图：保险.mm（全部） · 分支文章",
+  "heading": "导图：保险.mm（全部）",
+  "subLine": "共 1 篇（该节点及以下全部文章）",
+  "wrapperClass": "page-branch page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "07有条不紊/05财务管理/我的保险.html",
+      "title": "我的保险",
+      "published": "2026-07-02T12:10:24",
+      "modified": "2026-07-02T12:02:40",
+      "bookmarks": [
+        "保险"
+      ],
+      "bookmarkPages": {
+        "保险": "标签/标签-保险.html"
+      },
+      "excerpt": "保费会随年纪增加而增加\n下次缴费日期：2026-0912\n身故受益人：法定继承人"
+    }
+  ]
+}

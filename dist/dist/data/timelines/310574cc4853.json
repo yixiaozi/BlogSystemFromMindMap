@@ -1,0 +1,24 @@
+{
+  "pagePath": "02目标发展/07创作达人/00开源作者/00个人网址/导图-00个人网址-思维导图博客-分支-软件使用说明-图标与发布.html",
+  "documentTitle": "导图：思维导图博客.mm · 软件使用说明/图标与发布 · 分支文章",
+  "heading": "导图：思维导图博客.mm · 软件使用说明/图标与发布",
+  "subLine": "共 1 篇（该节点及以下全部文章）",
+  "wrapperClass": "page-branch page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "02目标发展/07创作达人/00开源作者/00个人网址/发布为文章互联网图标builtininternet.html",
+      "title": "发布为文章：互联网图标（BUILTIN=internet）",
+      "published": "2026-07-09T15:17:20",
+      "modified": "2026-07-12T17:09:00",
+      "bookmarks": [
+        "思维导图博客"
+      ],
+      "bookmarkPages": {
+        "思维导图博客": "标签/标签-思维导图博客.html"
+      },
+      "excerpt": "挂在任意深度节点上，该节点作为文章根，子树写入正文"
+    }
+  ]
+}

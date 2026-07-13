@@ -1,10 +1,29 @@
 {
   "isGitRepo": true,
-  "scanRoot": "D:\\Dropbox\\yixiaozi",
+  "scanRoot": "E:\\yixiaozi",
   "repoRoot": "D:/Dropbox/yixiaozi",
   "branch": "master",
-  "collectedAtUtc": "2026-07-12T23:32:26.1555622+00:00",
+  "logScopeRelative": "E:\\yixiaozi",
+  "collectedAtUtc": "2026-07-13T14:20:09.8018058+00:00",
   "commits": [
+    {
+      "hash": "1fd70a8616c3c795538866f6d55185bf5ebeb11e",
+      "committedAt": "2026-07-13T22:16:54+08:00",
+      "subject": "十点了，要回去了，可是感觉还有很多事想做",
+      "body": "其实挺自卑的，感觉自己不过是自欺欺人罢了。我只是不重要的一个人。对所有人都是。"
+    },
+    {
+      "hash": "66a94fc3688e839fba799d402f85355f0d1329bb",
+      "committedAt": "2026-07-13T19:47:51+08:00",
+      "subject": "聊天记录下载，系统系统崩溃，悲剧的处理单据中",
+      "body": "BU合并的事并不顺利，没有进展"
+    },
+    {
+      "hash": "51614fdb2ac8c2cb8f8184c95087695d7725c53a",
+      "committedAt": "2026-07-13T12:04:07+08:00",
+      "subject": "早上完成了质量PDF自动绑定，添加了链接",
+      "body": "茜茜我是挺舍不得的，但是我只有变得更好，才有机会，才不会再次伤害她。"
+    },
     {
       "hash": "5be7e106d6cb48e08aa2a03ac341a40d0dc660a5",
       "committedAt": "2026-07-13T07:32:04+08:00",

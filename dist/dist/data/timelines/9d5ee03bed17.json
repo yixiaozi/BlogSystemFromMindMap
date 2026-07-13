@@ -1,0 +1,24 @@
+{
+  "pagePath": "标签/标签-紧急联系人.html",
+  "documentTitle": "书签：紧急联系人",
+  "heading": "书签：紧急联系人",
+  "subLine": "共 1 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。",
+  "wrapperClass": "page-tag page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html",
+      "title": "个人信息及紧急联系人",
+      "published": "2026-06-24T21:35:51",
+      "modified": "2026-06-24T15:36:51",
+      "bookmarks": [
+        "紧急联系人"
+      ],
+      "bookmarkPages": {
+        "紧急联系人": "标签/标签-紧急联系人.html"
+      },
+      "excerpt": "为了应对突发情况，联系不到我本人的情况，可以联系我的同事及家人获取更多信息。\n电话：13522420921（微信）\n17326883195"
+    }
+  ]
+}
