@@ -1,6 +1,29 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-14T14:37:39.8257187+00:00",
+      "articlesAdded": 2,
+      "articlesRemoved": 0,
+      "articlesModified": 1,
+      "charsInNewArticles": 688,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 259,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 27,
+      "totalPlainChars": 32539,
+      "mindmapFileCount": 16,
+      "distinctBookmarkCount": 17,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "2026年7月13日每日复盘",
+        "2026年7月12日每日复盘"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": [
+        "活动数据"
+      ]
+    },
+    {
       "generatedAtUtc": "2026-07-12T23:32:24.1141636+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -5257,6 +5280,16 @@
     }
   ],
   "lastSnapshot": {
+    "8cdc169e04d370ff72ebdcf5": {
+      "title": "2026年7月13日每日复盘",
+      "plainChars": 632,
+      "contentHash8": "099a0a0f40f89743"
+    },
+    "9ee816916a415c5a2ed4e34f": {
+      "title": "2026年7月12日每日复盘",
+      "plainChars": 56,
+      "contentHash8": "19dfa96f4211a57e"
+    },
     "170a598235e6292d0ce1e45a": {
       "title": "2026年7月11日每日复盘",
       "plainChars": 466,
@@ -5344,8 +5377,8 @@
     },
     "b939f364d041dc4fb8f4b8e3": {
       "title": "活动数据",
-      "plainChars": 10646,
-      "contentHash8": "a67cbbe88884e02c"
+      "plainChars": 10905,
+      "contentHash8": "d4d99e3f4595bcd5"
     },
     "7bc1722c5ebc0e07d4c1a33e": {
       "title": "关于活动数据的总结（AI总结）20260620",
