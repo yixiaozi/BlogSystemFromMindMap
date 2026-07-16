@@ -1,6 +1,28 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-16T13:33:50.7654006+00:00",
+      "articlesAdded": 3,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 460,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 25,
+      "totalPlainChars": 20967,
+      "mindmapFileCount": 14,
+      "distinctBookmarkCount": 15,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "2026年7月15日每日复盘",
+        "2026年7月16日每日复盘",
+        "2026年7月14日每日复盘"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-07-16T12:01:39.3512307+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 5,
@@ -5340,6 +5362,21 @@
     }
   ],
   "lastSnapshot": {
+    "89b7ed1ab2b3e4356c3d4259": {
+      "title": "2026年7月15日每日复盘",
+      "plainChars": 86,
+      "contentHash8": "038dae43ff182bfe"
+    },
+    "bc1d49e3de2576aca3150064": {
+      "title": "2026年7月16日每日复盘",
+      "plainChars": 321,
+      "contentHash8": "894ee3fa86a2f221"
+    },
+    "903a58b57d3a9717766ee261": {
+      "title": "2026年7月14日每日复盘",
+      "plainChars": 53,
+      "contentHash8": "5df3851fa9148e7a"
+    },
     "8cdc169e04d370ff72ebdcf5": {
       "title": "2026年7月13日每日复盘",
       "plainChars": 632,

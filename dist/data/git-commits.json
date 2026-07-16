@@ -4,8 +4,14 @@
   "repoRoot": "D:/Dropbox/yixiaozi",
   "branch": "master",
   "logScopeRelative": "E:\\yixiaozi",
-  "collectedAtUtc": "2026-07-16T12:01:40.4618097+00:00",
+  "collectedAtUtc": "2026-07-16T13:33:52.0639774+00:00",
   "commits": [
+    {
+      "hash": "fe562f83237381371caa01002472a5540aac6ab8",
+      "committedAt": "2026-07-16T21:31:47+08:00",
+      "subject": "写了每日复盘，其实只需要一分钟，以后尽量每天都写",
+      "body": "Docear的两个老大难解决了（最后节点和打开导图），今天在这个上花的时间太多了，以后逐渐优化不着急。希望以后每天多读点书，多学习点新技能。"
+    },
     {
       "hash": "2d69a5e72fa909db6fe582adc040d1530bb26faa",
       "committedAt": "2026-07-16T17:35:34+08:00",
