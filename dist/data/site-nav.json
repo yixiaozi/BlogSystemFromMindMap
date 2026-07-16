@@ -843,5 +843,49 @@
       }
     ],
     "mindmaps": []
+  },
+  "calendar": {
+    "tree": [
+      {
+        "year": 2026,
+        "listPage": "计划/2026.html",
+        "detailsId": "nav-det-cal-y-2026",
+        "months": [
+          {
+            "month": 8,
+            "listPage": "计划/2026-08.html",
+            "detailsId": "nav-det-cal-ym-2026-08",
+            "days": [
+              {
+                "day": 1,
+                "listPage": "计划/2026-08-01.html",
+                "detailsId": "nav-det-cal-ymd-2026-08-01",
+                "articles": [
+                  {
+                    "href": "07有条不紊/07饮食健康/05身体状况/做个ct复查一次是否完全恢复.html",
+                    "title": "做个CT，复查一次，是否完全恢复",
+                    "time": "09:00"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "dayCounts": {
+      "2026-08-01": 1
+    },
+    "dayPages": {
+      "2026-08-01": "计划/2026-08-01.html"
+    },
+    "monthPages": {
+      "2026-08": "计划/2026-08.html"
+    },
+    "yearMonths": [
+      "2026-08"
+    ],
+    "defaultYear": 2026,
+    "defaultMonth": 8
   }
 }
