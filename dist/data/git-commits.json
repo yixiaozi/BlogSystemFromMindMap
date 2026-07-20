@@ -1,11 +1,58 @@
 {
   "isGitRepo": true,
-  "scanRoot": "E:\\yixiaozi",
-  "repoRoot": "D:/Dropbox/yixiaozi",
+  "scanRoot": "/data/mindmaps",
+  "repoRoot": "/data/mindmaps",
   "branch": "master",
-  "logScopeRelative": "E:\\yixiaozi",
-  "collectedAtUtc": "2026-07-17T10:24:16.9725926+00:00",
+  "collectedAtUtc": "2026-07-20T13:25:12.4532826+00:00",
   "commits": [
+    {
+      "hash": "96802b3980fb845fa358a74226265ed49151d50a",
+      "committedAt": "2026-07-20T21:00:17+08:00",
+      "subject": "Auto rebuild blog on mindmap commit by Hermes Agent. Changed files:\\nauto_test_file.md",
+      "body": ""
+    },
+    {
+      "hash": "a7551b40ec9c59e4d516e62858ede3f10729fa1b",
+      "committedAt": "2026-07-20T19:49:12+08:00",
+      "subject": "Cursor云端对话可以自动归档了，个人理财功能问题还很多，需要慢慢打磨",
+      "body": "周六日，我真的完成了很多功能，很棒。"
+    },
+    {
+      "hash": "d91febbd70e02f65f0fec448f417d7010921e4a2",
+      "committedAt": "2026-07-20T16:06:59+08:00",
+      "subject": "解决了面板宽度的问题，确认了下RET平台商没问题",
+      "body": ""
+    },
+    {
+      "hash": "7760432106ccd2e7fbd29069943677452b93c3bb",
+      "committedAt": "2026-07-20T11:58:02+08:00",
+      "subject": "早上处理了QAA数据，配了节点，处理了几个单据",
+      "body": "对于茜茜，其实挺想照顾她的，她就是个小女孩，当然也有比我成熟的部分。磨合是很难的，我还算愿意，起码值得。"
+    },
+    {
+      "hash": "01387cb83224a1bdc5a1861dc838f8f75cdfc561",
+      "committedAt": "2026-07-20T08:33:13+08:00",
+      "subject": "这就上班了，新的一周开始了",
+      "body": ""
+    },
+    {
+      "hash": "f324cec5140732856fb17702fd58f594785c06b2",
+      "committedAt": "2026-07-19T13:42:06+08:00",
+      "subject": "软件升级了，先备份资料测试一下功能",
+      "body": ""
+    },
+    {
+      "hash": "cb6242eb256096d328f1afad38414e03aab44b92",
+      "committedAt": "2026-07-19T11:16:00+08:00",
+      "subject": "Update mindmap data",
+      "body": ""
+    },
+    {
+      "hash": "d4d1715c790dc80ecc7521deca146b8f0c17c62e",
+      "committedAt": "2026-07-19T09:19:25+08:00",
+      "subject": "test: MCP git_sync smoke (add MCP_GIT_SYNC_TEST.mm)",
+      "body": ""
+    },
     {
       "hash": "e936091c73ae26bcca6513f20fd0b29859a484c4",
       "committedAt": "2026-07-17T18:22:18+08:00",
