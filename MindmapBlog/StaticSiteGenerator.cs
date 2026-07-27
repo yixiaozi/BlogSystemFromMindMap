@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace MindmapBlog;
 
@@ -314,8 +315,7 @@ public sealed class StaticSiteGenerator
             return null;
 
         var prefix = ArticleIdentity.ComputeStorageKey(article.SourceMmPath, article.ArticleNodeId);
-        var orig = SlugUtility.SanitizeMediaFileName(Path.GetFileName(img.ResolvedSourcePath));
-        var mediaFromRoot = $"media/{prefix}_{imageIndex}_{orig}".Replace('\\', '/');
+        var mediaFromRoot = "media/" + BuildAsciiMediaFileName(prefix, imageIndex, img.ResolvedSourcePath);
         imageIndex++;
         return CombineSiteUrl(siteBaseUrl, mediaFromRoot);
     }
@@ -1794,10 +1794,13 @@ public sealed class StaticSiteGenerator
             if (!File.Exists(img.ResolvedSourcePath))
                 continue;
 
-            var orig = SlugUtility.SanitizeMediaFileName(Path.GetFileName(img.ResolvedSourcePath));
-            var safe = $"{prefix}_{index}_{orig}";
+            // 媒体文件名只用 hash+序号+扩展名（纯 ASCII），避免中文混排大小写
+            // 在 Windows→Linux 部署时变成两套文件名（如 CT报告 vs ct报告）。
+            var safe = BuildAsciiMediaFileName(prefix, index, img.ResolvedSourcePath);
             var dest = Path.Combine(mediaRoot, safe);
+            SitePathHelper.EnsureDirectoryWithExactCasing(mediaRoot);
             File.Copy(img.ResolvedSourcePath, dest, overwrite: true);
+            SitePathHelper.EnsureFileWithExactCasing(dest);
             var mediaFromRoot = "media/" + safe.Replace('\\', '/');
             var url = SitePathHelper.RelFromTo(article.HtmlFileName, mediaFromRoot);
             list.Add(new CopiedArticleImage(img, url, mediaFromRoot, index));
@@ -1805,6 +1808,18 @@ public sealed class StaticSiteGenerator
         }
 
         return list;
+    }
+
+    /// <summary>纯 ASCII 媒体文件名：<c>{storageKey}_{index}.ext</c>。</summary>
+    private static string BuildAsciiMediaFileName(string storageKeyPrefix, int index, string sourcePath)
+    {
+        var ext = Path.GetExtension(sourcePath).Trim().ToLowerInvariant();
+        if (string.IsNullOrEmpty(ext) || ext.Length > 8)
+            ext = ".bin";
+        ext = Regex.Replace(ext, @"[^a-z0-9\.]", "");
+        if (string.IsNullOrEmpty(ext) || ext == ".")
+            ext = ".bin";
+        return $"{storageKeyPrefix}_{index}{ext}";
     }
 
     private static string RenderBodyHtml(BlogArticle article, IReadOnlyList<CopiedArticleImage> imageRefs)

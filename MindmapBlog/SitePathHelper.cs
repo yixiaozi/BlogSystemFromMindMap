@@ -123,6 +123,53 @@ internal static class SitePathHelper
     }
 
     /// <summary>
+    /// 在 Windows 上纠正文件名大小写粘连（如磁盘仍是 <c>CT报告.png</c>，目标是 <c>ct报告.png</c>）。
+    /// </summary>
+    public static void EnsureFileWithExactCasing(string fileFullPath)
+    {
+        if (string.IsNullOrWhiteSpace(fileFullPath) || !OperatingSystem.IsWindows())
+            return;
+
+        var full = Path.GetFullPath(fileFullPath);
+        var dir = Path.GetDirectoryName(full);
+        var desiredName = Path.GetFileName(full);
+        if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(desiredName) || !File.Exists(full))
+            return;
+
+        string? actualPath = null;
+        try
+        {
+            actualPath = Directory.EnumerateFiles(dir)
+                .FirstOrDefault(p =>
+                    string.Equals(Path.GetFileName(p), desiredName, StringComparison.OrdinalIgnoreCase));
+        }
+        catch
+        {
+            return;
+        }
+
+        if (actualPath == null)
+            return;
+
+        var actualName = Path.GetFileName(actualPath);
+        if (string.Equals(actualName, desiredName, StringComparison.Ordinal))
+            return;
+
+        var tempPath = Path.Combine(dir, desiredName + ".__casefix__");
+        try
+        {
+            if (File.Exists(tempPath))
+                File.Delete(tempPath);
+            File.Move(actualPath, tempPath);
+            File.Move(tempPath, Path.Combine(dir, desiredName));
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
+    /// <summary>
     /// 从当前页（相对站点根的 Web 路径，如 <c>日程/规划/文.html</c>）到目标页的相对 URL。
     /// 仅按正斜杠解析，不依赖 <see cref="Path"/>（在 Windows 上对 <c>foo/bar.html</c> 式路径更可靠）。
     /// </summary>

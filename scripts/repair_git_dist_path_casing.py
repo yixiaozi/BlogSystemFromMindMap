@@ -23,13 +23,11 @@ def run(args: list[str], input_bytes: bytes | None = None) -> subprocess.Complet
 
 
 def canonical(path: str) -> str:
+    """Lowercase ASCII letters in every path segment (keeps Chinese and other chars)."""
     parts = path.split("/")
     out = []
     for seg in parts:
-        if re.fullmatch(r"[A-Za-z0-9._\-]+", seg):
-            out.append(seg.lower())
-        else:
-            out.append(seg)
+        out.append("".join(ch.lower() if ("A" <= ch <= "Z") else ch for ch in seg))
     return "/".join(out)
 
 
