@@ -2293,6 +2293,28 @@ td.gen-history-empty {
   line-height: 1.5;
 }
 
+.gen-sample-group {
+  margin-top: 0.35rem;
+}
+
+.gen-sample-group .gen-sample-p {
+  margin: 0;
+}
+
+.gen-sample-list {
+  list-style: none;
+  margin: 0.15rem 0 0;
+  padding: 0;
+}
+
+.gen-sample-list li {
+  font-size: 0.82rem;
+  color: #0f172a;
+  line-height: 1.55;
+  padding: 0.08rem 0;
+  word-break: break-word;
+}
+
 .gen-detail-link {
   color: var(--accent);
   text-decoration: none;
