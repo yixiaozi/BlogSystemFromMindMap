@@ -100,7 +100,30 @@ internal static class SiteProfile
         }
 
         // 源文件找不到时，保留 media/ 里已有的 site-avatar.*
-        return TryFindPublishedAvatar(mediaDir);
+        var existing = TryFindPublishedAvatar(mediaDir);
+        if (existing != null)
+            return existing;
+
+        // 兼容误放到 output/dist/media 的头像（站点根实际读的是 output/media）
+        if (!string.IsNullOrWhiteSpace(outputRoot))
+        {
+            try
+            {
+                var nestedMedia = Path.Combine(Path.GetFullPath(outputRoot), "dist", "media");
+                foreach (var ext in ImageExtensions)
+                {
+                    var nested = Path.Combine(nestedMedia, "site-avatar" + ext);
+                    if (File.Exists(nested))
+                        return CopyToMedia(nested, mediaDir);
+                }
+            }
+            catch
+            {
+                // ignore invalid paths
+            }
+        }
+
+        return null;
     }
 
     private static IEnumerable<string> CollectAvatarDataFallbackDirs(string? outputRoot)

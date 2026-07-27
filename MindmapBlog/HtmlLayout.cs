@@ -159,6 +159,8 @@ internal static class HtmlLayout
         {
             var outlineScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "article-outline.js");
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(outlineScriptHref)).AppendLine("\" defer></script>");
+            var commentsScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "article-comments.js");
+            sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(commentsScriptHref)).AppendLine("\" defer></script>");
         }
         AppendNavAccordionScript(sb);
         AppendMobileShellScript(sb);

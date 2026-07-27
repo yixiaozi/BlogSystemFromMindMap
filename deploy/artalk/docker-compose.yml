@@ -1,0 +1,23 @@
+# Artalk 自托管评论（与静态站同机）
+# 用法：在服务器上
+#   mkdir -p /opt/artalk && cd /opt/artalk
+#   将本目录文件拷过去后：
+#   docker compose up -d
+#
+# Nginx 将 https://mantoublog.top/artalk/ 反代到本容器 127.0.0.1:23366
+# （见 nginx-artalk.conf.snippet）
+
+services:
+  artalk:
+    image: artalk/artalk-go:2.9.1
+    container_name: artalk
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:23366:23366"
+    volumes:
+      - ./data:/data
+    environment:
+      TZ: Asia/Shanghai
+      ATK_LOCALE: zh-CN
+      ATK_SITE_DEFAULT: 馒头的思维导图博客
+      ATK_SITE_URL: https://mantoublog.top

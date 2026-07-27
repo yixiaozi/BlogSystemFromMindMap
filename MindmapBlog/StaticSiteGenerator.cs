@@ -198,6 +198,7 @@ public sealed class StaticSiteGenerator
         CopyWordfreqSharedScript(outDir);
         CopyWordfreqHighlightScript(outDir);
         CopyArticleOutlineScript(outDir);
+        CopyArticleCommentsScript(outDir);
 
         WriteStylesheet(Path.Combine(outDir, "site.css"));
     }
@@ -456,6 +457,18 @@ public sealed class StaticSiteGenerator
         File.Copy(src, Path.Combine(outDir, "article-outline.js"), overwrite: true);
     }
 
+    private static void CopyArticleCommentsScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "article-comments.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/article-comments.js，文章评论不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "article-comments.js"), overwrite: true);
+    }
+
     private static void CopyTimelineTabsScript(string outDir)
     {
         var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "timeline-tabs.js");
@@ -490,6 +503,20 @@ public sealed class StaticSiteGenerator
             .AppendLine("</code></p>");
         inner.AppendLine("</header>");
 
+        inner.AppendLine("<div class=\"timeline-tabs gen-history-tabs\" role=\"tablist\" aria-label=\"生成记录筛选\">");
+        inner.AppendLine(
+            "<button type=\"button\" class=\"timeline-tab is-active\" role=\"tab\" data-filter=\"useful\" aria-selected=\"true\">有用信息</button>");
+        inner.AppendLine(
+            "<button type=\"button\" class=\"timeline-tab\" role=\"tab\" data-filter=\"all\" aria-selected=\"false\">全部记录</button>");
+        inner.AppendLine("</div>");
+
+        inner.AppendLine("<div id=\"gen-history-useful-view\" class=\"gen-history-useful-view\">");
+        inner.AppendLine("<div id=\"gen-history-useful-list\" class=\"gen-history-useful-list\"></div>");
+        inner.AppendLine(
+            "<p id=\"gen-history-useful-empty\" class=\"gen-detail-placeholder\" hidden>暂无有新增、移除或正文改动的生成记录。</p>");
+        inner.AppendLine("</div>");
+
+        inner.AppendLine("<div id=\"gen-history-all-view\" class=\"gen-history-all-view\" hidden>");
         inner.AppendLine("<div class=\"gen-history-table-wrap\">");
         inner.AppendLine("<table class=\"gen-history-table\">");
         inner.AppendLine("<thead><tr>");
@@ -573,6 +600,7 @@ public sealed class StaticSiteGenerator
         inner.AppendLine("<p id=\"gen-history-detail-placeholder\" class=\"gen-detail-placeholder\">请在上方表格中点击某一行，在此查看该次生成对应的文章标题。</p>");
         inner.AppendLine("<div id=\"gen-history-detail-panel\" class=\"gen-detail-panel\" hidden></div>");
         inner.AppendLine("</section>");
+        inner.AppendLine("</div>");
 
         var titleHrefLookup = sortedArticles
             .GroupBy(a => a.Title, StringComparer.Ordinal)
@@ -804,12 +832,17 @@ public sealed class StaticSiteGenerator
   var ta = document.getElementById("gen-runs-b64");
   var placeholder = document.getElementById("gen-history-detail-placeholder");
   var panel = document.getElementById("gen-history-detail-panel");
+  var usefulView = document.getElementById("gen-history-useful-view");
+  var usefulList = document.getElementById("gen-history-useful-list");
+  var usefulEmpty = document.getElementById("gen-history-useful-empty");
+  var allView = document.getElementById("gen-history-all-view");
   var rows = Array.prototype.slice.call(document.querySelectorAll(".gen-history-table tbody tr.gen-history-row"));
   var pageSizeSel = document.getElementById("gen-history-page-size");
   var prevBtn = document.getElementById("gen-history-prev");
   var nextBtn = document.getElementById("gen-history-next");
   var pageInfo = document.getElementById("gen-history-page-info");
-  if (!ta || !placeholder || !panel || rows.length === 0) return;
+  var filterTabs = Array.prototype.slice.call(document.querySelectorAll(".gen-history-tabs [data-filter]"));
+  if (!ta || !usefulList || !allView) return;
   var runs;
   try {
     var bin = atob(ta.textContent.trim());
@@ -826,59 +859,100 @@ public sealed class StaticSiteGenerator
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
+  function renderTitleItems(items) {
+    if (!items || !items.length) return "";
+    return (
+      '<ul class="gen-sample-list">' +
+      items
+        .map(function (html) {
+          return "<li>" + html + "</li>";
+        })
+        .join("") +
+      "</ul>"
+    );
+  }
   function renderTitles(label, titles) {
     if (!titles || !titles.length) return "";
     return (
-      '<p class="gen-sample-p"><strong>' +
+      '<div class="gen-sample-group"><p class="gen-sample-p"><strong>' +
       esc(label) +
-      "</strong>：" +
-      titles.map(function (t) {
-        return esc(t);
-      }).join("、") +
-      "</p>"
+      "</strong>：</p>" +
+      renderTitleItems(
+        titles.map(function (t) {
+          return esc(t);
+        })
+      ) +
+      "</div>"
     );
   }
   function renderAddedBlock(label, links, titles) {
     if (links && links.length) {
       return (
-        '<p class="gen-sample-p"><strong>' +
+        '<div class="gen-sample-group"><p class="gen-sample-p"><strong>' +
         esc(label) +
-        "</strong>：" +
-        links
-          .map(function (x) {
+        "</strong>：</p>" +
+        renderTitleItems(
+          links.map(function (x) {
             if (x && x.href) return '<a class="gen-detail-link" href="' + esc(x.href) + '">' + esc(x.title || "") + "</a>";
             return esc((x && x.title) || "");
           })
-          .join("、") +
-        "</p>"
+        ) +
+        "</div>"
       );
     }
     return renderTitles(label, titles);
   }
-  function showRun(i) {
-    var r = runs[i];
-    if (!r) return;
-    panel.removeAttribute("hidden");
-    placeholder.setAttribute("hidden", "hidden");
-    var h =
+  function runHasUsefulTitles(r) {
+    return (
+      (r.addedTitles && r.addedTitles.length) ||
+      (r.removedTitles && r.removedTitles.length) ||
+      (r.modifiedTitles && r.modifiedTitles.length)
+    );
+  }
+  function renderRunBlock(r) {
+    return (
       '<div class="gen-sample-block">' +
       '<h3 class="gen-sample-h3">' +
       esc(r.timeLabel || "") +
       "</h3>" +
       renderAddedBlock("新增", r.addedLinks, r.addedTitles) +
       renderTitles("移除", r.removedTitles) +
-      renderAddedBlock("改动", r.modifiedLinks, r.modifiedTitles);
-    if (
-      (!r.addedTitles || !r.addedTitles.length) &&
-      (!r.removedTitles || !r.removedTitles.length) &&
-      (!r.modifiedTitles || !r.modifiedTitles.length)
-    ) {
-      h +=
-        '<p class="gen-sample-p gen-detail-empty">该次与上一快照相比，无新增、移除或正文改动条目。</p>';
+      renderAddedBlock("改动", r.modifiedLinks, r.modifiedTitles) +
+      "</div>"
+    );
+  }
+  function showRun(i) {
+    if (!placeholder || !panel) return;
+    var r = runs[i];
+    if (!r) return;
+    panel.removeAttribute("hidden");
+    placeholder.setAttribute("hidden", "hidden");
+    var h = renderRunBlock(r);
+    if (!runHasUsefulTitles(r)) {
+      h =
+        '<div class="gen-sample-block">' +
+        '<h3 class="gen-sample-h3">' +
+        esc(r.timeLabel || "") +
+        "</h3>" +
+        '<p class="gen-sample-p gen-detail-empty">该次与上一快照相比，无新增、移除或正文改动条目。</p>' +
+        "</div>";
     }
-    h += "</div>";
     panel.innerHTML = h;
     panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  function renderUsefulList() {
+    var html = "";
+    var count = 0;
+    runs.forEach(function (r) {
+      if (!runHasUsefulTitles(r)) return;
+      html += renderRunBlock(r);
+      count++;
+    });
+    usefulList.innerHTML = html;
+    if (usefulEmpty) {
+      if (count === 0) usefulEmpty.removeAttribute("hidden");
+      else usefulEmpty.setAttribute("hidden", "hidden");
+    }
   }
   var pageSize = pageSizeSel ? parseInt(pageSizeSel.value, 10) : 10;
   if (isNaN(pageSize) || pageSize <= 0) pageSize = 10;
@@ -887,6 +961,7 @@ public sealed class StaticSiteGenerator
     return Math.max(1, Math.ceil(rows.length / pageSize));
   }
   function renderPage() {
+    if (!rows.length) return;
     var tp = totalPages();
     if (page > tp) page = tp;
     if (page < 1) page = 1;
@@ -898,6 +973,25 @@ public sealed class StaticSiteGenerator
     if (pageInfo) pageInfo.textContent = "第 " + page + " / " + tp + " 页";
     if (prevBtn) prevBtn.disabled = page <= 1;
     if (nextBtn) nextBtn.disabled = page >= tp;
+  }
+  function setActiveFilter(btn) {
+    filterTabs.forEach(function (tab) {
+      var on = tab === btn;
+      tab.classList.toggle("is-active", on);
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    var mode = btn.getAttribute("data-filter") || "useful";
+    var showUseful = mode === "useful";
+    if (usefulView) {
+      if (showUseful) usefulView.removeAttribute("hidden");
+      else usefulView.setAttribute("hidden", "hidden");
+    }
+    if (showUseful) allView.setAttribute("hidden", "hidden");
+    else {
+      allView.removeAttribute("hidden");
+      page = 1;
+      renderPage();
+    }
   }
   function clearSelect() {
     rows.forEach(function (tr) {
@@ -916,6 +1010,11 @@ public sealed class StaticSiteGenerator
         ev.preventDefault();
         tr.click();
       }
+    });
+  });
+  filterTabs.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      setActiveFilter(btn);
     });
   });
   if (pageSizeSel) {
@@ -944,7 +1043,12 @@ public sealed class StaticSiteGenerator
       }
     });
   }
-  renderPage();
+  renderUsefulList();
+  var initialTab = filterTabs.find(function (btn) {
+    return btn.getAttribute("data-filter") === "useful";
+  }) || filterTabs[0];
+  if (initialTab) setActiveFilter(initialTab);
+  else renderPage();
 })();
 </script>
 """;
@@ -1159,6 +1263,21 @@ public sealed class StaticSiteGenerator
         sb.AppendLine("<div class=\"article-outline-dock\" id=\"article-outline-dock\" hidden></div>");
         sb.Append(bodyHtml);
         sb.AppendLine("</article>");
+        sb.AppendLine("<section class=\"article-comments\" id=\"article-comments\" aria-label=\"评论\" hidden>");
+        sb.AppendLine("<div class=\"article-comments-list-wrap\" id=\"article-comments-list-wrap\">");
+        sb.AppendLine("<h2 class=\"article-comments-title\">评论<span class=\"article-comments-count\" id=\"article-comments-count\">（…）</span></h2>");
+        sb.AppendLine("<div id=\"article-comments-list\" class=\"article-comments-list\"></div>");
+        sb.AppendLine("<p class=\"article-comments-empty\">加载评论…</p>");
+        sb.AppendLine("</div>");
+        sb.AppendLine("<details class=\"comment-dock\">");
+        sb.AppendLine("<summary class=\"comment-dock-summary\"><span class=\"comment-dock-title\">发表评论</span></summary>");
+        sb.AppendLine("<div class=\"comment-dock-panel-wrap\">");
+        sb.AppendLine("<div class=\"comment-dock-panel\">");
+        sb.AppendLine("<div id=\"Comments\" class=\"article-comments-host\"></div>");
+        sb.AppendLine("</div>");
+        sb.AppendLine("</div>");
+        sb.AppendLine("</details>");
+        sb.AppendLine("</section>");
         sb.Append(revAside);
         sb.AppendLine("</div>");
 
@@ -3879,6 +3998,20 @@ html.theme-dark .wordfreq-label.is-active {
   color: #9a3412;
 }
 
+.gen-history-tabs {
+  margin: 0 0 0.85rem;
+}
+
+.gen-history-useful-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.gen-history-useful-list .gen-sample-block {
+  margin: 0;
+}
+
 .gen-history-table-wrap {
   overflow-x: auto;
   margin-bottom: 1.5rem;
@@ -4072,6 +4205,28 @@ td.gen-history-empty {
   margin: 0.25rem 0 0;
   color: #0f172a;
   line-height: 1.5;
+}
+
+.gen-sample-group {
+  margin-top: 0.35rem;
+}
+
+.gen-sample-group .gen-sample-p {
+  margin: 0;
+}
+
+.gen-sample-list {
+  list-style: none;
+  margin: 0.15rem 0 0;
+  padding: 0;
+}
+
+.gen-sample-list li {
+  font-size: 0.82rem;
+  color: #0f172a;
+  line-height: 1.55;
+  padding: 0.08rem 0;
+  word-break: break-word;
 }
 
 .gen-detail-link {
@@ -4857,6 +5012,371 @@ html.theme-dark article.content p.missing {
 html.theme-dark article.content .note-box {
   background: rgba(255, 255, 255, 0.045);
   border-color: rgba(255, 255, 255, 0.12);
+}
+
+/*
+  文章评论：有评论则直接展示；发表区默认折叠（对齐修订坞视觉）。
+*/
+.article-comments {
+  margin: 1.35rem 0 0.35rem;
+  padding: 0;
+  border: none;
+}
+
+.article-comments-list-wrap {
+  margin: 0 0 1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+.article-comments-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+}
+
+.article-comments-count {
+  margin-left: 0.2rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.article-comments-list {
+  min-height: 0;
+}
+
+.article-comments-empty {
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.article-comments-host {
+  min-height: 0;
+}
+
+.article-comments-error {
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+html.theme-dark .article-comments-list-wrap {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+/* 发表评论坞：视觉对齐 rev-dock，但不 sticky（列表在上方、修订坞仍贴底） */
+.comment-dock {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  margin: 0.85rem 0 0.25rem;
+  filter: drop-shadow(0 6px 16px rgba(21, 28, 40, 0.08));
+}
+
+.comment-dock-panel-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.22s cubic-bezier(0.33, 1, 0.55, 1);
+}
+
+.comment-dock[open] .comment-dock-panel-wrap {
+  grid-template-rows: 1fr;
+}
+
+.comment-dock-panel-wrap > .comment-dock-panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comment-dock-panel-wrap {
+    transition: grid-template-rows 0.06s linear;
+  }
+}
+
+.comment-dock-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.48rem 0.65rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: linear-gradient(165deg, #ffffff 0%, #f5f3fb 100%);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-deep);
+  user-select: none;
+}
+
+.comment-dock[open] .comment-dock-summary {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.comment-dock-summary::-webkit-details-marker {
+  display: none;
+}
+
+.comment-dock-title {
+  letter-spacing: -0.02em;
+}
+
+.comment-dock-summary::after {
+  content: "展开";
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.comment-dock[open] .comment-dock-summary::after {
+  content: "收起";
+}
+
+.comment-dock-panel {
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 0.7rem 0.75rem 0.8rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+html.theme-dark .comment-dock-summary {
+  background: linear-gradient(165deg, #1a1f2e 0%, #151925 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #c7d2fe;
+}
+
+html.theme-dark .comment-dock-panel {
+  background: rgba(20, 24, 36, 0.72);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* —— Artalk 编辑器：压成站点同款轻量表单 —— */
+.article-comments .atk-main-editor {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.article-comments .atk-header {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  margin: 0 0 0.55rem !important;
+  padding: 0 !important;
+}
+
+/* 隐藏网址栏：只保留昵称 / 邮箱 + 正文 */
+.article-comments .atk-header .atk-link {
+  display: none !important;
+}
+
+.article-comments .atk-header input {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0.42rem 0.55rem !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: #fff !important;
+  color: var(--text-primary) !important;
+  font: inherit !important;
+  font-size: 0.86rem !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.article-comments .atk-header input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px var(--accent-soft) !important;
+}
+
+.article-comments .atk-textarea-wrap {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.article-comments .atk-textarea {
+  width: 100%;
+  min-height: 5.2rem !important;
+  margin: 0 !important;
+  padding: 0.55rem 0.65rem !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: #fff !important;
+  color: var(--text-primary) !important;
+  font: inherit !important;
+  font-size: 0.92rem !important;
+  line-height: 1.55 !important;
+  resize: vertical;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.article-comments .atk-textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px var(--accent-soft) !important;
+}
+
+.article-comments .atk-bottom {
+  margin: 0.55rem 0 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.article-comments .atk-send-btn {
+  appearance: none;
+  border: 1px solid var(--border-focus) !important;
+  background: var(--accent) !important;
+  color: #fff !important;
+  font: inherit !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  padding: 0.38rem 0.9rem !important;
+  border-radius: var(--radius-sm) !important;
+  cursor: pointer;
+  box-shadow: none !important;
+}
+
+.article-comments .atk-send-btn:hover {
+  background: var(--accent-deep) !important;
+}
+
+html.theme-dark .article-comments .atk-header input,
+html.theme-dark .article-comments .atk-textarea {
+  background: rgba(15, 18, 28, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: #e8eaf2 !important;
+}
+
+/* 精简 Artalk：去掉表情/上传/预览/空状态噪点 */
+.article-comments .atk-plug-panel,
+.article-comments .atk-plug-btn,
+.article-comments .atk-emoticons,
+.article-comments .atk-list-header,
+.article-comments .atk-list-no-comment,
+.article-comments .atk-copyright,
+.article-comments .atk-height-limit-btn,
+.article-comments .atk-comment-actions .atk-icon-vote,
+.article-comments .atk-vote-btn {
+  display: none !important;
+}
+
+.article-comments .atk-editor-plug-bar {
+  display: none !important;
+}
+
+.article-comments .artalk,
+.article-comments .article-comments-host.artalk {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 评论列表：更干净 */
+.article-comments .atk-list {
+  margin-top: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.article-comments .atk-list-body {
+  margin-top: 0.25rem;
+}
+
+.article-comments .atk-comment-wrap {
+  border: none !important;
+  background: transparent !important;
+  padding: 0.55rem 0 !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.article-comments .atk-comment-wrap:last-child {
+  border-bottom: none !important;
+}
+
+/* 嵌套回复：缩进挂在父评论下 */
+.article-comments .atk-list .atk-comment-children,
+.article-comments .atk-list .atk-children,
+.article-comments .atk-list .atk-replies {
+  margin: 0.35rem 0 0.15rem 0.85rem !important;
+  padding: 0 0 0 0.75rem !important;
+  border-left: 2px solid var(--border) !important;
+}
+
+.article-comments .atk-list .atk-comment-children .atk-comment-wrap,
+.article-comments .atk-list .atk-children .atk-comment-wrap,
+.article-comments .atk-list .atk-replies .atk-comment-wrap {
+  border-bottom: none !important;
+  padding: 0.45rem 0 !important;
+}
+
+.article-comments .atk-list .atk-comment-children .atk-comment-wrap + .atk-comment-wrap,
+.article-comments .atk-list .atk-children .atk-comment-wrap + .atk-comment-wrap,
+.article-comments .atk-list .atk-replies .atk-comment-wrap + .atk-comment-wrap {
+  border-top: 1px dashed var(--border) !important;
+}
+
+.article-comments .atk-avatar img {
+  border-radius: 50%;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.article-comments .atk-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.article-comments .atk-comment .atk-main .atk-header {
+  display: flex !important;
+  grid-template-columns: unset !important;
+  gap: 0.45rem;
+  align-items: baseline;
+  margin-bottom: 0.2rem !important;
+}
+
+.article-comments .atk-nick {
+  font-weight: 600;
+  color: var(--text-primary) !important;
+}
+
+.article-comments .atk-date {
+  color: var(--text-soft) !important;
+  font-size: 0.78rem !important;
+}
+
+.article-comments .atk-comment .atk-footer,
+.article-comments .atk-comment-actions {
+  margin-top: 0.25rem;
+}
+
+.article-comments .atk-comment .atk-footer span,
+.article-comments .atk-comment-actions span,
+.article-comments .atk-comment-actions a {
+  color: var(--accent-deep) !important;
+  font-size: 0.8rem !important;
+  cursor: pointer;
 }
 
 /*
