@@ -161,6 +161,8 @@ try {
         }
 
         Invoke-LoggedCommand "git add" {
+            . (Join-Path $RepoRoot "scripts\Repair-GitDistPathCasing.ps1")
+            Repair-GitDistPathCasing -RepoRoot $RepoRoot -DistName "dist"
             & git -C $RepoRoot -c advice.addIgnoredFile=false add -A
         }
 

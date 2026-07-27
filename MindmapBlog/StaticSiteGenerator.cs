@@ -16,64 +16,54 @@ public sealed class StaticSiteGenerator
 
     private static readonly UTF8Encoding Utf8 = new(encoderShouldEmitUTF8Identifier: true);
 
-    /// <summary>删除上次生成的静态页与媒体，保留 <c>data/</c> 下的 JSON 版本库与生成记录。</summary>
+    /// <summary>
+    /// 清空上次生成的站点内容，保留 <c>data/</c>。
+    /// 整目录删除（而非只删 html），避免 Windows 残留错误大小写/空格目录名，
+    /// 经 Git 同步到 Linux 后出现 <c>AI/</c> 与 <c>ai/</c> 两套路径。
+    /// </summary>
     private static void CleanStaleSiteArtifacts(string outputRoot, string mediaDir)
-    {
-        foreach (var html in Directory.EnumerateFiles(outputRoot, "*.html", SearchOption.AllDirectories))
-        {
-            try
-            {
-                var rel = Path.GetRelativePath(outputRoot, html);
-                if (rel.StartsWith("data" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-                    continue;
-            }
-            catch
-            {
-                continue;
-            }
-
-            try { File.Delete(html); } catch { /* ignore */ }
-        }
-
-        RemoveEmptyDirsUnder(outputRoot);
-
-        if (Directory.Exists(mediaDir))
-        {
-            foreach (var f in Directory.GetFiles(mediaDir))
-            {
-                // 保留已发布站点头像，避免源文件不在扫描目录时重建后侧栏头像消失
-                if (Path.GetFileName(f).StartsWith("site-avatar.", StringComparison.OrdinalIgnoreCase))
-                    continue;
-                try { File.Delete(f); } catch { /* ignore */ }
-            }
-
-        }
-    }
-
-    /// <summary>删除输出目录下因清空 HTML 产生的空文件夹（不触及 <c>data</c>）。</summary>
-    private static void RemoveEmptyDirsUnder(string outputRoot)
     {
         if (!Directory.Exists(outputRoot))
             return;
 
-        foreach (var dir in Directory.EnumerateDirectories(outputRoot, "*", SearchOption.AllDirectories)
-                     .OrderByDescending(d => d.Length))
+        foreach (var entry in Directory.EnumerateFileSystemEntries(outputRoot))
         {
+            var name = Path.GetFileName(entry);
+            if (string.Equals(name, "data", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            // media：只清内容，保留 site-avatar.*
+            if (string.Equals(name, "media", StringComparison.OrdinalIgnoreCase) && Directory.Exists(entry))
+            {
+                foreach (var f in Directory.GetFiles(entry))
+                {
+                    if (Path.GetFileName(f).StartsWith("site-avatar.", StringComparison.OrdinalIgnoreCase))
+                        continue;
+                    try { File.Delete(f); } catch { /* ignore */ }
+                }
+
+                foreach (var sub in Directory.GetDirectories(entry))
+                {
+                    try { Directory.Delete(sub, recursive: true); } catch { /* ignore */ }
+                }
+
+                continue;
+            }
+
             try
             {
-                var rel = Path.GetRelativePath(outputRoot, dir);
-                if (string.Equals(rel, "data", StringComparison.OrdinalIgnoreCase) ||
-                    rel.StartsWith("data" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                if (!Directory.EnumerateFileSystemEntries(dir).Any())
-                    Directory.Delete(dir);
+                if (Directory.Exists(entry))
+                    Directory.Delete(entry, recursive: true);
+                else
+                    File.Delete(entry);
             }
             catch
             {
-                // ignore
+                // ignore locked files; later writes may still succeed
             }
         }
+
+        _ = mediaDir;
     }
 
     private static void WriteUtf8Web(string outputRoot, string webPath, string content)

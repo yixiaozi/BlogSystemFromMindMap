@@ -33,16 +33,29 @@ try {
     if ($OutDir -ne (Join-Path $ProjectDir "dist")) {
         Write-Host "Syncing output to project dist directory..."
         $ProjectDist = Join-Path $ProjectDir "dist"
-        robocopy $OutDir $ProjectDist /MIR /NFL /NDL /NJH /NJS /NC /NS | Out-Null
+        # 禁止把输出目录里的嵌套 .git 镜像进仓库 dist（会导致嵌入式仓库 / Linux 路径分裂）
+        $outGit = Join-Path $OutDir ".git"
+        if (Test-Path -LiteralPath $outGit) {
+            Remove-Item -LiteralPath $outGit -Recurse -Force
+            Write-Host "Removed nested .git from output directory."
+        }
+        robocopy $OutDir $ProjectDist /MIR /NFL /NDL /NJH /NJS /NC /NS /XD .git | Out-Null
         $robocopyExit = $LASTEXITCODE
         if ($robocopyExit -gt 7) {
             throw "Robocopy failed with exit code $robocopyExit"
+        }
+        $distGit = Join-Path $ProjectDist ".git"
+        if (Test-Path -LiteralPath $distGit) {
+            Remove-Item -LiteralPath $distGit -Recurse -Force
+            Write-Host "Removed nested .git from project dist."
         }
         Write-Host "Sync completed."
     }
 
     Write-Host "Checking for git changes..."
-    git add dist/
+    . (Join-Path $ProjectDir "scripts\Repair-GitDistPathCasing.ps1")
+    Repair-GitDistPathCasing -RepoRoot $ProjectDir -DistName "dist"
+
     $hasChanges = $false
     $statusOutput = git status --porcelain dist/
     if ($statusOutput) {
