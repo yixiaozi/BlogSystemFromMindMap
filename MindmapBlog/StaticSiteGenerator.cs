@@ -81,7 +81,7 @@ public sealed class StaticSiteGenerator
         var local = SitePathHelper.CombineLocal(outputRoot, webPath);
         var dir = Path.GetDirectoryName(local);
         if (!string.IsNullOrEmpty(dir))
-            Directory.CreateDirectory(dir);
+            SitePathHelper.EnsureDirectoryWithExactCasing(dir);
         File.WriteAllText(local, content, Utf8);
     }
 

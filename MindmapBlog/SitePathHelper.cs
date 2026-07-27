@@ -41,6 +41,88 @@ internal static class SitePathHelper
     }
 
     /// <summary>
+    /// 创建目录，并在 Windows 上纠正「大小写粘连」：
+    /// 若磁盘上已有 <c>AI</c>，再写 <c>ai/...</c> 时不会改名，rsync 到 Linux 会变成两套路径。
+    /// </summary>
+    public static void EnsureDirectoryWithExactCasing(string directoryFullPath)
+    {
+        if (string.IsNullOrWhiteSpace(directoryFullPath))
+            return;
+
+        var full = Path.GetFullPath(directoryFullPath);
+        Directory.CreateDirectory(full);
+
+        // Unix 本身大小写敏感，CreateDirectory 已足够
+        if (!OperatingSystem.IsWindows())
+            return;
+
+        var root = Path.GetPathRoot(full);
+        if (string.IsNullOrEmpty(root))
+            return;
+
+        var relative = full[root.Length..].TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        if (string.IsNullOrEmpty(relative))
+            return;
+
+        var current = root.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        // Path.GetPathRoot on Windows is like "E:\" — keep trailing sep for Combine
+        current = root;
+
+        foreach (var desiredName in relative.Split(
+                     new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar },
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            var desiredPath = Path.Combine(current, desiredName);
+            string? actualPath = null;
+            try
+            {
+                if (Directory.Exists(current))
+                {
+                    actualPath = Directory.EnumerateFileSystemEntries(current)
+                        .FirstOrDefault(p =>
+                            string.Equals(Path.GetFileName(p), desiredName, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+            catch
+            {
+                actualPath = null;
+            }
+
+            if (actualPath != null && Directory.Exists(actualPath))
+            {
+                var actualName = Path.GetFileName(actualPath);
+                if (!string.Equals(actualName, desiredName, StringComparison.Ordinal))
+                {
+                    // Windows：必须经临时名才能改大小写
+                    var tempPath = Path.Combine(current, desiredName + ".__casefix__");
+                    try
+                    {
+                        if (Directory.Exists(tempPath))
+                            Directory.Delete(tempPath, recursive: true);
+                        Directory.Move(actualPath, tempPath);
+                        Directory.Move(tempPath, desiredPath);
+                    }
+                    catch
+                    {
+                        // 改名失败则继续用已有目录，避免中断整站生成
+                        desiredPath = actualPath;
+                    }
+                }
+                else
+                {
+                    desiredPath = actualPath;
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(desiredPath);
+            }
+
+            current = desiredPath;
+        }
+    }
+
+    /// <summary>
     /// 从当前页（相对站点根的 Web 路径，如 <c>日程/规划/文.html</c>）到目标页的相对 URL。
     /// 仅按正斜杠解析，不依赖 <see cref="Path"/>（在 Windows 上对 <c>foo/bar.html</c> 式路径更可靠）。
     /// </summary>
