@@ -2084,6 +2084,10 @@ html.theme-dark .wordfreq-label.is-active {
   color: #9a3412;
 }
 
+.gen-history-tabs {
+  margin: 0 0 0.85rem;
+}
+
 .gen-history-table-wrap {
   overflow-x: auto;
   margin-bottom: 1.5rem;
@@ -3062,6 +3066,371 @@ html.theme-dark article.content p.missing {
 html.theme-dark article.content .note-box {
   background: rgba(255, 255, 255, 0.045);
   border-color: rgba(255, 255, 255, 0.12);
+}
+
+/*
+  文章评论：有评论则直接展示；发表区默认折叠（对齐修订坞视觉）。
+*/
+.article-comments {
+  margin: 1.35rem 0 0.35rem;
+  padding: 0;
+  border: none;
+}
+
+.article-comments-list-wrap {
+  margin: 0 0 1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+.article-comments-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+}
+
+.article-comments-count {
+  margin-left: 0.2rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.article-comments-list {
+  min-height: 0;
+}
+
+.article-comments-empty {
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.article-comments-host {
+  min-height: 0;
+}
+
+.article-comments-error {
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+html.theme-dark .article-comments-list-wrap {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+/* 发表评论坞：视觉对齐 rev-dock，但不 sticky（列表在上方、修订坞仍贴底） */
+.comment-dock {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  margin: 0.85rem 0 0.25rem;
+  filter: drop-shadow(0 6px 16px rgba(21, 28, 40, 0.08));
+}
+
+.comment-dock-panel-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.22s cubic-bezier(0.33, 1, 0.55, 1);
+}
+
+.comment-dock[open] .comment-dock-panel-wrap {
+  grid-template-rows: 1fr;
+}
+
+.comment-dock-panel-wrap > .comment-dock-panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comment-dock-panel-wrap {
+    transition: grid-template-rows 0.06s linear;
+  }
+}
+
+.comment-dock-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.48rem 0.65rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: linear-gradient(165deg, #ffffff 0%, #f5f3fb 100%);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-deep);
+  user-select: none;
+}
+
+.comment-dock[open] .comment-dock-summary {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.comment-dock-summary::-webkit-details-marker {
+  display: none;
+}
+
+.comment-dock-title {
+  letter-spacing: -0.02em;
+}
+
+.comment-dock-summary::after {
+  content: "展开";
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.comment-dock[open] .comment-dock-summary::after {
+  content: "收起";
+}
+
+.comment-dock-panel {
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 0.7rem 0.75rem 0.8rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+html.theme-dark .comment-dock-summary {
+  background: linear-gradient(165deg, #1a1f2e 0%, #151925 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #c7d2fe;
+}
+
+html.theme-dark .comment-dock-panel {
+  background: rgba(20, 24, 36, 0.72);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* —— Artalk 编辑器：压成站点同款轻量表单 —— */
+.article-comments .atk-main-editor {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.article-comments .atk-header {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  margin: 0 0 0.55rem !important;
+  padding: 0 !important;
+}
+
+/* 隐藏网址栏：只保留昵称 / 邮箱 + 正文 */
+.article-comments .atk-header .atk-link {
+  display: none !important;
+}
+
+.article-comments .atk-header input {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0.42rem 0.55rem !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: #fff !important;
+  color: var(--text-primary) !important;
+  font: inherit !important;
+  font-size: 0.86rem !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.article-comments .atk-header input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px var(--accent-soft) !important;
+}
+
+.article-comments .atk-textarea-wrap {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.article-comments .atk-textarea {
+  width: 100%;
+  min-height: 5.2rem !important;
+  margin: 0 !important;
+  padding: 0.55rem 0.65rem !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: #fff !important;
+  color: var(--text-primary) !important;
+  font: inherit !important;
+  font-size: 0.92rem !important;
+  line-height: 1.55 !important;
+  resize: vertical;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.article-comments .atk-textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px var(--accent-soft) !important;
+}
+
+.article-comments .atk-bottom {
+  margin: 0.55rem 0 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.article-comments .atk-send-btn {
+  appearance: none;
+  border: 1px solid var(--border-focus) !important;
+  background: var(--accent) !important;
+  color: #fff !important;
+  font: inherit !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  padding: 0.38rem 0.9rem !important;
+  border-radius: var(--radius-sm) !important;
+  cursor: pointer;
+  box-shadow: none !important;
+}
+
+.article-comments .atk-send-btn:hover {
+  background: var(--accent-deep) !important;
+}
+
+html.theme-dark .article-comments .atk-header input,
+html.theme-dark .article-comments .atk-textarea {
+  background: rgba(15, 18, 28, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: #e8eaf2 !important;
+}
+
+/* 精简 Artalk：去掉表情/上传/预览/空状态噪点 */
+.article-comments .atk-plug-panel,
+.article-comments .atk-plug-btn,
+.article-comments .atk-emoticons,
+.article-comments .atk-list-header,
+.article-comments .atk-list-no-comment,
+.article-comments .atk-copyright,
+.article-comments .atk-height-limit-btn,
+.article-comments .atk-comment-actions .atk-icon-vote,
+.article-comments .atk-vote-btn {
+  display: none !important;
+}
+
+.article-comments .atk-editor-plug-bar {
+  display: none !important;
+}
+
+.article-comments .artalk,
+.article-comments .article-comments-host.artalk {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 评论列表：更干净 */
+.article-comments .atk-list {
+  margin-top: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.article-comments .atk-list-body {
+  margin-top: 0.25rem;
+}
+
+.article-comments .atk-comment-wrap {
+  border: none !important;
+  background: transparent !important;
+  padding: 0.55rem 0 !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.article-comments .atk-comment-wrap:last-child {
+  border-bottom: none !important;
+}
+
+/* 嵌套回复：缩进挂在父评论下 */
+.article-comments .atk-list .atk-comment-children,
+.article-comments .atk-list .atk-children,
+.article-comments .atk-list .atk-replies {
+  margin: 0.35rem 0 0.15rem 0.85rem !important;
+  padding: 0 0 0 0.75rem !important;
+  border-left: 2px solid var(--border) !important;
+}
+
+.article-comments .atk-list .atk-comment-children .atk-comment-wrap,
+.article-comments .atk-list .atk-children .atk-comment-wrap,
+.article-comments .atk-list .atk-replies .atk-comment-wrap {
+  border-bottom: none !important;
+  padding: 0.45rem 0 !important;
+}
+
+.article-comments .atk-list .atk-comment-children .atk-comment-wrap + .atk-comment-wrap,
+.article-comments .atk-list .atk-children .atk-comment-wrap + .atk-comment-wrap,
+.article-comments .atk-list .atk-replies .atk-comment-wrap + .atk-comment-wrap {
+  border-top: 1px dashed var(--border) !important;
+}
+
+.article-comments .atk-avatar img {
+  border-radius: 50%;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.article-comments .atk-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.article-comments .atk-comment .atk-main .atk-header {
+  display: flex !important;
+  grid-template-columns: unset !important;
+  gap: 0.45rem;
+  align-items: baseline;
+  margin-bottom: 0.2rem !important;
+}
+
+.article-comments .atk-nick {
+  font-weight: 600;
+  color: var(--text-primary) !important;
+}
+
+.article-comments .atk-date {
+  color: var(--text-soft) !important;
+  font-size: 0.78rem !important;
+}
+
+.article-comments .atk-comment .atk-footer,
+.article-comments .atk-comment-actions {
+  margin-top: 0.25rem;
+}
+
+.article-comments .atk-comment .atk-footer span,
+.article-comments .atk-comment-actions span,
+.article-comments .atk-comment-actions a {
+  color: var(--accent-deep) !important;
+  font-size: 0.8rem !important;
+  cursor: pointer;
 }
 
 /*
