@@ -1,10 +1,119 @@
 {
   "isGitRepo": true,
-  "scanRoot": "/data/mindmaps",
-  "repoRoot": "/data/mindmaps",
+  "scanRoot": "E:\\yixiaozi",
+  "repoRoot": "D:/Dropbox/yixiaozi",
   "branch": "master",
-  "collectedAtUtc": "2026-07-20T13:28:35.6908429+00:00",
+  "logScopeRelative": "E:\\yixiaozi",
+  "collectedAtUtc": "2026-07-27T10:26:43.7031244+00:00",
   "commits": [
+    {
+      "hash": "a6fec42d2e24e9afb2dcdef5ba9609c93c4e997f",
+      "committedAt": "2026-07-27T18:25:49+08:00",
+      "subject": "今天完成了变更区域模板，给网站绑定了域名",
+      "body": "今天还是比较开心的，虽然还有很多事没做，不能太焦虑，保持放松和松弛"
+    },
+    {
+      "hash": "1e3f4670e1a963916a0127079439c2d55e45b5cc",
+      "committedAt": "2026-07-24T17:37:17+08:00",
+      "subject": "这周就结束了，先休息，以后继续加油",
+      "body": ""
+    },
+    {
+      "hash": "cabdf3392bb7ebaf9b37bb8223b692628afcd5f3",
+      "committedAt": "2026-07-24T11:57:48+08:00",
+      "subject": "中午了，上午写了下工时表",
+      "body": "决定了去乌兰布统，希望一切顺利，中午收拾下东西，晚上出发。"
+    },
+    {
+      "hash": "0a2442b7361a47ba97d592d0c68cfbeac873a552",
+      "committedAt": "2026-07-24T08:25:41+08:00",
+      "subject": "昨晚在地上睡了一晚，希望明天去乌兰布统",
+      "body": ""
+    },
+    {
+      "hash": "ba40dc19cad3df85ac65636cdf9e8215936a13ce",
+      "committedAt": "2026-07-23T18:16:15+08:00",
+      "subject": "下班了，今天好烦",
+      "body": ""
+    },
+    {
+      "hash": "5895ae493cbdb985b5dc7435c2b23b750baaee0c",
+      "committedAt": "2026-07-23T13:41:59+08:00",
+      "subject": "上午整理了变更剩余的需求，电子签测试了一下，中午家里给介绍了对象，我姐830结婚叫我过去",
+      "body": "女孩是抖音上班的，但是赚的好像不多，应该是挺清闲的工作。我现在其实对感情有点抵触，感觉爱就一定伴随伤害，挺矛盾的。"
+    },
+    {
+      "hash": "875f16a22977fa27953a876b15c229093868685c",
+      "committedAt": "2026-07-23T08:28:51+08:00",
+      "subject": "要去上班了，早上收拾了屋子，洗澡，洗衣服，换床单",
+      "body": "换了茜茜说的床单，确实很喜欢，我一直也喜欢（老家国旗那个就是）不会在坐床或者躺床了。以后早上和回家洗澡。"
+    },
+    {
+      "hash": "6b591d1b32816e9e629d594677a1eb44d91b1b23",
+      "committedAt": "2026-07-22T21:41:42+08:00",
+      "subject": "要下班了，不折腾了。",
+      "body": "其实今天也做了很多事，可是实际的进步有吗，或许没有，所以太忙也不是什么好事。要每天学习新的东西，才可能有突破。"
+    },
+    {
+      "hash": "d7e7f62e9d5c1d586e701d1ea6b37debcb036f96",
+      "committedAt": "2026-07-22T21:24:46+08:00",
+      "subject": "修复收藏丢失，给导图添加了面板功能",
+      "body": "还是开源的软件好，像自己DIV就很方便。"
+    },
+    {
+      "hash": "83dfd683a5720b1a77ffd149f696df6cfd5c7659",
+      "committedAt": "2026-07-22T19:22:01+08:00",
+      "subject": "阿西赛多很多问题，上线了变更",
+      "body": "早上在MAC 13上折腾了Hermes，感觉不是很理想。框架升级的事，我感觉麻烦很大。"
+    },
+    {
+      "hash": "0cb0776e947382dc440219a8d3d0ad1b1e4c6ad3",
+      "committedAt": "2026-07-21T20:08:03+08:00",
+      "subject": "这就下班了，Docear还有很多问题.Hermes感觉挺难调教的。",
+      "body": ""
+    },
+    {
+      "hash": "d378816a8e72d8cfaad366adb83e4484dd4ab34e",
+      "committedAt": "2026-07-21T17:21:59+08:00",
+      "subject": "下午做了变更的代码合并和开发已经交付测试",
+      "body": "决定回家设置下我的MacBookAir"
+    },
+    {
+      "hash": "c44b1b2db61e5d4b80965c82ecf54546356cb0e9",
+      "committedAt": "2026-07-21T08:36:01+08:00",
+      "subject": "要上班了，今天要更高效，更开心，更成长",
+      "body": "加油，让自己更优秀，让自己每天都开心"
+    },
+    {
+      "hash": "c4def7eea320e68671bad85c477138e3fb9dd436",
+      "committedAt": "2026-07-20T22:10:12+08:00",
+      "subject": "要下班了，不折腾了。hermes挺好玩了，希望越来越好用吧",
+      "body": ""
+    },
+    {
+      "hash": "1b7f68b42ffb7541623f8ebd97ddbcfc5eaa0766",
+      "committedAt": "2026-07-20T21:48:45+08:00",
+      "subject": "已由 www.SourceFiles.app 修改",
+      "body": ""
+    },
+    {
+      "hash": "2bee3c69290ce256d067ab3da368b2364c5ebe30",
+      "committedAt": "2026-07-20T21:48:41+08:00",
+      "subject": "已由 www.SourceFiles.app 修改",
+      "body": ""
+    },
+    {
+      "hash": "20dd1136d52ed91975ce24441705ac519bc0369e",
+      "committedAt": "2026-07-20T21:32:54+08:00",
+      "subject": "自动添加测试文件，验证提交推送流程",
+      "body": ""
+    },
+    {
+      "hash": "61961cd34229bab7e768444a303315ed6b8e1657",
+      "committedAt": "2026-07-20T21:32:20+08:00",
+      "subject": "test: add MCP_PUSH_TEST.mm from VPS",
+      "body": ""
+    },
     {
       "hash": "96802b3980fb845fa358a74226265ed49151d50a",
       "committedAt": "2026-07-20T21:00:17+08:00",

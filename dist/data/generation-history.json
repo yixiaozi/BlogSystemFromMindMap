@@ -1,6 +1,27 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-07-27T10:26:42.3886606+00:00",
+      "articlesAdded": 2,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 381,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 27,
+      "totalPlainChars": 21420,
+      "mindmapFileCount": 15,
+      "distinctBookmarkCount": 16,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "pairlab.top网站更新日志",
+        "pairlab.top创作理念及实施"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-07-20T13:28:35.3268783+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -5419,6 +5440,16 @@
     }
   ],
   "lastSnapshot": {
+    "63fd9beadd814fbe8f4f49b6": {
+      "title": "pairlab.top网站更新日志",
+      "plainChars": 62,
+      "contentHash8": "bb50a4b66ce84248"
+    },
+    "d7b2765c084b9f809c789d91": {
+      "title": "pairlab.top创作理念及实施",
+      "plainChars": 319,
+      "contentHash8": "4cabe6cd3800df8a"
+    },
     "89b7ed1ab2b3e4356c3d4259": {
       "title": "2026年7月15日每日复盘",
       "plainChars": 86,
