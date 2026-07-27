@@ -2088,6 +2088,16 @@ html.theme-dark .wordfreq-label.is-active {
   margin: 0 0 0.85rem;
 }
 
+.gen-history-useful-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.gen-history-useful-list .gen-sample-block {
+  margin: 0;
+}
+
 .gen-history-table-wrap {
   overflow-x: auto;
   margin-bottom: 1.5rem;
