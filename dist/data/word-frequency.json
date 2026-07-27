@@ -1,6 +1,6 @@
 {
   "articleCount": 29,
-  "totalTokenOccurrences": 5833,
+  "totalTokenOccurrences": 5837,
   "uniqueTokens": 572,
   "minCount": 11,
   "maxCount": 40,
@@ -19,7 +19,7 @@
     },
     {
       "token": "感觉",
-      "count": 29
+      "count": 30
     },
     {
       "token": "回家",
@@ -510,6 +510,7 @@
         "title": "提交记录",
         "href": "提交记录.html",
         "snippets": [
+          "下班了，感觉回到正轨了。加油",
           "女孩是抖音上班的，但是赚的好像不多，应该是挺清闲的工作。我现在其实对感情有点抵触，感觉爱就一定伴随伤害，挺矛盾的。",
           "早上在MAC 13上折腾了Hermes，感觉不是很理想。框架升级的事，我感觉麻烦很大。",
           "这就下班了，Docear还有很多问题.Hermes感觉挺难调教的。",
