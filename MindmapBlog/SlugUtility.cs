@@ -74,6 +74,7 @@ internal static class SlugUtility
 
     /// <summary>
     /// 在指定子目录（Web 路径，正斜杠，可为空表示根目录）下占用唯一的 <c>*.html</c>，返回自站点根起的相对路径。
+    /// 父目录各段会再走一遍 <see cref="FileNameToken"/>，防止未清洗路径漏进来。
     /// </summary>
     public static string AllocateWebPath(string? parentDirWebFromRoot, string preferredStemWithoutExtension, HashSet<string> used)
     {
@@ -81,9 +82,7 @@ internal static class SlugUtility
         if (string.IsNullOrEmpty(stem))
             stem = "页面";
 
-        parentDirWebFromRoot = string.IsNullOrWhiteSpace(parentDirWebFromRoot)
-            ? ""
-            : parentDirWebFromRoot.Trim().Trim('/').Replace('\\', '/');
+        parentDirWebFromRoot = NormalizeParentWebDir(parentDirWebFromRoot);
 
         string FullPath(string s)
         {
@@ -100,5 +99,42 @@ internal static class SlugUtility
             if (used.Add(attempt))
                 return attempt;
         }
+    }
+
+    /// <summary>规范化输出目录 Web 路径：正斜杠、各段小写且空白变连字符。</summary>
+    public static string NormalizeParentWebDir(string? parentDirWebFromRoot)
+    {
+        if (string.IsNullOrWhiteSpace(parentDirWebFromRoot))
+            return "";
+
+        var segs = parentDirWebFromRoot
+            .Trim()
+            .Trim('/')
+            .Replace('\\', '/')
+            .Split('/', StringSplitOptions.RemoveEmptyEntries)
+            .Select(FileNameToken)
+            .Where(s => !string.IsNullOrEmpty(s));
+        return string.Join("/", segs);
+    }
+
+    /// <summary>媒体等附属文件名：小写扩展名，主干去空白/特殊字符。</summary>
+    public static string SanitizeMediaFileName(string? originalFileName)
+    {
+        if (string.IsNullOrWhiteSpace(originalFileName))
+            return "file";
+
+        var stem = SanitizeFileStem(Path.GetFileNameWithoutExtension(originalFileName));
+        if (string.IsNullOrEmpty(stem))
+            stem = "file";
+
+        var ext = Path.GetExtension(originalFileName).Trim().ToLowerInvariant();
+        if (ext.Length > 0 && ext[0] != '.')
+            ext = "." + ext;
+
+        // 仅保留常见安全扩展名字符
+        if (!string.IsNullOrEmpty(ext))
+            ext = Regex.Replace(ext, @"[^a-z0-9\.]", "");
+
+        return string.IsNullOrEmpty(ext) ? stem : stem + ext;
     }
 }

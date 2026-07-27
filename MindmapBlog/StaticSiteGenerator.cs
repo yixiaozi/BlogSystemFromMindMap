@@ -324,7 +324,7 @@ public sealed class StaticSiteGenerator
             return null;
 
         var prefix = ArticleIdentity.ComputeStorageKey(article.SourceMmPath, article.ArticleNodeId);
-        var orig = Path.GetFileName(img.ResolvedSourcePath);
+        var orig = SlugUtility.SanitizeMediaFileName(Path.GetFileName(img.ResolvedSourcePath));
         var mediaFromRoot = $"media/{prefix}_{imageIndex}_{orig}".Replace('\\', '/');
         imageIndex++;
         return CombineSiteUrl(siteBaseUrl, mediaFromRoot);
@@ -1265,9 +1265,9 @@ public sealed class StaticSiteGenerator
         sb.AppendLine("</article>");
         sb.AppendLine("<section class=\"article-comments\" id=\"article-comments\" aria-label=\"评论\" hidden>");
         sb.AppendLine("<div class=\"article-comments-list-wrap\" id=\"article-comments-list-wrap\">");
-        sb.AppendLine("<h2 class=\"article-comments-title\">评论<span class=\"article-comments-count\" id=\"article-comments-count\">（…）</span></h2>");
+        sb.AppendLine("<h2 class=\"article-comments-title\" hidden>评论<span class=\"article-comments-count\" id=\"article-comments-count\">（0）</span></h2>");
         sb.AppendLine("<div id=\"article-comments-list\" class=\"article-comments-list\"></div>");
-        sb.AppendLine("<p class=\"article-comments-empty\">加载评论…</p>");
+        sb.AppendLine("<p class=\"article-comments-empty\" hidden>加载评论…</p>");
         sb.AppendLine("</div>");
         sb.AppendLine("<details class=\"comment-dock\">");
         sb.AppendLine("<summary class=\"comment-dock-summary\"><span class=\"comment-dock-title\">发表评论</span></summary>");
@@ -1804,7 +1804,7 @@ public sealed class StaticSiteGenerator
             if (!File.Exists(img.ResolvedSourcePath))
                 continue;
 
-            var orig = Path.GetFileName(img.ResolvedSourcePath);
+            var orig = SlugUtility.SanitizeMediaFileName(Path.GetFileName(img.ResolvedSourcePath));
             var safe = $"{prefix}_{index}_{orig}";
             var dest = Path.Combine(mediaRoot, safe);
             File.Copy(img.ResolvedSourcePath, dest, overwrite: true);

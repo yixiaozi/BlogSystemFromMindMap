@@ -7,7 +7,10 @@ namespace MindmapBlog;
 /// </summary>
 internal static class SitePathHelper
 {
-    /// <summary>导图文件所在目录相对扫描根的 Web 路径（用于文章与导图分支列表输出目录）。</summary>
+    /// <summary>
+    /// 导图文件所在目录相对扫描根的 Web 路径（用于文章与导图分支列表输出目录）。
+    /// 各段经 <see cref="SlugUtility.FileNameToken"/>：小写、空白→连字符，避免 Linux 大小写/空格路径问题。
+    /// </summary>
     public static string GetMmParentWebDir(string scanRootFull, string mmFullPath)
     {
         var scan = Path.GetFullPath(scanRootFull);
@@ -17,7 +20,9 @@ internal static class SitePathHelper
         var rel = Path.GetRelativePath(scan, mmDir);
         if (rel.StartsWith("..", StringComparison.Ordinal) || rel == ".")
             return "";
-        return rel.Replace('\\', '/');
+        var segs = rel.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar },
+            StringSplitOptions.RemoveEmptyEntries);
+        return FolderSegmentsToWebDir(segs);
     }
 
     /// <summary>磁盘文件夹导航路径 → 输出子目录（各段经 <see cref="SlugUtility.FileNameToken"/> 风格安全化）。</summary>
