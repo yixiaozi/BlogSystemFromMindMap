@@ -1,8 +1,7 @@
 /**
  * 文章评论（Artalk）。
- * - 已有评论：直接展示在页面上（在发表区上方）
- * - 无评论：显示「暂无评论」，折叠条上也标数量
- * - 发表区：默认折叠，样式对齐「修订与对比」
+ * - 无评论：隐藏「评论（0）」标题，只保留「发表评论」折叠条
+ * - 有评论：显示标题与列表，发表区默认折叠
  * - 仅纯文字：关闭表情、图片上传、预览等
  * - GitHub Pages（*.github.io）禁用
  */
@@ -117,6 +116,7 @@
     var listWrap = section.querySelector("#article-comments-list-wrap");
     var listHost = section.querySelector("#article-comments-list");
     var dockTitle = section.querySelector(".comment-dock-title");
+    var titleEl = section.querySelector(".article-comments-title");
     if (!listWrap || !listHost) return;
 
     var n = countComments(section);
@@ -128,17 +128,25 @@
       dockTitle.textContent = n > 0 ? "发表评论 · 已有 " + n + " 条" : "发表评论";
     }
 
-    // 列表区始终可见，便于看出有没有评论
+    // 无评论时隐藏「评论（0）」整行；有评论才显示标题与列表
+    if (titleEl) {
+      titleEl.hidden = n === 0;
+      if (n === 0) titleEl.setAttribute("hidden", "hidden");
+      else titleEl.removeAttribute("hidden");
+    }
+
     listWrap.hidden = false;
     listWrap.removeAttribute("hidden");
 
     var tip = ensureEmptyTip(listWrap);
     if (n > 0) {
       tip.hidden = true;
+      tip.setAttribute("hidden", "hidden");
       listHost.hidden = false;
     } else {
-      tip.hidden = false;
-      // 仍保留 list 容器，方便 Artalk 后续插入
+      // 无评论不显示「暂无评论」，只留「发表评论」折叠条
+      tip.hidden = true;
+      tip.setAttribute("hidden", "hidden");
       listHost.hidden = false;
     }
   }
@@ -226,12 +234,19 @@
     }
 
         section.hidden = false;
-    // 先露出列表区骨架，避免“完全看不出有没有评论”
+    // 加载前先按「无评论」隐藏标题，避免闪出「评论（0）」
+    var titleEarly = section.querySelector(".article-comments-title");
+    if (titleEarly) {
+      titleEarly.hidden = true;
+      titleEarly.setAttribute("hidden", "hidden");
+    }
     var listWrapEarly = section.querySelector("#article-comments-list-wrap");
     if (listWrapEarly) {
       listWrapEarly.hidden = false;
       listWrapEarly.removeAttribute("hidden");
-      ensureEmptyTip(listWrapEarly).textContent = "加载评论…";
+      var tipEarly = ensureEmptyTip(listWrapEarly);
+      tipEarly.hidden = true;
+      tipEarly.setAttribute("hidden", "hidden");
     }
 
     wireReplyOpensDock(section);
