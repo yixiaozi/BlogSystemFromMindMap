@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>馒头的思维导图博客</title>
-    <link>https://yixiaozi.github.io/BlogSystemFromMindMap/index.html</link>
+    <link>index.html</link>
     <description>按文章修改时间推送更新；条目含全文与元数据（RSS 2.0 + content 模块）。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 30 Jul 2026 11:16:24 GMT</lastBuildDate>
-    <atom:link href="https://yixiaozi.github.io/BlogSystemFromMindMap/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Jul 2026 11:39:49 GMT</lastBuildDate>
+    <atom:link href="rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>pairlab.top网站更新日志</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop网站更新日志.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop网站更新日志.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop网站更新日志.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop网站更新日志.html</guid>
       <pubDate>Mon, 27 Jul 2026 10:19:00 GMT</pubDate>
       <description>书签：pairLab.top
 分区：未分区
@@ -29,8 +29,8 @@
     </item>
     <item>
       <title>pairlab.top创作理念及实施</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop创作理念及实施.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop创作理念及实施.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop创作理念及实施.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop创作理念及实施.html</guid>
       <pubDate>Mon, 27 Jul 2026 10:10:07 GMT</pubDate>
       <description>书签：pairLab.top
 分区：未分区
@@ -63,8 +63,8 @@
     </item>
     <item>
       <title>2026年7月15日每日复盘</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月15日每日复盘.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月15日每日复盘.html</guid>
+      <link>02目标发展/11复盘总结/01时间复盘/2026年7月15日每日复盘.html</link>
+      <guid isPermaLink="true">02目标发展/11复盘总结/01时间复盘/2026年7月15日每日复盘.html</guid>
       <pubDate>Thu, 16 Jul 2026 13:19:26 GMT</pubDate>
       <description>书签：每日复盘
 分区：2026 / 7
@@ -95,8 +95,8 @@
     </item>
     <item>
       <title>2026年7月16日每日复盘</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月16日每日复盘.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月16日每日复盘.html</guid>
+      <link>02目标发展/11复盘总结/01时间复盘/2026年7月16日每日复盘.html</link>
+      <guid isPermaLink="true">02目标发展/11复盘总结/01时间复盘/2026年7月16日每日复盘.html</guid>
       <pubDate>Thu, 16 Jul 2026 13:19:09 GMT</pubDate>
       <description>书签：每日复盘
 分区：2026 / 7
@@ -149,8 +149,8 @@ Cursor的额度真的不够，估计这个月肯定超了，用钱解决吧
     </item>
     <item>
       <title>2026年7月14日每日复盘</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月14日每日复盘.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月14日每日复盘.html</guid>
+      <link>02目标发展/11复盘总结/01时间复盘/2026年7月14日每日复盘.html</link>
+      <guid isPermaLink="true">02目标发展/11复盘总结/01时间复盘/2026年7月14日每日复盘.html</guid>
       <pubDate>Thu, 16 Jul 2026 13:19:09 GMT</pubDate>
       <description>书签：每日复盘
 分区：2026 / 7
@@ -175,8 +175,8 @@ Cursor的额度真的不够，估计这个月肯定超了，用钱解决吧
     </item>
     <item>
       <title>2026年7月13日每日复盘</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月13日每日复盘.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月13日每日复盘.html</guid>
+      <link>02目标发展/11复盘总结/01时间复盘/2026年7月13日每日复盘.html</link>
+      <guid isPermaLink="true">02目标发展/11复盘总结/01时间复盘/2026年7月13日每日复盘.html</guid>
       <pubDate>Mon, 13 Jul 2026 13:53:39 GMT</pubDate>
       <description>书签：每日复盘
 分区：2026 / 7
@@ -265,8 +265,8 @@ https://zh.wikipedia.org/wiki/%E5%92%BD%E9%BC%93%E7%AE%A1%E5%8A%9F%E8%83%BD%E9%9
     </item>
     <item>
       <title>2026年7月12日每日复盘</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月12日每日复盘.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月12日每日复盘.html</guid>
+      <link>02目标发展/11复盘总结/01时间复盘/2026年7月12日每日复盘.html</link>
+      <guid isPermaLink="true">02目标发展/11复盘总结/01时间复盘/2026年7月12日每日复盘.html</guid>
       <pubDate>Mon, 13 Jul 2026 13:53:37 GMT</pubDate>
       <description>书签：每日复盘
 分区：2026 / 7
@@ -287,8 +287,8 @@ https://zh.wikipedia.org/wiki/%E5%92%BD%E9%BC%93%E7%AE%A1%E5%8A%9F%E8%83%BD%E9%9
     </item>
     <item>
       <title>2026年7月11日每日复盘</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月11日每日复盘.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月11日每日复盘.html</guid>
+      <link>02目标发展/11复盘总结/01时间复盘/2026年7月11日每日复盘.html</link>
+      <guid isPermaLink="true">02目标发展/11复盘总结/01时间复盘/2026年7月11日每日复盘.html</guid>
       <pubDate>Sat, 11 Jul 2026 13:17:34 GMT</pubDate>
       <description>书签：每日复盘
 分区：2026 / 7
@@ -337,8 +337,8 @@ https://zh.wikipedia.org/wiki/%E5%92%BD%E9%BC%93%E7%AE%A1%E5%8A%9F%E8%83%BD%E9%9
     </item>
     <item>
       <title>Docear未来开发计划</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/二次开发/docear未来开发计划.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/二次开发/docear未来开发计划.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/二次开发/docear未来开发计划.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/二次开发/docear未来开发计划.html</guid>
       <pubDate>Sat, 11 Jul 2026 01:02:33 GMT</pubDate>
       <description>书签：Docear改造
 分区：未分区
@@ -357,8 +357,8 @@ https://zh.wikipedia.org/wiki/%E5%92%BD%E9%BC%93%E7%AE%A1%E5%8A%9F%E8%83%BD%E9%9
     </item>
     <item>
       <title>思维导图博客的剩余目标</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/00个人网址/思维导图博客的剩余目标.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/00个人网址/思维导图博客的剩余目标.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/00个人网址/思维导图博客的剩余目标.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/00个人网址/思维导图博客的剩余目标.html</guid>
       <pubDate>Sat, 11 Jul 2026 00:24:39 GMT</pubDate>
       <description>书签：思维导图博客
 分区：未分区
@@ -377,8 +377,8 @@ https://zh.wikipedia.org/wiki/%E5%92%BD%E9%BC%93%E7%AE%A1%E5%8A%9F%E8%83%BD%E9%9
     </item>
     <item>
       <title>2026年7月10日每日复盘</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月10日每日复盘.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/11复盘总结/01时间复盘/2026年7月10日每日复盘.html</guid>
+      <link>02目标发展/11复盘总结/01时间复盘/2026年7月10日每日复盘.html</link>
+      <guid isPermaLink="true">02目标发展/11复盘总结/01时间复盘/2026年7月10日每日复盘.html</guid>
       <pubDate>Fri, 10 Jul 2026 21:25:50 GMT</pubDate>
       <description>书签：每日复盘
 分区：2026 / 7
@@ -549,8 +549,8 @@ Codex和ChatGPT合并了
     </item>
     <item>
       <title>做个CT，复查一次，是否完全恢复</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/07饮食健康/05身体状况/做个ct复查一次是否完全恢复.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/07饮食健康/05身体状况/做个ct复查一次是否完全恢复.html</guid>
+      <link>07有条不紊/07饮食健康/05身体状况/做个ct复查一次是否完全恢复.html</link>
+      <guid isPermaLink="true">07有条不紊/07饮食健康/05身体状况/做个ct复查一次是否完全恢复.html</guid>
       <pubDate>Thu, 09 Jul 2026 09:57:42 GMT</pubDate>
       <description>书签：身体
 分区：2026 / 6 / 29 / 胸部损伤 / 2026 / 8 / 1
@@ -561,8 +561,8 @@ Codex和ChatGPT合并了
     </item>
     <item>
       <title>个人信息披露</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/04网络世界/个人信息披露.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/04网络世界/个人信息披露.html</guid>
+      <link>07有条不紊/04网络世界/个人信息披露.html</link>
+      <guid isPermaLink="true">07有条不紊/04网络世界/个人信息披露.html</guid>
       <pubDate>Thu, 09 Jul 2026 09:08:36 GMT</pubDate>
       <description>书签：网络世界的我
 分区：未分区
@@ -589,8 +589,8 @@ Todoist
     </item>
     <item>
       <title>2026全年目标</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/09目标管理/2026全年目标.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/09目标管理/2026全年目标.html</guid>
+      <link>02目标发展/09目标管理/2026全年目标.html</link>
+      <guid isPermaLink="true">02目标发展/09目标管理/2026全年目标.html</guid>
       <pubDate>Thu, 09 Jul 2026 06:41:29 GMT</pubDate>
       <description>书签：目标管理
 分区：未分区
@@ -669,8 +669,8 @@ Todoist
     </item>
     <item>
       <title>Cursor个人数据</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/04信息技术/ai/ai-coding/cursor/cursor个人数据.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/04信息技术/ai/ai-coding/cursor/cursor个人数据.html</guid>
+      <link>04信息技术/ai/ai-coding/cursor/cursor个人数据.html</link>
+      <guid isPermaLink="true">04信息技术/ai/ai-coding/cursor/cursor个人数据.html</guid>
       <pubDate>Wed, 08 Jul 2026 04:36:54 GMT</pubDate>
       <description>书签：Cursor
 分区：未分区
@@ -683,8 +683,8 @@ https://cursor.com/@yixiaozi</description>
     </item>
     <item>
       <title>洋，缺发票，所有消费都记得开发票，普通发票就行。</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/05财务管理/洋缺发票所有消费都记得开发票普通发票就行.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/05财务管理/洋缺发票所有消费都记得开发票普通发票就行.html</guid>
+      <link>07有条不紊/05财务管理/洋缺发票所有消费都记得开发票普通发票就行.html</link>
+      <guid isPermaLink="true">07有条不紊/05财务管理/洋缺发票所有消费都记得开发票普通发票就行.html</guid>
       <pubDate>Thu, 02 Jul 2026 11:22:04 GMT</pubDate>
       <description>书签：发票
 分区：王静
@@ -705,8 +705,8 @@ https://cursor.com/@yixiaozi</description>
     </item>
     <item>
       <title>愿望礼物清单</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/08人际关系/04人情往来/愿望礼物清单.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/08人际关系/04人情往来/愿望礼物清单.html</guid>
+      <link>07有条不紊/08人际关系/04人情往来/愿望礼物清单.html</link>
+      <guid isPermaLink="true">07有条不紊/08人际关系/04人情往来/愿望礼物清单.html</guid>
       <pubDate>Thu, 02 Jul 2026 11:17:17 GMT</pubDate>
       <description>书签：交换礼物
 分区：未分区
@@ -749,8 +749,8 @@ https://cursor.com/@yixiaozi</description>
     </item>
     <item>
       <title>我的保险</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/05财务管理/我的保险.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/05财务管理/我的保险.html</guid>
+      <link>07有条不紊/05财务管理/我的保险.html</link>
+      <guid isPermaLink="true">07有条不紊/05财务管理/我的保险.html</guid>
       <pubDate>Thu, 02 Jul 2026 04:02:40 GMT</pubDate>
       <description>书签：保险
 分区：未分区
@@ -789,8 +789,8 @@ A967987910(电子合同)2026-07-02.pdf
     </item>
     <item>
       <title>Docear改造时间轴</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html</guid>
       <pubDate>Thu, 02 Jul 2026 01:12:47 GMT</pubDate>
       <description>书签：Docear改造
 分区：未分区
@@ -993,8 +993,8 @@ Ctrl+L为什么不是加密节点的快捷键了呢？
     </item>
     <item>
       <title>活动数据</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/活动数据.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/活动数据.html</guid>
+      <link>07有条不紊/02时间管理/活动数据.html</link>
+      <guid isPermaLink="true">07有条不紊/02时间管理/活动数据.html</guid>
       <pubDate>Wed, 01 Jul 2026 09:09:45 GMT</pubDate>
       <description>书签：HashPhotos
 分区：未分区
@@ -3425,8 +3425,8 @@ UAT去798
     </item>
     <item>
       <title>关于活动数据的总结（AI总结）20260620</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html</guid>
+      <link>07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html</link>
+      <guid isPermaLink="true">07有条不紊/02时间管理/关于活动数据的总结ai总结20260620.html</guid>
       <pubDate>Wed, 01 Jul 2026 09:09:28 GMT</pubDate>
       <description>书签：HashPhotos
 分区：AI总结
@@ -3573,8 +3573,8 @@ UAT去798
     </item>
     <item>
       <title>根据活动数据的个人总结20260627</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/根据活动数据的个人总结20260627.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/02时间管理/根据活动数据的个人总结20260627.html</guid>
+      <link>07有条不紊/02时间管理/根据活动数据的个人总结20260627.html</link>
+      <guid isPermaLink="true">07有条不紊/02时间管理/根据活动数据的个人总结20260627.html</guid>
       <pubDate>Wed, 01 Jul 2026 09:09:23 GMT</pubDate>
       <description>书签：HashPhotos
 分区：个人总结
@@ -3681,8 +3681,8 @@ UAT去798
     </item>
     <item>
       <title>胸部损伤</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/07饮食健康/05身体状况/胸部损伤.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/07饮食健康/05身体状况/胸部损伤.html</guid>
+      <link>07有条不紊/07饮食健康/05身体状况/胸部损伤.html</link>
+      <guid isPermaLink="true">07有条不紊/07饮食健康/05身体状况/胸部损伤.html</guid>
       <pubDate>Tue, 30 Jun 2026 01:08:06 GMT</pubDate>
       <description>书签：身体
 分区：2026 / 6 / 29
@@ -3721,7 +3721,7 @@ UAT去798
 <p>摔车了</p>
 <p>2026年6月29日</p>
 <p>去做了CT，第二天出结果</p>
-<figure><img src="https://yixiaozi.github.io/BlogSystemFromMindMap/media/b560bff35f3ff586d93e0f3c_0.png" alt="20260629CT报告.png" /><figcaption>20260629CT报告.png</figcaption></figure>
+<figure><img src="media/b560bff35f3ff586d93e0f3c_0.png" alt="20260629CT报告.png" /><figcaption>20260629CT报告.png</figcaption></figure>
 <p>左侧第5、6前肋骨质不连续</p>
 <p>第二天看一下结果，如果出结果了，问一下医生应该怎么办</p>
 <p>医生的初步诊断是肋骨骨折，症状很像</p>
@@ -3749,8 +3749,8 @@ UAT去798
     </item>
     <item>
       <title>个人信息及紧急联系人</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</guid>
+      <link>07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</link>
+      <guid isPermaLink="true">07有条不紊/08人际关系/03联系方式/个人信息及紧急联系人.html</guid>
       <pubDate>Wed, 24 Jun 2026 07:36:51 GMT</pubDate>
       <description>书签：紧急联系人
 分区：未分区
@@ -3793,8 +3793,8 @@ UAT去798
     </item>
     <item>
       <title>最近在看的书</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/03阅读成长/最近在看的书.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/03阅读成长/最近在看的书.html</guid>
+      <link>03阅读成长/最近在看的书.html</link>
+      <guid isPermaLink="true">03阅读成长/最近在看的书.html</guid>
       <pubDate>Tue, 23 Jun 2026 13:04:23 GMT</pubDate>
       <description>书签：微信读书
 分区：未分区
@@ -3813,8 +3813,8 @@ UAT去798
     </item>
     <item>
       <title>系统日志</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</guid>
+      <link>02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/00开源作者/00个人网址/系统日志.html</guid>
       <pubDate>Wed, 20 May 2026 20:35:17 GMT</pubDate>
       <description>书签：系统日志
 分区：未分区
@@ -3839,8 +3839,8 @@ UAT去798
     </item>
     <item>
       <title>过程大于结果，纯敲字版</title>
-      <link>https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</link>
-      <guid isPermaLink="true">https://yixiaozi.github.io/BlogSystemFromMindMap/02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</guid>
+      <link>02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</link>
+      <guid isPermaLink="true">02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html</guid>
       <pubDate>Tue, 21 Apr 2026 14:36:56 GMT</pubDate>
       <description>书签：每天一千字
 分区：2026 / 4 / 21
@@ -3854,7 +3854,7 @@ UAT去798
 不知道为什么，突然不想用手机拍照了，&lt;font color=&quot;#ff0000&quot;&gt;很想买一个相机&lt;/font&gt;，对那个佳能的微单念念不忘。
 我其实并不喜欢看结果，我喜欢看过程，比如我不在乎别人做某件事的结果如果，而会看对方是否有为过程努力。如果过程是糟糕的，结果是好的，那么就非常糟糕。工作也是，我希望大家更重视过程，分析问题的根本原因，优化解决问题的过程。工作应该是轻松的，不断真正进步的，而非是充满紧张和压力。</description>
       <content:encoded><![CDATA[<div class="rss-meta"><p>书签：每天一千字</p><p>分区：2026 / 4 / 21</p><p>导图：每天一千字</p><p>来源：每天一千字.mm</p></div><p>路上，楸树开花了。这两天的天气异常的好，天很蓝，阳光灿烂，树影在地上明暗分明特别好看。上周六在家收拾了一天屋子，一方面因为没有出去爬山徒步而懊恼，看到其他人发的图片，羡慕了好久。</p>
-<figure><img src="https://yixiaozi.github.io/BlogSystemFromMindMap/media/d9aadc03deba76fca5ae2ec0_0.png" alt="美丽的楸树.png" /><figcaption>美丽的楸树.png</figcaption></figure>
+<figure><img src="media/d9aadc03deba76fca5ae2ec0_0.png" alt="美丽的楸树.png" /><figcaption>美丽的楸树.png</figcaption></figure>
 <p>但是能够彻底把家里收拾一下，也是非常开心的，把冬天的地毯收起来了，地板擦了很多遍，最近很喜欢坐在地方休息。</p>
 <p>周日的时候，开始写这个博客系统，周日晚上熬夜了，周一下午身体很不舒服，请假回了家。周二，压力小了很多。晚上回家就开始发布博客，然后就开始随便写点什么。</p>
 <div class="rich-paragraph"><p>

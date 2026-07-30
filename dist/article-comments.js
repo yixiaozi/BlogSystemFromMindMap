@@ -323,6 +323,12 @@
         // 仅延迟补一次布局，禁止轮询/MutationObserver（会卡死页面）
         setTimeout(afterListChange, 500);
 
+        try {
+          window.dispatchEvent(
+            new CustomEvent("mindmapblog:artalk-ready", { detail: { artalk: artalk } })
+          );
+        } catch (eEvt) {}
+
         var darkBtn = document.getElementById("site-theme-dark-toggle");
         if (darkBtn && artalk && typeof artalk.setDarkMode === "function") {
           darkBtn.addEventListener("click", function () {

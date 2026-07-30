@@ -705,9 +705,19 @@
     document.body.appendChild(script);
   }
 
+  function loadVisitStatsScript() {
+    if (document.querySelector('script[src*="visit-stats.js"]')) return;
+    var ctx = readPageContext();
+    var script = document.createElement("script");
+    script.src = relFromTo(ctx.pagePath, "visit-stats.js");
+    script.defer = true;
+    document.body.appendChild(script);
+  }
+
   function boot() {
     var navHost = document.getElementById("site-chrome-nav-host");
     var asideHost = document.getElementById("site-chrome-aside-host");
+    loadVisitStatsScript();
     if (!navHost && !asideHost) return;
 
     var ctx = readPageContext();
