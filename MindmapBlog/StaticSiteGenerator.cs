@@ -190,6 +190,8 @@ public sealed class StaticSiteGenerator
         CopyWordfreqHighlightScript(outDir);
         CopyArticleOutlineScript(outDir);
         CopyArticleCommentsScript(outDir);
+        CopyVisitStatsScript(outDir);
+        WriteVisitHistoryPage(outDir, names);
 
         WriteStylesheet(Path.Combine(outDir, "site.css"));
     }
@@ -457,6 +459,32 @@ public sealed class StaticSiteGenerator
         }
 
         File.Copy(src, Path.Combine(outDir, "article-comments.js"), overwrite: true);
+    }
+
+    private static void CopyVisitStatsScript(string outDir)
+    {
+        var src = Path.Combine(AppContext.BaseDirectory, "Scripts", "visit-stats.js");
+        if (!File.Exists(src))
+        {
+            Console.Error.WriteLine("警告：找不到 Scripts/visit-stats.js，访问统计不可用。");
+            return;
+        }
+
+        File.Copy(src, Path.Combine(outDir, "visit-stats.js"), overwrite: true);
+    }
+
+    private static void WriteVisitHistoryPage(string outDir, SiteFileNames names)
+    {
+        var webPath = HtmlLayout.VisitHistoryPageFileName;
+        var page = HtmlLayout.BuildDocument(
+            "访问历史",
+            "",
+            HtmlLayout.VisitHistoryPageShellInner,
+            webPath,
+            names.RssFeedWebPath,
+            names,
+            isVisitHistoryPage: true);
+        WriteUtf8Web(outDir, webPath, page);
     }
 
     private static void CopyTimelineTabsScript(string outDir)
@@ -2007,7 +2035,8 @@ html::-webkit-scrollbar {
 .search-aside-list,
 .article-outline-scroll,
 .rev-aside.rev-aside--scrollable,
-.gen-history-table-wrap {
+.gen-history-table-wrap,
+.visit-aside-list {
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
@@ -2019,7 +2048,8 @@ html::-webkit-scrollbar {
 .search-aside-list::-webkit-scrollbar,
 .article-outline-scroll::-webkit-scrollbar,
 .rev-aside.rev-aside--scrollable::-webkit-scrollbar,
-.gen-history-table-wrap::-webkit-scrollbar {
+.gen-history-table-wrap::-webkit-scrollbar,
+.visit-aside-list::-webkit-scrollbar {
   width: var(--scrollbar-size);
   height: var(--scrollbar-size);
 }
@@ -2029,7 +2059,8 @@ html::-webkit-scrollbar {
 .search-aside-list::-webkit-scrollbar-track,
 .article-outline-scroll::-webkit-scrollbar-track,
 .rev-aside.rev-aside--scrollable::-webkit-scrollbar-track,
-.gen-history-table-wrap::-webkit-scrollbar-track {
+.gen-history-table-wrap::-webkit-scrollbar-track,
+.visit-aside-list::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -2038,7 +2069,8 @@ html::-webkit-scrollbar {
 .search-aside-list::-webkit-scrollbar-thumb,
 .article-outline-scroll::-webkit-scrollbar-thumb,
 .rev-aside.rev-aside--scrollable::-webkit-scrollbar-thumb,
-.gen-history-table-wrap::-webkit-scrollbar-thumb {
+.gen-history-table-wrap::-webkit-scrollbar-thumb,
+.visit-aside-list::-webkit-scrollbar-thumb {
   background-color: transparent;
   border-radius: 999px;
   border: 2px solid transparent;
@@ -2056,7 +2088,9 @@ html::-webkit-scrollbar {
 .rev-aside.rev-aside--scrollable:hover,
 .rev-aside.rev-aside--scrollable:focus-within,
 .gen-history-table-wrap:hover,
-.gen-history-table-wrap:focus-within {
+.gen-history-table-wrap:focus-within,
+.visit-aside-list:hover,
+.visit-aside-list:focus-within {
   scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
@@ -2071,7 +2105,9 @@ html::-webkit-scrollbar {
 .rev-aside.rev-aside--scrollable:hover::-webkit-scrollbar-thumb,
 .rev-aside.rev-aside--scrollable:focus-within::-webkit-scrollbar-thumb,
 .gen-history-table-wrap:hover::-webkit-scrollbar-thumb,
-.gen-history-table-wrap:focus-within::-webkit-scrollbar-thumb {
+.gen-history-table-wrap:focus-within::-webkit-scrollbar-thumb,
+.visit-aside-list:hover::-webkit-scrollbar-thumb,
+.visit-aside-list:focus-within::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);
 }
 
@@ -2080,7 +2116,8 @@ html::-webkit-scrollbar {
 .search-aside-list::-webkit-scrollbar-thumb:hover,
 .article-outline-scroll::-webkit-scrollbar-thumb:hover,
 .rev-aside.rev-aside--scrollable::-webkit-scrollbar-thumb:hover,
-.gen-history-table-wrap::-webkit-scrollbar-thumb:hover {
+.gen-history-table-wrap::-webkit-scrollbar-thumb:hover,
+.visit-aside-list::-webkit-scrollbar-thumb:hover {
   background-color: var(--scrollbar-thumb-hover);
 }
 
@@ -2090,7 +2127,8 @@ html::-webkit-scrollbar {
   .search-aside-list,
   .article-outline-scroll,
   .rev-aside.rev-aside--scrollable,
-  .gen-history-table-wrap {
+  .gen-history-table-wrap,
+  .visit-aside-list {
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) transparent;
   }
@@ -2100,7 +2138,8 @@ html::-webkit-scrollbar {
   .search-aside-list::-webkit-scrollbar-thumb,
   .article-outline-scroll::-webkit-scrollbar-thumb,
   .rev-aside.rev-aside--scrollable::-webkit-scrollbar-thumb,
-  .gen-history-table-wrap::-webkit-scrollbar-thumb {
+  .gen-history-table-wrap::-webkit-scrollbar-thumb,
+  .visit-aside-list::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb);
   }
 }
@@ -2602,7 +2641,8 @@ html.theme-dark .aside-profile-placeholder {
 
 html.theme-dark .search-aside-wrap,
 html.theme-dark .tag-aside-inner,
-html.theme-dark .gallery-aside-inner {
+html.theme-dark .gallery-aside-inner,
+html.theme-dark .visit-aside-wrap {
   background: linear-gradient(162deg, rgba(34, 40, 54, 0.95) 0%, rgba(26, 30, 42, 0.93) 100%);
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.38);
   border-color: var(--border);
@@ -5960,6 +6000,430 @@ html.theme-dark .article-comments .atk-textarea {
   .rev-dock {
     display: none !important;
   }
+}
+
+/* —— 访问统计 / 最近访问 / 访问历史 —— */
+.visit-stats-meter {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.visit-stats-meter--hero {
+  display: flex;
+  margin: 0.45rem 0 0.15rem;
+}
+
+.visit-stat-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.22rem;
+  padding: 0.12rem 0.48rem;
+  border-radius: 999px;
+  border: 1px solid rgba(67, 56, 202, 0.16);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.95) 0%, rgba(238, 242, 255, 0.88) 100%);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  box-shadow: 0 1px 4px rgba(21, 28, 40, 0.04);
+}
+
+.visit-stat-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent-deep);
+}
+
+.visit-stat-local,
+.visit-stat-site {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.visit-stat-unit {
+  font-size: 0.68rem;
+  color: var(--text-soft);
+}
+
+.visit-aside-wrap {
+  margin: 0;
+  padding: 0.75rem 0.65rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: linear-gradient(162deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 252, 0.92) 100%);
+  box-shadow: 0 4px 18px rgba(21, 28, 40, 0.045);
+}
+
+.visit-aside-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.visit-aside-title-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.visit-aside-lead {
+  font-size: 0.66rem;
+  color: var(--text-soft);
+  margin: 0 0 0.55rem;
+  line-height: 1.4;
+}
+
+.visit-aside-empty {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.visit-aside-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 15.5rem;
+  overflow: auto;
+  border-top: 1px solid rgba(21, 28, 40, 0.06);
+}
+
+.visit-aside-item {
+  border-bottom: 1px solid rgba(21, 28, 40, 0.05);
+}
+
+.visit-aside-item:last-child {
+  border-bottom: none;
+}
+
+.visit-aside-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding: 0.42rem 0.12rem;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease;
+}
+
+.visit-aside-link:hover {
+  background: rgba(67, 56, 202, 0.07);
+}
+
+.visit-aside-item.is-active .visit-aside-link {
+  background: var(--accent-soft);
+}
+
+.visit-aside-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.visit-aside-time {
+  font-size: 0.64rem;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.visit-aside-more-wrap {
+  margin: 0.55rem 0 0;
+  text-align: center;
+}
+
+.visit-aside-more {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.visit-aside-more:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.page-visits .hero {
+  margin-bottom: 1rem;
+}
+
+.visit-history-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0 0 1.25rem;
+}
+
+.visit-history-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse 80% 70% at 12% 0%, rgba(129, 140, 248, 0.16) 0%, transparent 55%),
+    linear-gradient(165deg, #ffffff 0%, #f6f5fb 100%);
+  box-shadow: var(--shadow-sm);
+}
+
+.visit-history-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.visit-history-card-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--accent-deep);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.visit-history-card-value--sm {
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.visit-history-card-unit {
+  font-size: 0.72rem;
+  color: var(--text-soft);
+}
+
+.visit-history-h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.visit-history-top {
+  margin: 0 0 1.35rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.visit-top-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: visit-top;
+}
+
+.visit-top-list li + li {
+  margin-top: 0.28rem;
+}
+
+.visit-top-list a {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr auto;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.42rem 0.35rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+
+.visit-top-list a:hover {
+  background: rgba(67, 56, 202, 0.07);
+}
+
+.visit-top-rank {
+  width: 1.35rem;
+  height: 1.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, #6366f1 100%);
+}
+
+.visit-top-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.visit-top-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.visit-history-timeline {
+  margin: 0 0 1.25rem;
+}
+
+.visit-history-empty {
+  margin: 0;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(67, 56, 202, 0.22);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.visit-day-group {
+  position: relative;
+  padding: 0 0 1rem 1.1rem;
+  border-left: 2px solid rgba(67, 56, 202, 0.16);
+}
+
+.visit-day-group:last-child {
+  padding-bottom: 0;
+}
+
+.visit-day-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+}
+
+.visit-day-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.visit-day-item {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  gap: 0.55rem;
+  align-items: baseline;
+  padding: 0.28rem 0;
+}
+
+.visit-day-item time {
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.visit-day-item a {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.visit-day-item a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.visit-history-actions {
+  margin-top: 0.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(21, 28, 40, 0.08);
+}
+
+.visit-history-clear {
+  appearance: none;
+  border: 1px solid rgba(185, 28, 28, 0.28);
+  background: linear-gradient(165deg, #fff 0%, #fff5f5 100%);
+  color: #b91c1c;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.visit-history-clear:hover {
+  border-color: rgba(185, 28, 28, 0.45);
+  background: #fff1f1;
+}
+
+.visit-history-note {
+  margin: 0.55rem 0 0;
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  line-height: 1.45;
+}
+
+html.theme-dark .visit-stat-pill {
+  background: linear-gradient(165deg, rgba(28, 34, 48, 0.96) 0%, rgba(22, 26, 38, 0.92) 100%);
+  border-color: rgba(165, 180, 252, 0.28);
+  color: var(--text-muted);
+}
+
+html.theme-dark .visit-stat-label {
+  color: #c7d2fe;
+}
+
+html.theme-dark .visit-aside-link:hover,
+html.theme-dark .visit-top-list a:hover {
+  background: rgba(99, 102, 241, 0.14);
+}
+
+html.theme-dark .visit-aside-item.is-active .visit-aside-link {
+  background: rgba(99, 102, 241, 0.18);
+}
+
+html.theme-dark .visit-history-card,
+html.theme-dark .visit-history-top,
+html.theme-dark .visit-history-empty {
+  background: linear-gradient(165deg, rgba(28, 34, 48, 0.94) 0%, rgba(22, 26, 38, 0.9) 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html.theme-dark .visit-history-card-value {
+  color: #c7d2fe;
+}
+
+html.theme-dark .visit-day-group {
+  border-left-color: rgba(165, 180, 252, 0.28);
+}
+
+html.theme-dark .visit-history-clear {
+  background: rgba(58, 24, 24, 0.72);
+  border-color: rgba(252, 165, 165, 0.35);
+  color: #fecaca;
+}
+
+@media (max-width: 720px) {
+  .visit-history-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.layout-tags .visit-aside-list,
+.visit-aside-list {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.visit-aside-list:hover,
+.visit-aside-list:focus-within {
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 """;
         File.WriteAllText(path, css, Encoding.UTF8);

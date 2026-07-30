@@ -8,10 +8,12 @@ namespace MindmapBlog;
 /// 词频语料中的一篇「文档」：普通文章，或关于我 / 提交记录等独立页。
 /// 以后新增同类单据页时，往语料列表追加即可。
 /// </summary>
+/// <param name="SortAt">用于命中列表排序的时间（新→旧）；提交用提交时间，文章用提醒日或修改时间。</param>
 internal sealed record WordFrequencyDocument(
     string Title,
     string HtmlFileName,
-    string PlainText);
+    string PlainText,
+    DateTimeOffset? SortAt = null);
 
 internal static class WordFrequencyService
 {
@@ -35,15 +37,17 @@ internal static class WordFrequencyService
         if (about != null)
             docs.Add(about);
 
-        var commits = FromGitCommitPage(gitCommits);
-        if (commits != null)
-            docs.Add(commits);
+        docs.AddRange(FromGitCommitEntries(gitCommits));
 
         return docs;
     }
 
     public static WordFrequencyDocument FromArticle(BlogArticle article) =>
-        new(article.Title, article.HtmlFileName, CollectArticlePlainText(article));
+        new(
+            article.Title,
+            article.HtmlFileName,
+            CollectArticlePlainText(article),
+            article.ReminderAt ?? article.Modified);
 
     public static WordFrequencyDocument? FromAboutPage(string? aboutPageWebPath = null)
     {
@@ -66,31 +70,65 @@ internal static class WordFrequencyService
         return new WordFrequencyDocument("关于我", href.Replace('\\', '/'), sb.ToString());
     }
 
-    public static WordFrequencyDocument? FromGitCommitPage(GitCommitHistorySnapshot? snapshot)
+    /// <summary>
+    /// 每次 Git 提交单独成一篇语料，便于词频命中按提交时间拆条展示（仍链到「提交记录」页）。
+    /// </summary>
+    public static IReadOnlyList<WordFrequencyDocument> FromGitCommitEntries(
+        GitCommitHistorySnapshot? snapshot)
     {
         if (snapshot == null || snapshot.Commits.Count == 0)
+            return [];
+
+        var page = HtmlLayout.GitCommitHistoryPageFileName;
+        var list = new List<WordFrequencyDocument>(snapshot.Commits.Count);
+
+        foreach (var c in snapshot.Commits)
+        {
+            if (GitCommitCollector.IsMergeCommitSubject(c.Subject ?? ""))
+                continue;
+
+            var sb = new StringBuilder();
+            var subject = (c.Subject ?? "").Trim();
+            if (subject.Length > 0 && subject != ".")
+                sb.AppendLine(subject);
+            var body = (c.Body ?? "").Trim();
+            if (body.Length > 0)
+                sb.AppendLine(body);
+
+            var text = sb.ToString().Trim();
+            if (text.Length == 0)
+                continue;
+
+            var timeLabel = c.CommittedAt.ToLocalTime()
+                .ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            list.Add(new WordFrequencyDocument(
+                "提交记录 · " + timeLabel,
+                page,
+                text,
+                c.CommittedAt));
+        }
+
+        return list;
+    }
+
+    /// <summary>兼容旧调用：整页拼成一篇（搜索索引若需单条时可再用）。</summary>
+    public static WordFrequencyDocument? FromGitCommitPage(GitCommitHistorySnapshot? snapshot)
+    {
+        var entries = FromGitCommitEntries(snapshot);
+        if (entries.Count == 0)
             return null;
 
         var sb = new StringBuilder();
         sb.AppendLine("提交记录");
-        foreach (var c in snapshot.Commits)
-        {
-            if (GitCommitCollector.IsMergeCommitSubject(c.Subject))
-                continue;
-            if (!string.IsNullOrWhiteSpace(c.Subject))
-                sb.AppendLine(c.Subject);
-            if (!string.IsNullOrWhiteSpace(c.Body))
-                sb.AppendLine(c.Body);
-        }
+        foreach (var e in entries.OrderByDescending(x => x.SortAt))
+            sb.AppendLine(e.PlainText);
 
-        var text = sb.ToString();
-        if (text.Trim().Length <= "提交记录".Length)
-            return null;
-
+        var newest = entries.Max(e => e.SortAt);
         return new WordFrequencyDocument(
             "提交记录",
             HtmlLayout.GitCommitHistoryPageFileName,
-            text);
+            sb.ToString(),
+            newest);
     }
 
     /// <summary>聚合语料文本后的词频（jieba 精确模式分词）。</summary>
@@ -287,8 +325,21 @@ internal static class WordFrequencyService
                 if (hitSnippets.Count == 0)
                     continue;
 
-                result[term].Add(new WordFrequencyArticleHit(doc.Title, doc.HtmlFileName, hitSnippets));
+                result[term].Add(new WordFrequencyArticleHit(
+                    doc.Title,
+                    doc.HtmlFileName,
+                    hitSnippets,
+                    doc.SortAt));
             }
+        }
+
+        // 全部命中按时间新→旧混排（文章与提交记录同一时间轴）
+        foreach (var term in termSet)
+        {
+            result[term] = result[term]
+                .OrderByDescending(h => h.SortAt ?? DateTimeOffset.MinValue)
+                .ThenBy(h => h.Title, StringComparer.Ordinal)
+                .ToList();
         }
 
         return result;
@@ -440,4 +491,5 @@ internal sealed record WordFrequencyResult(
 internal sealed record WordFrequencyArticleHit(
     string Title,
     string HtmlFileName,
-    IReadOnlyList<string> Snippets);
+    IReadOnlyList<string> Snippets,
+    DateTimeOffset? SortAt = null);

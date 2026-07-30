@@ -33,6 +33,20 @@ internal static class HtmlLayout
         </div>
         """;
 
+    public const string VisitHistoryPageFileName = "访问历史.html";
+
+    /// <summary>访问历史页静态壳（足迹由 visit-stats.js + localStorage 填充）。</summary>
+    public const string VisitHistoryPageShellInner =
+        """
+        <div class="page-visits" id="visit-history-page">
+        <header class="hero">
+        <h1 class="page-title">访问历史</h1>
+        <p class="page-lead">本机浏览器保存的阅读足迹与常读页面；全站浏览量在可用时由 Artalk 统计并显示在各页文首。</p>
+        </header>
+        <div id="visit-history-host" class="site-page-loading">加载访问记录…</div>
+        </div>
+        """;
+
     public static string BuildDocument(
         string pageTitle,
         string headExtra,
@@ -44,7 +58,8 @@ internal static class HtmlLayout
         string? highlightTag = null,
         bool isSearchPage = false,
         bool timelinePageShell = false,
-        bool wordFrequencyPageShell = false)
+        bool wordFrequencyPageShell = false,
+        bool isVisitHistoryPage = false)
     {
         var sb = new StringBuilder();
         var cssHref = SitePathHelper.RelFromTo(currentPageWebPath, "site.css");
@@ -90,6 +105,8 @@ internal static class HtmlLayout
             sb.Append(" data-highlight-tag=\"").Append(WebUtility.HtmlEncode(highlightTag)).Append("\"");
         if (isSearchPage)
             sb.Append(" data-is-search-page=\"1\"");
+        if (isVisitHistoryPage)
+            sb.Append(" data-is-visit-history-page=\"1\"");
         sb.AppendLine(">");
         var homeHref = string.IsNullOrEmpty(currentPageWebPath)
             ? "index.html"
@@ -139,6 +156,8 @@ internal static class HtmlLayout
         if (siteNames != null)
             sb.Append(BuildSiteFooter(currentPageWebPath, siteNames));
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(chromeScriptHref)).AppendLine("\" defer></script>");
+        var visitStatsHref = SitePathHelper.RelFromTo(currentPageWebPath, "visit-stats.js");
+        sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(visitStatsHref)).AppendLine("\" defer></script>");
         var wordfreqSharedHref = SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-shared.js");
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wordfreqSharedHref)).AppendLine("\" defer></script>");
         var wordfreqHighlightHref = SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-highlight.js");
@@ -1363,6 +1382,7 @@ internal static class HtmlLayout
         var sb = new StringBuilder();
         var genMoreHref = SitePathHelper.RelFromTo(currentPageWebPath, GenerationHistoryPageFileName);
         var gitHref = SitePathHelper.RelFromTo(currentPageWebPath, GitCommitHistoryPageFileName);
+        var visitHref = SitePathHelper.RelFromTo(currentPageWebPath, VisitHistoryPageFileName);
         var wordFreqHref = SitePathHelper.RelFromTo(currentPageWebPath, names.WordFrequencyPageWebPath);
         var rssHref = SitePathHelper.RelFromTo(currentPageWebPath, names.RssFeedWebPath);
         sb.Append("<div class=\"").Append(wrapperClass).AppendLine("\">");
@@ -1371,6 +1391,9 @@ internal static class HtmlLayout
         sb.Append("<span class=\"gen-aside-sep\" aria-hidden=\"true\">·</span>");
         sb.Append("<a href=\"").Append(WebUtility.HtmlEncode(gitHref))
             .Append("\" class=\"gen-aside-main-link\" title=\"扫描目录 Git 提交历史\">提交记录</a>");
+        sb.Append("<span class=\"gen-aside-sep\" aria-hidden=\"true\">·</span>");
+        sb.Append("<a href=\"").Append(WebUtility.HtmlEncode(visitHref))
+            .Append("\" class=\"gen-aside-main-link\" title=\"本机访问足迹\">访问历史</a>");
         sb.Append("<span class=\"gen-aside-sep\" aria-hidden=\"true\">·</span>");
         sb.Append("<a href=\"").Append(WebUtility.HtmlEncode(wordFreqHref))
             .Append("\" class=\"gen-aside-main-link\" title=\"全文分词词频\">词频</a>");

@@ -103,9 +103,8 @@ internal sealed class SearchIndexRecord
         if (about != null)
             list.Add(FromDocument(about));
 
-        var commits = WordFrequencyService.FromGitCommitPage(gitCommits);
-        if (commits != null)
-            list.Add(FromDocument(commits));
+        foreach (var commitDoc in WordFrequencyService.FromGitCommitEntries(gitCommits))
+            list.Add(FromDocument(commitDoc));
 
         return list;
     }
