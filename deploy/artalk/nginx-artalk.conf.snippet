@@ -1,7 +1,8 @@
 # 将下列 location 并入 mantoublog.top 的 server {} 后 reload nginx。
 # 前端 article-comments.js 使用 server: https://mantoublog.top/artalk
+# 必须用 ^~，否则站点里 \.(js|css)$ 静态规则会抢走 Artalk 资源请求导致管理页白屏。
 
-location /artalk/ {
+location ^~ /artalk/ {
     proxy_pass http://127.0.0.1:23366/;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
