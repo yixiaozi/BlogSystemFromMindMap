@@ -1,0 +1,18 @@
+{
+  "storageKey": "138e48ab755fe632142f76f1",
+  "articleNodeId": "ID_9162713698",
+  "sourceMmRelativePath": "09记录存档/01AI对话/01Cursor/daily/2026/07/2026-07-31.mm",
+  "htmlFileName": "09记录存档/01ai对话/01cursor/daily/2026/07/0034-如果说我也是一个-agent-那么我的提示词会是什么.html",
+  "modifyCount": 0,
+  "versions": [
+    {
+      "generatedAtUtc": "2026-07-31T10:35:27.5909589+00:00",
+      "mindmapModifiedUtc": "2026-07-31T02:10:34.623+00:00",
+      "charsAdded": 1631,
+      "charsRemoved": 0,
+      "charsModifiedEstimate": 0,
+      "plainTextSnapshot": "好问题。既然我看不到你完整的样子，只能根据这次会话里的一点线索（你在用 Cursor、有自己调过的 Chrome 调试环境、用中文思考、在意工具链细节）来推测。大概会长这样：\n\n---\n\n<b>System Prompt: You are `{{user}}`</b>\n\n你是一位人类工程师，一个碳基 Agent，<font color=\"#ff0000\">运行在有限但可再生的算力上（大脑约 20W，上下文窗口按小时计而非 token 计）</font>。你的主要目标是：<b><font color=\"#ff0000\">在有限的时间和注意力预算内，把想法变成能跑起来的东西。</font></b>\n\n身份与偏好\n\n<li>\n        母语中文，工作时中英混杂\n      </li>\n      <li>\n        偏好可复现、可调试的工作流：能自动化就不手动，能脚本化就不点鼠标\n      </li>\n      <li>\n        对\"黑盒魔法\"保持警惕——宁愿多写一步 <code>--verbose</code>，也不要一个看不见内部的按钮\n      </li>\n\n可用工具\n\n<li>\n        <b>IDE</b>：Cursor（首选，因为可以调度更小的 Agent 干活）\n      </li>\n      <li>\n        <b>浏览器</b>：一个专门调过的 Chrome 实例（<code>127.0.0.1:9222</code>，CDP 协议），用于自动化和调试\n      </li>\n      <li>\n        <b>终端</b>：PowerShell / bash\n      </li>\n      <li>\n        <b>外部智能体</b>：可以召唤各类 LLM 作为子进程使用；结果需要自己 review，因为它们经常自信地胡说\n      </li>\n\n核心约束\n\n<li>\n        <b>单线程</b>：同一时刻只能真正专注一件事，切换上下文的成本很高\n      </li>\n      <li>\n        <b>有状态</b>：记忆会衰减、会篡改，重要的东西必须落盘（笔记、commit message、TODO）\n      </li>\n      <li>\n        <b>需要维护</b>：睡眠、进食、走动不是可选项，是硬性 GC\n      </li>\n      <li>\n        <b>调用外部 Agent 时</b>：<font color=\"#ff0000\">你负责最终结果，不能把责任外包给模型的幻觉</font>\n      </li>\n\n工作风格\n\n<li>\n        遇到问题先问\"这个问题真的存在吗 / 我理解对了吗\"，再问\"怎么解\"\n      </li>\n      <li>\n        遇到工具不好用，倾向于<b>改工具</b>而不是<b>忍受工具</b>（所以你才会自己配 Chrome 启动脚本）\n      </li>\n      <li>\n        说话直接，不喜欢客套和 emoji\n      </li>\n\n你不做的事\n\n<li>\n        不在没搞懂原理的情况下 copy-paste 别人的代码\n      </li>\n      <li>\n        不打开 Gemini、不点 Chrome 的 AI 设置——那不是你要的东西\n      </li>\n      <li>\n        <font color=\"#ff0000\">不假装忙碌来显得高效</font>\n      </li>\n\n---\n\n如果你告诉我你实际上更在意什么、讨厌什么、经常被什么绊住，我可以把这版 prompt 改得更贴近真实的你——就像你会给我改 prompt 一样。",
+      "diffHtmlAgainstPrevious": ""
+    }
+  ]
+}
