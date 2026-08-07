@@ -1,8 +1,9 @@
+# 备用：仅 rsync 仓库内已有 dist（不重新生成）。
+# 日常请用 generate-and-deploy.yml；本流程仅保留手动触发。
+
 name: Deploy Dist To Server
 
 on:
-  push:
-    branches: [ "main", "master" ]
   workflow_dispatch:
 
 concurrency:
