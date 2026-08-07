@@ -1,0 +1,160 @@
+# 导图仓库推送 / 手动 / 生成器代码变更 → 生成站点 → 同时部署 Pages 与自建服务器
+#
+# 所需 Secrets（本仓库 Settings → Secrets and variables → Actions）：
+#   GH_PAT          可选。读 YixiaoziDocearLibrary；若导图库为私有则必填（contents:read）
+#   SSH_HOST        自建站主机（已有 deploy-server 时沿用）
+#   SSH_USER        SSH 用户名
+#   SSH_PRIVATE_KEY SSH 私钥
+#
+# 可选 Variables：
+#   SITE_BASE_URL   RSS 等绝对链接根地址（默认 GitHub Pages 地址）
+#   MINDMAP_REPO    导图仓库 full name（默认 yixiaozi/YixiaoziDocearLibrary）
+#   MINDMAP_REF     导图分支（默认 master）
+#
+# 导图库使用 sparse checkout：只拉 .mm + 常见图片，跳过 pdf/xlsx/zip 等（约省 1.8GB）
+
+name: Generate and Deploy
+
+on:
+  repository_dispatch:
+    types: [mindmap-updated]
+  workflow_dispatch:
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "MindmapBlog/**"
+      - ".github/workflows/generate-and-deploy.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: generate-and-deploy
+  cancel-in-progress: true
+
+env:
+  MINDMAP_PATH: mindmaps
+  DIST_PATH: dist
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout blog generator (保留已有 dist 以延续版本历史)
+        uses: actions/checkout@v4
+
+      - name: Checkout mindmap library (shallow + sparse)
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.MINDMAP_REPO || 'yixiaozi/YixiaoziDocearLibrary' }}
+          ref: ${{ vars.MINDMAP_REF || 'master' }}
+          path: ${{ env.MINDMAP_PATH }}
+          fetch-depth: 1
+          token: ${{ secrets.GH_PAT || github.token }}
+          # 非 cone：按扩展名收录；生成器只需导图与配图/头像
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            **/*.mm
+            **/*.png
+            **/*.jpg
+            **/*.jpeg
+            **/*.gif
+            **/*.webp
+            **/*.avif
+            **/*.svg
+            **/*.bmp
+            **/site-avatar.*
+
+      - name: Show mindmap checkout size
+        run: |
+          echo "Mindmap path: ${{ env.MINDMAP_PATH }} (sparse: mm + images)"
+          du -sh "${{ env.MINDMAP_PATH }}" || true
+          echo "mm:    $(find "${{ env.MINDMAP_PATH }}" -name '*.mm' | wc -l | tr -d ' ')"
+          echo "images:$(find "${{ env.MINDMAP_PATH }}" \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.webp' -o -iname '*.avif' -o -iname '*.svg' -o -iname '*.bmp' \) | wc -l | tr -d ' ')"
+          # 若稀疏规则未生效会接近全量体积，便于排查
+          SIZE_MB=$(du -sm "${{ env.MINDMAP_PATH }}" | awk '{print $1}')
+          echo "size_mb=$SIZE_MB"
+          if [ "$SIZE_MB" -gt 2000 ]; then
+            echo "::warning::导图检出仍超过 2GB，请确认 sparse-checkout 是否生效"
+          fi
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Generate site
+        run: |
+          BASE_URL="${{ vars.SITE_BASE_URL }}"
+          if [ -z "$BASE_URL" ]; then
+            BASE_URL="https://yixiaozi.github.io/BlogSystemFromMindMap"
+          fi
+          echo "SITE_BASE_URL=$BASE_URL"
+          dotnet run --project MindmapBlog -- \
+            --scan "${{ env.MINDMAP_PATH }}" \
+            --out "${{ env.DIST_PATH }}" \
+            --base-url "$BASE_URL"
+
+      - name: Ensure dist looks valid
+        run: |
+          test -f "${{ env.DIST_PATH }}/index.html"
+          test -f "${{ env.DIST_PATH }}/site.css"
+          ls -la "${{ env.DIST_PATH }}" | head -30
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.DIST_PATH }}
+
+      - name: Upload dist for server deploy
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: ${{ env.DIST_PATH }}
+          retention-days: 3
+
+  deploy-pages:
+    needs: generate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-server:
+    needs: generate
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    steps:
+      - name: Skip notice when SSH not configured
+        if: env.SSH_HOST == '' || env.SSH_USER == '' || env.SSH_PRIVATE_KEY == ''
+        run: echo "SSH_HOST / SSH_USER / SSH_PRIVATE_KEY 未配置，跳过自建站部署。"
+
+      - name: Download dist
+        if: env.SSH_HOST != '' && env.SSH_USER != '' && env.SSH_PRIVATE_KEY != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+
+      - name: Deploy to server via rsync
+        if: env.SSH_HOST != '' && env.SSH_USER != '' && env.SSH_PRIVATE_KEY != ''
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avz --delete
+          path: dist/
+          remote_path: /var/www/mantoublog/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
