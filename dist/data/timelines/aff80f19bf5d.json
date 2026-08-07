@@ -1,0 +1,24 @@
+{
+  "pagePath": "标签/标签-购物.html",
+  "documentTitle": "书签：购物",
+  "heading": "书签：购物",
+  "subLine": "共 1 篇文章；可用 Tab 在「入站时间」与「更新时间」间切换排序。",
+  "wrapperClass": "page-tag page-with-timeline",
+  "enableSortTabs": true,
+  "timeSource": "published",
+  "items": [
+    {
+      "href": "07有条不紊/05财务管理/购物/计划购物.html",
+      "title": "计划购物",
+      "published": "2026-08-07T20:01:04",
+      "modified": "2026-08-07T09:21:14",
+      "bookmarks": [
+        "购物"
+      ],
+      "bookmarkPages": {
+        "购物": "标签/标签-购物.html"
+      },
+      "excerpt": "PowerShot G7 X markIII\n没那么迫切（可有可无）\n买一个水墨屏的微信读书"
+    }
+  ]
+}

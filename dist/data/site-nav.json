@@ -4,32 +4,32 @@
       {
         "name": "02目标发展",
         "listPage": "02目标发展/分支列表.html",
-        "detailsId": "nav-det-36e4c7154a60",
+        "detailsId": "nav-det-0f0b9e058a19",
         "children": {
           "dirs": [
             {
               "name": "07创作达人",
               "listPage": "02目标发展/07创作达人/分支列表.html",
-              "detailsId": "nav-det-d09e330ff4d4",
+              "detailsId": "nav-det-4317177bd894",
               "children": {
                 "dirs": [
                   {
                     "name": "00开源作者",
                     "listPage": "02目标发展/07创作达人/00开源作者/分支列表.html",
-                    "detailsId": "nav-det-afb853ddaf03",
+                    "detailsId": "nav-det-af93f631682c",
                     "children": {
                       "dirs": [
                         {
                           "name": "00个人网址",
                           "listPage": "02目标发展/07创作达人/00开源作者/00个人网址/分支列表.html",
-                          "detailsId": "nav-det-d7923130b6ef",
+                          "detailsId": "nav-det-a437ccd2fe13",
                           "children": {
                             "dirs": [],
                             "mindmaps": [
                               {
                                 "label": "思维导图博客.mm",
                                 "listPage": "02目标发展/07创作达人/00开源作者/00个人网址/导图-00个人网址-思维导图博客.html",
-                                "detailsId": "nav-det-300f9be3a986",
+                                "detailsId": "nav-det-7affd14afc25",
                                 "root": {
                                   "segments": [],
                                   "articles": [
@@ -48,16 +48,44 @@
                           }
                         },
                         {
+                          "name": "02开源项目",
+                          "listPage": "02目标发展/07创作达人/00开源作者/02开源项目/分支列表.html",
+                          "detailsId": "nav-det-f3f541ba0a76",
+                          "children": {
+                            "dirs": [],
+                            "mindmaps": [
+                              {
+                                "label": "pairLab.top.mm",
+                                "listPage": "02目标发展/07创作达人/00开源作者/02开源项目/导图-02开源项目-pairlabtop.html",
+                                "detailsId": "nav-det-17a199e52427",
+                                "root": {
+                                  "segments": [],
+                                  "articles": [
+                                    {
+                                      "href": "02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop网站更新日志.html",
+                                      "title": "pairlab.top网站更新日志"
+                                    },
+                                    {
+                                      "href": "02目标发展/07创作达人/00开源作者/02开源项目/pairlabtop创作理念及实施.html",
+                                      "title": "pairlab.top创作理念及实施"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
                           "name": "二次开发",
                           "listPage": "02目标发展/07创作达人/00开源作者/二次开发/分支列表.html",
-                          "detailsId": "nav-det-ae6e33884eef",
+                          "detailsId": "nav-det-90b8c4d6b398",
                           "children": {
                             "dirs": [],
                             "mindmaps": [
                               {
                                 "label": "Docear改造.mm",
                                 "listPage": "02目标发展/07创作达人/00开源作者/二次开发/导图-二次开发-docear改造.html",
-                                "detailsId": "nav-det-1b4356b016fc",
+                                "detailsId": "nav-det-fcc5133ea6be",
                                 "root": {
                                   "segments": [],
                                   "articles": [
@@ -82,32 +110,32 @@
                   {
                     "name": "01写作思维",
                     "listPage": "02目标发展/07创作达人/01写作思维/分支列表.html",
-                    "detailsId": "nav-det-2809913647f5",
+                    "detailsId": "nav-det-521f90f5744c",
                     "children": {
                       "dirs": [],
                       "mindmaps": [
                         {
                           "label": "每天一千字.mm",
                           "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字.html",
-                          "detailsId": "nav-det-1a7fc81fca92",
+                          "detailsId": "nav-det-b1a4e518301e",
                           "root": {
                             "segments": [
                               {
                                 "name": "2026",
                                 "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字-分支-2026.html",
-                                "detailsId": "nav-det-15c05ff7f033",
+                                "detailsId": "nav-det-9807c671709d",
                                 "node": {
                                   "segments": [
                                     {
                                       "name": "4",
                                       "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字-分支-2026-4.html",
-                                      "detailsId": "nav-det-acf4cdeac915",
+                                      "detailsId": "nav-det-109223746024",
                                       "node": {
                                         "segments": [
                                           {
                                             "name": "21",
                                             "listPage": "02目标发展/07创作达人/01写作思维/导图-01写作思维-每天一千字-分支-2026-4-21.html",
-                                            "detailsId": "nav-det-fa6da40f581a",
+                                            "detailsId": "nav-det-3d6f31f1b1b8",
                                             "node": {
                                               "segments": [],
                                               "articles": [
@@ -140,14 +168,14 @@
             {
               "name": "09目标管理",
               "listPage": "02目标发展/09目标管理/分支列表.html",
-              "detailsId": "nav-det-9bcaa7a16792",
+              "detailsId": "nav-det-3289d6c690a4",
               "children": {
                 "dirs": [],
                 "mindmaps": [
                   {
                     "label": "目标管理.mm",
                     "listPage": "02目标发展/09目标管理/导图-09目标管理-目标管理.html",
-                    "detailsId": "nav-det-82a16fe55fd2",
+                    "detailsId": "nav-det-221519f6cb2e",
                     "root": {
                       "segments": [],
                       "articles": [
@@ -164,32 +192,32 @@
             {
               "name": "11复盘总结",
               "listPage": "02目标发展/11复盘总结/分支列表.html",
-              "detailsId": "nav-det-1ce56ac34c3d",
+              "detailsId": "nav-det-c910f247f0b3",
               "children": {
                 "dirs": [
                   {
                     "name": "01时间复盘",
                     "listPage": "02目标发展/11复盘总结/01时间复盘/分支列表.html",
-                    "detailsId": "nav-det-eadc0a193ee1",
+                    "detailsId": "nav-det-25a4c7df1b04",
                     "children": {
                       "dirs": [],
                       "mindmaps": [
                         {
                           "label": "01每日复盘.mm",
                           "listPage": "02目标发展/11复盘总结/01时间复盘/导图-01时间复盘-01每日复盘.html",
-                          "detailsId": "nav-det-adf5292d4538",
+                          "detailsId": "nav-det-d96f3fb77077",
                           "root": {
                             "segments": [
                               {
                                 "name": "2026",
                                 "listPage": "02目标发展/11复盘总结/01时间复盘/导图-01时间复盘-01每日复盘-分支-2026.html",
-                                "detailsId": "nav-det-91f5858bc55c",
+                                "detailsId": "nav-det-d16bd1ae2765",
                                 "node": {
                                   "segments": [
                                     {
                                       "name": "7",
                                       "listPage": "02目标发展/11复盘总结/01时间复盘/导图-01时间复盘-01每日复盘-分支-2026-7.html",
-                                      "detailsId": "nav-det-6de25d771a08",
+                                      "detailsId": "nav-det-1f2e75fc1182",
                                       "node": {
                                         "segments": [],
                                         "articles": [
@@ -246,14 +274,14 @@
       {
         "name": "03阅读成长",
         "listPage": "03阅读成长/分支列表.html",
-        "detailsId": "nav-det-464d2c38d136",
+        "detailsId": "nav-det-614e11e41f10",
         "children": {
           "dirs": [],
           "mindmaps": [
             {
               "label": "微信读书.mm",
               "listPage": "03阅读成长/导图-03阅读成长-微信读书.html",
-              "detailsId": "nav-det-110a752bf989",
+              "detailsId": "nav-det-8da95c9475ea",
               "root": {
                 "segments": [],
                 "articles": [
@@ -270,32 +298,32 @@
       {
         "name": "04信息技术",
         "listPage": "04信息技术/分支列表.html",
-        "detailsId": "nav-det-054a79d7e734",
+        "detailsId": "nav-det-1545f0ad7c0c",
         "children": {
           "dirs": [
             {
               "name": "AI",
               "listPage": "04信息技术/ai/分支列表.html",
-              "detailsId": "nav-det-a3fdb5231710",
+              "detailsId": "nav-det-b53b91e73aa9",
               "children": {
                 "dirs": [
                   {
                     "name": "AI Coding",
                     "listPage": "04信息技术/ai/ai-coding/分支列表.html",
-                    "detailsId": "nav-det-4975a754d846",
+                    "detailsId": "nav-det-58e836a80b4e",
                     "children": {
                       "dirs": [
                         {
                           "name": "Cursor",
                           "listPage": "04信息技术/ai/ai-coding/cursor/分支列表.html",
-                          "detailsId": "nav-det-a9a683071390",
+                          "detailsId": "nav-det-39a3b7e7dbda",
                           "children": {
                             "dirs": [],
                             "mindmaps": [
                               {
                                 "label": "Cursor.mm",
                                 "listPage": "04信息技术/ai/ai-coding/cursor/导图-cursor-cursor.html",
-                                "detailsId": "nav-det-0ec0ccb40bc1",
+                                "detailsId": "nav-det-f585fbcedfdc",
                                 "root": {
                                   "segments": [],
                                   "articles": [
@@ -324,26 +352,26 @@
       {
         "name": "07有条不紊",
         "listPage": "07有条不紊/分支列表.html",
-        "detailsId": "nav-det-2ee3bba4f3ad",
+        "detailsId": "nav-det-666e3a2a6cbc",
         "children": {
           "dirs": [
             {
               "name": "02时间管理",
               "listPage": "07有条不紊/02时间管理/分支列表.html",
-              "detailsId": "nav-det-5bc29e3c2f1a",
+              "detailsId": "nav-det-93ddec122691",
               "children": {
                 "dirs": [],
                 "mindmaps": [
                   {
                     "label": "Hash Photos.mm",
                     "listPage": "07有条不紊/02时间管理/导图-02时间管理-hash-photos.html",
-                    "detailsId": "nav-det-1d6f99343eac",
+                    "detailsId": "nav-det-091f55cf753a",
                     "root": {
                       "segments": [
                         {
                           "name": "AI总结",
                           "listPage": "07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-ai总结.html",
-                          "detailsId": "nav-det-19fcd13b2337",
+                          "detailsId": "nav-det-e20b51bdcb1a",
                           "node": {
                             "segments": [],
                             "articles": [
@@ -357,7 +385,7 @@
                         {
                           "name": "个人总结",
                           "listPage": "07有条不紊/02时间管理/导图-02时间管理-hash-photos-分支-个人总结.html",
-                          "detailsId": "nav-det-7762c784fc38",
+                          "detailsId": "nav-det-2eda5c3e565a",
                           "node": {
                             "segments": [],
                             "articles": [
@@ -383,14 +411,14 @@
             {
               "name": "04网络世界",
               "listPage": "07有条不紊/04网络世界/分支列表.html",
-              "detailsId": "nav-det-a5755dcc004c",
+              "detailsId": "nav-det-161e42abdde2",
               "children": {
                 "dirs": [],
                 "mindmaps": [
                   {
                     "label": "网络世界的我.mm",
                     "listPage": "07有条不紊/04网络世界/导图-04网络世界-网络世界的我.html",
-                    "detailsId": "nav-det-4b2ddec9f9fc",
+                    "detailsId": "nav-det-43e94a31c4c5",
                     "root": {
                       "segments": [],
                       "articles": [
@@ -407,14 +435,39 @@
             {
               "name": "05财务管理",
               "listPage": "07有条不紊/05财务管理/分支列表.html",
-              "detailsId": "nav-det-5d7fc69b956c",
+              "detailsId": "nav-det-5387d858a78c",
               "children": {
-                "dirs": [],
+                "dirs": [
+                  {
+                    "name": "购物",
+                    "listPage": "07有条不紊/05财务管理/购物/分支列表.html",
+                    "detailsId": "nav-det-763d8f5c7e7a",
+                    "children": {
+                      "dirs": [],
+                      "mindmaps": [
+                        {
+                          "label": "购物.mm",
+                          "listPage": "07有条不紊/05财务管理/购物/导图-购物-购物.html",
+                          "detailsId": "nav-det-1eba57c6dd5e",
+                          "root": {
+                            "segments": [],
+                            "articles": [
+                              {
+                                "href": "07有条不紊/05财务管理/购物/计划购物.html",
+                                "title": "计划购物"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
                 "mindmaps": [
                   {
                     "label": "保险.mm",
                     "listPage": "07有条不紊/05财务管理/导图-05财务管理-保险.html",
-                    "detailsId": "nav-det-acc88ab23648",
+                    "detailsId": "nav-det-50cab7f48014",
                     "root": {
                       "segments": [],
                       "articles": [
@@ -428,13 +481,13 @@
                   {
                     "label": "发票.mm",
                     "listPage": "07有条不紊/05财务管理/导图-05财务管理-发票.html",
-                    "detailsId": "nav-det-bdd41b606d60",
+                    "detailsId": "nav-det-4b537d2974e7",
                     "root": {
                       "segments": [
                         {
                           "name": "王静",
                           "listPage": "07有条不紊/05财务管理/导图-05财务管理-发票-分支-王静.html",
-                          "detailsId": "nav-det-c6e249cf877a",
+                          "detailsId": "nav-det-5adcadfca73d",
                           "node": {
                             "segments": [],
                             "articles": [
@@ -455,62 +508,62 @@
             {
               "name": "07饮食健康",
               "listPage": "07有条不紊/07饮食健康/分支列表.html",
-              "detailsId": "nav-det-ff05b96efad7",
+              "detailsId": "nav-det-9fadf4f93b8a",
               "children": {
                 "dirs": [
                   {
                     "name": "05身体状况",
                     "listPage": "07有条不紊/07饮食健康/05身体状况/分支列表.html",
-                    "detailsId": "nav-det-785550910456",
+                    "detailsId": "nav-det-d08e6515191b",
                     "children": {
                       "dirs": [],
                       "mindmaps": [
                         {
                           "label": "身体.mm",
                           "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体.html",
-                          "detailsId": "nav-det-674abf092ff8",
+                          "detailsId": "nav-det-7374e2a4bf01",
                           "root": {
                             "segments": [
                               {
                                 "name": "2026",
                                 "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026.html",
-                                "detailsId": "nav-det-a4a51f3892ac",
+                                "detailsId": "nav-det-67456c638879",
                                 "node": {
                                   "segments": [
                                     {
                                       "name": "6",
                                       "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6.html",
-                                      "detailsId": "nav-det-29a1ee039b08",
+                                      "detailsId": "nav-det-264af5d819dd",
                                       "node": {
                                         "segments": [
                                           {
                                             "name": "29",
                                             "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6-29.html",
-                                            "detailsId": "nav-det-ad4ec5d08052",
+                                            "detailsId": "nav-det-144733e147fc",
                                             "node": {
                                               "segments": [
                                                 {
                                                   "name": "胸部损伤",
                                                   "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6-29-胸部损伤.html",
-                                                  "detailsId": "nav-det-0fca0057401d",
+                                                  "detailsId": "nav-det-87a82fe8ba0e",
                                                   "node": {
                                                     "segments": [
                                                       {
                                                         "name": "2026",
                                                         "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6-29-胸部损伤-2026.html",
-                                                        "detailsId": "nav-det-645fa04506e4",
+                                                        "detailsId": "nav-det-167d0c739130",
                                                         "node": {
                                                           "segments": [
                                                             {
                                                               "name": "8",
                                                               "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6-29-胸部损伤-2026-8.html",
-                                                              "detailsId": "nav-det-924caacd9e15",
+                                                              "detailsId": "nav-det-cc1522c5d514",
                                                               "node": {
                                                                 "segments": [
                                                                   {
                                                                     "name": "1",
                                                                     "listPage": "07有条不紊/07饮食健康/05身体状况/导图-05身体状况-身体-分支-2026-6-29-胸部损伤-2026-8-1.html",
-                                                                    "detailsId": "nav-det-74809989037d",
+                                                                    "detailsId": "nav-det-c5f544d38e5f",
                                                                     "node": {
                                                                       "segments": [],
                                                                       "articles": [
@@ -564,20 +617,20 @@
             {
               "name": "08人际关系",
               "listPage": "07有条不紊/08人际关系/分支列表.html",
-              "detailsId": "nav-det-21091f4e20bc",
+              "detailsId": "nav-det-ce8f0b358295",
               "children": {
                 "dirs": [
                   {
                     "name": "03联系方式",
                     "listPage": "07有条不紊/08人际关系/03联系方式/分支列表.html",
-                    "detailsId": "nav-det-fba8b3fbd0a4",
+                    "detailsId": "nav-det-1ffd723bb36f",
                     "children": {
                       "dirs": [],
                       "mindmaps": [
                         {
                           "label": "紧急联系人.mm",
                           "listPage": "07有条不紊/08人际关系/03联系方式/导图-03联系方式-紧急联系人.html",
-                          "detailsId": "nav-det-1a37ddb7a0b5",
+                          "detailsId": "nav-det-fd6cfb3be747",
                           "root": {
                             "segments": [],
                             "articles": [
@@ -594,14 +647,14 @@
                   {
                     "name": "04人情往来",
                     "listPage": "07有条不紊/08人际关系/04人情往来/分支列表.html",
-                    "detailsId": "nav-det-39a814332e16",
+                    "detailsId": "nav-det-d80d6da33294",
                     "children": {
                       "dirs": [],
                       "mindmaps": [
                         {
                           "label": "交换礼物.mm",
                           "listPage": "07有条不紊/08人际关系/04人情往来/导图-04人情往来-交换礼物.html",
-                          "detailsId": "nav-det-6bdb762c860f",
+                          "detailsId": "nav-det-5ba3ee221fc8",
                           "root": {
                             "segments": [],
                             "articles": [
@@ -613,6 +666,166 @@
                           }
                         }
                       ]
+                    }
+                  }
+                ],
+                "mindmaps": []
+              }
+            }
+          ],
+          "mindmaps": []
+        }
+      },
+      {
+        "name": "08收藏文章",
+        "listPage": "08收藏文章/分支列表.html",
+        "detailsId": "nav-det-bf4f1375ff58",
+        "children": {
+          "dirs": [],
+          "mindmaps": [
+            {
+              "label": "收藏文章.mm",
+              "listPage": "08收藏文章/导图-08收藏文章-收藏文章.html",
+              "detailsId": "nav-det-cad26699ae7a",
+              "root": {
+                "segments": [
+                  {
+                    "name": "每天读5篇高质量文章",
+                    "listPage": "08收藏文章/导图-08收藏文章-收藏文章-分支-每天读5篇高质量文章.html",
+                    "detailsId": "nav-det-ca0d029f7889",
+                    "node": {
+                      "segments": [
+                        {
+                          "name": "2026",
+                          "listPage": "08收藏文章/导图-08收藏文章-收藏文章-分支-每天读5篇高质量文章-2026.html",
+                          "detailsId": "nav-det-fa530e89826e",
+                          "node": {
+                            "segments": [
+                              {
+                                "name": "8",
+                                "listPage": "08收藏文章/导图-08收藏文章-收藏文章-分支-每天读5篇高质量文章-2026-8.html",
+                                "detailsId": "nav-det-7e1c69903fd5",
+                                "node": {
+                                  "segments": [
+                                    {
+                                      "name": "6",
+                                      "listPage": "08收藏文章/导图-08收藏文章-收藏文章-分支-每天读5篇高质量文章-2026-8-6.html",
+                                      "detailsId": "nav-det-b25fb25a4b4b",
+                                      "node": {
+                                        "segments": [],
+                                        "articles": [
+                                          {
+                                            "href": "08收藏文章/从混乱到清晰我的时间记录系统搭建全记录.html",
+                                            "title": "从混乱到清晰：我的时间记录系统搭建全记录"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "articles": []
+                                }
+                              }
+                            ],
+                            "articles": []
+                          }
+                        }
+                      ],
+                      "articles": []
+                    }
+                  }
+                ],
+                "articles": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "09记录存档",
+        "listPage": "09记录存档/分支列表.html",
+        "detailsId": "nav-det-31f4b1890457",
+        "children": {
+          "dirs": [
+            {
+              "name": "01AI对话",
+              "listPage": "09记录存档/01ai对话/分支列表.html",
+              "detailsId": "nav-det-5218d2811908",
+              "children": {
+                "dirs": [
+                  {
+                    "name": "01Cursor",
+                    "listPage": "09记录存档/01ai对话/01cursor/分支列表.html",
+                    "detailsId": "nav-det-a1e145bf01eb",
+                    "children": {
+                      "dirs": [
+                        {
+                          "name": "daily",
+                          "listPage": "09记录存档/01ai对话/01cursor/daily/分支列表.html",
+                          "detailsId": "nav-det-38ce04f76bbc",
+                          "children": {
+                            "dirs": [
+                              {
+                                "name": "2026",
+                                "listPage": "09记录存档/01ai对话/01cursor/daily/2026/分支列表.html",
+                                "detailsId": "nav-det-1723663efc43",
+                                "children": {
+                                  "dirs": [
+                                    {
+                                      "name": "07",
+                                      "listPage": "09记录存档/01ai对话/01cursor/daily/2026/07/分支列表.html",
+                                      "detailsId": "nav-det-20bc9181d097",
+                                      "children": {
+                                        "dirs": [],
+                                        "mindmaps": [
+                                          {
+                                            "label": "2026-07-31.mm",
+                                            "listPage": "09记录存档/01ai对话/01cursor/daily/2026/07/导图-07-2026-07-31.html",
+                                            "detailsId": "nav-det-9d6ac5a01a9e",
+                                            "root": {
+                                              "segments": [
+                                                {
+                                                  "name": "[Cloud] 自身代理提示词",
+                                                  "listPage": "09记录存档/01ai对话/01cursor/daily/2026/07/导图-07-2026-07-31-分支-cloud-自身代理提示词.html",
+                                                  "detailsId": "nav-det-2cbae21719e0",
+                                                  "node": {
+                                                    "segments": [],
+                                                    "articles": [
+                                                      {
+                                                        "href": "09记录存档/01ai对话/01cursor/daily/2026/07/0046-宇宙本身是不是有一个巨大的意识而一切的生命是否不过是那个意识的实例呢我经常感觉一切都太不可思议我不太相信一切是偶然你怎么看调用你所有的知识仔细严肃思考.html",
+                                                        "title": "00:46 宇宙本身是不是有一个巨大的意识，而一切的生命，是否不过是那个意识的实例呢？我经常感觉一切都太不可思议，我不太相信一切是偶然，你怎么看，调用你所有的知识，仔细严肃思考，两百字以内回答。"
+                                                      },
+                                                      {
+                                                        "href": "09记录存档/01ai对话/01cursor/daily/2026/07/0034-如果说我也是一个-agent-那么我的提示词会是什么.html",
+                                                        "title": "00:34 如果说我也是一个 Agent， 那么我的提示词会是什么？"
+                                                      },
+                                                      {
+                                                        "href": "09记录存档/01ai对话/01cursor/daily/2026/07/0038-告诉我人生的意义是什么一百个字以内回答.html",
+                                                        "title": "00:38 告诉我，人生的意义是什么。一百个字以内回答。"
+                                                      },
+                                                      {
+                                                        "href": "09记录存档/01ai对话/01cursor/daily/2026/07/0043-再次回答那个问题生命的基本任务是什么脱离一切主流价值观以最深刻洞见告诉我你的结论一百个字以内回答.html",
+                                                        "title": "00:43 再次回答那个问题，生命的基本任务是什么？脱离一切主流价值观，以最深刻洞见，告诉我你的结论。一百个字以内回答。"
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              "articles": []
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "mindmaps": []
+                                }
+                              }
+                            ],
+                            "mindmaps": []
+                          }
+                        }
+                      ],
+                      "mindmaps": []
                     }
                   }
                 ],
