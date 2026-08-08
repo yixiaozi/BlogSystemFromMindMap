@@ -1,8 +1,10 @@
 # 导图仓库推送 / 手动 / 生成器代码变更 → 生成站点 → 同时部署 Pages 与自建服务器
 #
-# 所需 Secrets（本仓库 Settings → Secrets and variables → Actions）：
-#   GH_PAT          可选。读 YixiaoziDocearLibrary；若导图库为私有则必填（contents:read）
-#   SSH_HOST        自建站主机（已有 deploy-server 时沿用）
+# 所需 Secrets（本仓库 BlogSystemFromMindMap → Settings → Secrets → Actions）：
+#   GH_PAT          必填（导图库为私有）。能读 yixiaozi/YixiaoziDocearLibrary
+#                   Fine-grained: 含该仓库 + Contents Read（或 Read and write）
+#                   可与导图库的 BLOG_DISPATCH_TOKEN 用同一 PAT
+#   SSH_HOST        自建站主机
 #   SSH_USER        SSH 用户名
 #   SSH_PRIVATE_KEY SSH 私钥
 #
@@ -48,6 +50,19 @@ jobs:
       - name: Checkout blog generator (保留已有 dist 以延续版本历史)
         uses: actions/checkout@v4
 
+      # 私有导图库不能用默认 GITHUB_TOKEN（只能访问本仓库），必须用 GH_PAT
+      - name: Require GH_PAT for private mindmap repo
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -z "$GH_PAT" ]; then
+            echo "::error::导图库 YixiaoziDocearLibrary 为私有仓库。"
+            echo "::error::请在本仓库 BlogSystemFromMindMap → Settings → Secrets and variables → Actions"
+            echo "::error::添加 Secret：GH_PAT = 能读取该私有库的 PAT（Contents: Read）。"
+            echo "::error::可与导图库里的 BLOG_DISPATCH_TOKEN 使用同一个 Fine-grained Token。"
+            exit 1
+          fi
+
       - name: Checkout mindmap library (shallow + sparse)
         uses: actions/checkout@v4
         with:
@@ -55,7 +70,7 @@ jobs:
           ref: ${{ vars.MINDMAP_REF || 'master' }}
           path: ${{ env.MINDMAP_PATH }}
           fetch-depth: 1
-          token: ${{ secrets.GH_PAT || github.token }}
+          token: ${{ secrets.GH_PAT }}
           # 非 cone：按扩展名收录；生成器只需导图与配图/头像
           sparse-checkout-cone-mode: false
           sparse-checkout: |
