@@ -94,6 +94,10 @@ public sealed class StaticSiteGenerator
 
         var sortedArticles = articles.OrderByDescending(a => a.Modified).ToList();
 
+        // CI sparse/blob:none 时工作区可能只有 .mm；按引用补齐配图与头像后再复制
+        GitWorkingTreeMaterializer.EnsureLikelyAvatars(scanRoot);
+        GitWorkingTreeMaterializer.EnsureArticleImages(scanRoot, sortedArticles);
+
         var historyPath = GenerationHistoryStore.HistoryFilePath(outDir);
         var historyFile = GenerationHistoryStore.LoadOrEmpty(historyPath);
         var fingerprints = GenerationHistoryStore.BuildFingerprints(sortedArticles, scanRoot);

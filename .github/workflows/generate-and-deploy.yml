@@ -13,7 +13,8 @@
 #   MINDMAP_REPO    导图仓库 full name（默认 yixiaozi/YixiaoziDocearLibrary）
 #   MINDMAP_REF     导图分支（默认 master）
 #
-# 导图库使用 sparse checkout：只拉 .mm + 常见图片，跳过 pdf/xlsx/zip 等（约省 1.8GB）
+# 导图库：浅层元数据全历史（提交记录）+ sparse 仅 .mm + blob:none；
+# 文章实际引用的图片在生成器里按需 git checkout（不必下载全库图片）
 
 name: Generate and Deploy
 
@@ -63,39 +64,32 @@ jobs:
             exit 1
           fi
 
-      - name: Checkout mindmap library (shallow + sparse)
+      - name: Checkout mindmap library (full history, mm-only sparse, blob:none)
         uses: actions/checkout@v4
         with:
           repository: ${{ vars.MINDMAP_REPO || 'yixiaozi/YixiaoziDocearLibrary' }}
           ref: ${{ vars.MINDMAP_REF || 'master' }}
           path: ${{ env.MINDMAP_PATH }}
-          fetch-depth: 1
+          # 0 = 完整提交历史（提交记录页需要）；blob:none = 不预拉文件内容
+          fetch-depth: 0
+          filter: blob:none
           token: ${{ secrets.GH_PAT }}
-          # 非 cone：按扩展名收录；生成器只需导图与配图/头像
+          # 工作区只落盘 .mm；图片由生成器按文章引用再 git checkout
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             **/*.mm
-            **/*.png
-            **/*.jpg
-            **/*.jpeg
-            **/*.gif
-            **/*.webp
-            **/*.avif
-            **/*.svg
-            **/*.bmp
-            **/site-avatar.*
 
       - name: Show mindmap checkout size
         run: |
-          echo "Mindmap path: ${{ env.MINDMAP_PATH }} (sparse: mm + images)"
+          echo "Mindmap path: ${{ env.MINDMAP_PATH }} (sparse: mm only; images on demand)"
           du -sh "${{ env.MINDMAP_PATH }}" || true
-          echo "mm:    $(find "${{ env.MINDMAP_PATH }}" -name '*.mm' | wc -l | tr -d ' ')"
-          echo "images:$(find "${{ env.MINDMAP_PATH }}" \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.webp' -o -iname '*.avif' -o -iname '*.svg' -o -iname '*.bmp' \) | wc -l | tr -d ' ')"
-          # 若稀疏规则未生效会接近全量体积，便于排查
+          echo "mm:     $(find "${{ env.MINDMAP_PATH }}" -name '*.mm' | wc -l | tr -d ' ')"
+          echo "images: $(find "${{ env.MINDMAP_PATH }}" \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.webp' -o -iname '*.avif' -o -iname '*.svg' -o -iname '*.bmp' \) | wc -l | tr -d ' ')"
+          echo "commits:$(git -C "${{ env.MINDMAP_PATH }}" rev-list --count HEAD 2>/dev/null || echo '?')"
           SIZE_MB=$(du -sm "${{ env.MINDMAP_PATH }}" | awk '{print $1}')
           echo "size_mb=$SIZE_MB"
-          if [ "$SIZE_MB" -gt 2000 ]; then
-            echo "::warning::导图检出仍超过 2GB，请确认 sparse-checkout 是否生效"
+          if [ "$SIZE_MB" -gt 800 ]; then
+            echo "::warning::仅 .mm 稀疏检出仍较大，请检查是否误拉了二进制文件"
           fi
 
       - name: Setup .NET 8
