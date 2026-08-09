@@ -96,7 +96,7 @@ internal static class ArticlePlainText
             sb.Append("<p>导图：").Append(WebUtility.HtmlEncode(article.NotebookTitle.Trim())).Append("</p>");
         if (article.ReminderAt.HasValue)
             sb.Append("<p>提醒：").Append(WebUtility.HtmlEncode(
-                article.ReminderAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm"))).Append("</p>");
+                article.ReminderAt.Value.ToSiteLocal().ToString("yyyy-MM-dd HH:mm"))).Append("</p>");
         if (!string.IsNullOrWhiteSpace(article.SourceMmPath))
             sb.Append("<p>来源：").Append(WebUtility.HtmlEncode(Path.GetFileName(article.SourceMmPath))).Append("</p>");
     }
@@ -110,7 +110,7 @@ internal static class ArticlePlainText
         if (!string.IsNullOrWhiteSpace(article.NotebookTitle))
             sb.AppendLine("导图：" + article.NotebookTitle.Trim());
         if (article.ReminderAt.HasValue)
-            sb.AppendLine("提醒：" + article.ReminderAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm"));
+            sb.AppendLine("提醒：" + article.ReminderAt.Value.ToSiteLocal().ToString("yyyy-MM-dd HH:mm"));
         if (!string.IsNullOrWhiteSpace(article.SourceMmPath))
             sb.AppendLine("来源：" + Path.GetFileName(article.SourceMmPath));
     }

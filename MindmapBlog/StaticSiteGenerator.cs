@@ -91,6 +91,7 @@ public sealed class StaticSiteGenerator
         Directory.CreateDirectory(mediaDir);
 
         var generatedAt = DateTimeOffset.UtcNow;
+        AssetVersion.Begin(generatedAt);
 
         var sortedArticles = articles.OrderByDescending(a => a.Modified).ToList();
 
@@ -572,7 +573,7 @@ public sealed class StaticSiteGenerator
             inner.Append("<td><time datetime=\"")
                 .Append(WebUtility.HtmlEncode(r.GeneratedAtUtc.ToString("O")))
                 .Append("\">")
-                .Append(WebUtility.HtmlEncode(r.GeneratedAtUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")))
+                .Append(WebUtility.HtmlEncode(r.GeneratedAtUtc.ToSiteLocal().ToString("yyyy-MM-dd HH:mm:ss")))
                 .AppendLine("</time></td>");
             inner.Append("<td title=\"")
                 .Append(WebUtility.HtmlEncode(TitlesTooltip(r.AddedTitles)))
@@ -632,7 +633,7 @@ public sealed class StaticSiteGenerator
                 StringComparer.Ordinal);
         var payload = runs.Select(r => new
         {
-            timeLabel = r.GeneratedAtUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss"),
+            timeLabel = r.GeneratedAtUtc.ToSiteLocal().ToString("yyyy-MM-dd HH:mm:ss"),
             addedTitles = r.AddedTitles ?? [],
             addedLinks = (r.AddedTitles ?? [])
                 .Select(t => new
@@ -741,7 +742,7 @@ public sealed class StaticSiteGenerator
             foreach (var c in snapshot.Commits)
             {
                 inner.AppendLine("<tr class=\"git-commit-row\">");
-                var local = c.CommittedAt.ToLocalTime();
+                var local = c.CommittedAt.ToSiteLocal();
                 inner.Append("<td class=\"git-commit-time\"><time datetime=\"")
                     .Append(WebUtility.HtmlEncode(c.CommittedAt.ToString("O")))
                     .Append("\">");
@@ -1205,7 +1206,7 @@ public sealed class StaticSiteGenerator
             WriteTimelineListPage(outDir, names, fileName, pageData);
         }
 
-        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Year).OrderBy(g => g.Key))
+        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Year).OrderBy(g => g.Key))
         {
             var y = yg.Key;
             WriteCalPage(
@@ -1214,7 +1215,7 @@ public sealed class StaticSiteGenerator
                 $"共 {yg.Count()} 项（按提醒时间先后）",
                 yg.ToList());
 
-            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Month).OrderBy(g => g.Key))
+            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Month).OrderBy(g => g.Key))
             {
                 var m = mg.Key;
                 WriteCalPage(
@@ -1223,7 +1224,7 @@ public sealed class StaticSiteGenerator
                     $"共 {mg.Count()} 项（按提醒时间先后）",
                     mg.ToList());
 
-                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Date).OrderBy(g => g.Key))
+                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Date).OrderBy(g => g.Key))
                 {
                     var dt = dg.Key;
                     WriteCalPage(
@@ -1243,8 +1244,8 @@ public sealed class StaticSiteGenerator
         var publishedAt = versionDoc.Versions.Count > 0
             ? versionDoc.Versions[0].GeneratedAtUtc
             : article.Modified;
-        var publishedLocal = publishedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
-        var modifiedLocal = article.Modified.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
+        var publishedLocal = publishedAt.ToSiteLocal().ToString("yyyy-MM-dd HH:mm");
+        var modifiedLocal = article.Modified.ToSiteLocal().ToString("yyyy-MM-dd HH:mm");
         var revAside = BuildRevisionAside(versionDoc);
         var sb = new StringBuilder();
         sb.AppendLine("<div class=\"article-page\">");
@@ -1266,7 +1267,7 @@ public sealed class StaticSiteGenerator
         sb.Append("<p class=\"article-meta-line\">");
         if (article.ReminderAt.HasValue)
         {
-            var planLocal = article.ReminderAt.Value.ToLocalTime().ToString("yyyy年M月d日 HH:mm");
+            var planLocal = article.ReminderAt.Value.ToSiteLocal().ToString("yyyy年M月d日 HH:mm");
             sb.Append("计划 <strong class=\"article-plan-time\">")
                 .Append(WebUtility.HtmlEncode(planLocal))
                 .Append("</strong> ");
@@ -1330,7 +1331,7 @@ public sealed class StaticSiteGenerator
         for (var i = doc.Versions.Count - 1; i >= 0; i--)
         {
             var v = doc.Versions[i];
-            var gen = v.GeneratedAtUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
+            var gen = v.GeneratedAtUtc.ToSiteLocal().ToString("yyyy-MM-dd HH:mm");
             sb.AppendLine("<details class=\"rev-item\">");
             if (i == 0)
             {
@@ -1376,7 +1377,7 @@ public sealed class StaticSiteGenerator
         ArticlePlainText.BuildTimelineExcerpt(article);
 
     private static string FormatArticleLocalTime(DateTimeOffset dto) =>
-        dto.ToLocalTime().ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+        dto.ToSiteLocal().ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
     private static ArticleVersionDocument? TryGetVersionDoc(
         IReadOnlyDictionary<string, ArticleVersionDocument>? versionDocs,
@@ -1425,8 +1426,8 @@ public sealed class StaticSiteGenerator
         if (enableSortTabs)
         {
             ordered = descending
-                ? arts.OrderByDescending(a => GetPublishedAt(a, TryGetVersionDoc(versionDocs, scanRoot, a)).LocalDateTime)
-                : arts.OrderBy(a => GetPublishedAt(a, TryGetVersionDoc(versionDocs, scanRoot, a)).LocalDateTime);
+                ? arts.OrderByDescending(a => GetPublishedAt(a, TryGetVersionDoc(versionDocs, scanRoot, a)).ToSiteLocalDateTime())
+                : arts.OrderBy(a => GetPublishedAt(a, TryGetVersionDoc(versionDocs, scanRoot, a)).ToSiteLocalDateTime());
         }
         else
         {
@@ -1452,7 +1453,7 @@ public sealed class StaticSiteGenerator
         {
             var versionDoc = TryGetVersionDoc(versionDocs, scanRoot, art);
             var local = enableSortTabs
-                ? GetPublishedAt(art, versionDoc).LocalDateTime
+                ? GetPublishedAt(art, versionDoc).ToSiteLocalDateTime()
                 : selectLocalTime(art);
             var excerpt = BuildExcerpt(art);
             var isSameDate = prevDate.HasValue && prevDate.Value.Date == local.Date;
@@ -1460,8 +1461,8 @@ public sealed class StaticSiteGenerator
 
             if (enableSortTabs)
             {
-                var publishedLocal = GetPublishedAt(art, versionDoc).LocalDateTime;
-                var modifiedLocal = art.Modified.LocalDateTime;
+                var publishedLocal = GetPublishedAt(art, versionDoc).ToSiteLocalDateTime();
+                var modifiedLocal = art.Modified.ToSiteLocalDateTime();
                 sb.Append("<li class=\"timeline-item\" data-published=\"")
                     .Append(WebUtility.HtmlEncode(publishedLocal.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)))
                     .Append("\" data-modified=\"")

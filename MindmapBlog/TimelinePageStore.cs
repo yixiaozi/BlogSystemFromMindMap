@@ -97,11 +97,11 @@ internal static class TimelinePageStore
         foreach (var art in articles)
         {
             var versionDoc = TryGetVersionDoc(versionDocs, scanRoot, art);
-            var published = GetPublishedAt(art, versionDoc).ToLocalTime();
-            var modified = art.Modified.ToLocalTime();
+            var published = GetPublishedAt(art, versionDoc).ToSiteLocal();
+            var modified = art.Modified.ToSiteLocal();
             if (string.Equals(timeSource, "reminder", StringComparison.OrdinalIgnoreCase) && art.ReminderAt.HasValue)
             {
-                published = art.ReminderAt.Value.ToLocalTime();
+                published = art.ReminderAt.Value.ToSiteLocal();
                 modified = published;
             }
             var bookmarkPages = new Dictionary<string, string>(StringComparer.Ordinal);

@@ -1,0 +1,25 @@
+# 挂到 mantoublog 站点 server { } 内（或 include 本文件）。
+# 目的：HTML / JSON 不长期缓存；带 ?v= 的 css/js 可长期缓存。
+# 改完后：sudo nginx -t && sudo systemctl reload nginx
+
+# 页面与数据：每次向服务器校验（或直接不缓存）
+location ~* \.(html?)$ {
+    add_header Cache-Control "no-cache, must-revalidate" always;
+    etag on;
+}
+
+location ^~ /data/ {
+    add_header Cache-Control "no-cache, must-revalidate" always;
+    etag on;
+}
+
+# 静态脚本样式：允许长缓存（生成器用 ?v=生成戳 破坏缓存）
+location ~* \.(css|js)$ {
+    add_header Cache-Control "public, max-age=31536000, immutable" always;
+    etag on;
+}
+
+# 配图可中等缓存
+location ^~ /media/ {
+    add_header Cache-Control "public, max-age=86400" always;
+}

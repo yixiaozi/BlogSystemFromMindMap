@@ -38,7 +38,7 @@ internal sealed class SearchIndexRecord
             .ToList();
 
         var reminder = article.ReminderAt.HasValue
-            ? article.ReminderAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
+            ? article.ReminderAt.Value.ToSiteLocal().ToString("yyyy-MM-dd HH:mm")
             : null;
 
         var sourceFile = Path.GetFileName(article.SourceMmPath);

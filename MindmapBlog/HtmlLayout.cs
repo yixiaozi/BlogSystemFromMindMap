@@ -62,19 +62,30 @@ internal static class HtmlLayout
         bool isVisitHistoryPage = false)
     {
         var sb = new StringBuilder();
-        var cssHref = SitePathHelper.RelFromTo(currentPageWebPath, "site.css");
-        var chromeScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "site-chrome.js");
+        var cssHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "site.css"));
+        var chromeScriptHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "site-chrome.js"));
         sb.AppendLine("<!DOCTYPE html>");
-        sb.AppendLine("<html lang=\"zh-CN\">");
+        sb.Append("<html lang=\"zh-CN\" data-asset-v=\"")
+            .Append(WebUtility.HtmlEncode(AssetVersion.Current))
+            .AppendLine("\">");
         sb.AppendLine("<head>");
         sb.AppendLine("<meta charset=\"utf-8\"/>");
         sb.AppendLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>");
+        // 提示浏览器：HTML 每次向服务器校验，避免整页长期缓存导致「内容不更新」
+        sb.AppendLine("<meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\"/>");
+        sb.AppendLine("<meta http-equiv=\"Pragma\" content=\"no-cache\"/>");
         sb.AppendLine("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"/>");
         sb.AppendLine("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\"/>");
         sb.AppendLine(
             "<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap\" rel=\"stylesheet\"/>");
         sb.Append("<title>").Append(WebUtility.HtmlEncode(pageTitle)).AppendLine("</title>");
         sb.Append("<link rel=\"stylesheet\" href=\"").Append(WebUtility.HtmlEncode(cssHref)).AppendLine("\"/>");
+        sb.AppendLine("<script>");
+        sb.Append("window.__SITE_ASSET_V__=\"").Append(WebUtility.JavaScriptStringEncode(AssetVersion.Current))
+            .AppendLine("\";");
+        sb.AppendLine(
+            "window.MindmapBlogBust=function(u){if(!u||!window.__SITE_ASSET_V__)return u;if(/[?&]v=/.test(u))return u;return u+(u.indexOf(\"?\")>=0?\"&\":\"?\")+\"v=\"+encodeURIComponent(window.__SITE_ASSET_V__);};");
+        sb.AppendLine("</script>");
         // 站点图标：优先使用生成阶段发布到 media/site-avatar.* 的头像文件。
         foreach (var ext in new[] { "png", "jpg", "jpeg", "webp", "gif", "avif" })
         {
@@ -156,29 +167,29 @@ internal static class HtmlLayout
         if (siteNames != null)
             sb.Append(BuildSiteFooter(currentPageWebPath, siteNames));
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(chromeScriptHref)).AppendLine("\" defer></script>");
-        var visitStatsHref = SitePathHelper.RelFromTo(currentPageWebPath, "visit-stats.js");
+        var visitStatsHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "visit-stats.js"));
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(visitStatsHref)).AppendLine("\" defer></script>");
-        var wordfreqSharedHref = SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-shared.js");
+        var wordfreqSharedHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-shared.js"));
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wordfreqSharedHref)).AppendLine("\" defer></script>");
-        var wordfreqHighlightHref = SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-highlight.js");
+        var wordfreqHighlightHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "wordfreq-highlight.js"));
         sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wordfreqHighlightHref)).AppendLine("\" defer></script>");
         if (timelinePageShell)
         {
-            var timelineTabsHref = SitePathHelper.RelFromTo(currentPageWebPath, "timeline-tabs.js");
+            var timelineTabsHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "timeline-tabs.js"));
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(timelineTabsHref)).AppendLine("\" defer></script>");
-            var timelineScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "timeline-page.js");
+            var timelineScriptHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "timeline-page.js"));
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(timelineScriptHref)).AppendLine("\" defer></script>");
         }
         if (wordFrequencyPageShell)
         {
-            var wfScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "word-frequency-page.js");
+            var wfScriptHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "word-frequency-page.js"));
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(wfScriptHref)).AppendLine("\" defer></script>");
         }
         if (!string.IsNullOrEmpty(activeHtmlFile))
         {
-            var outlineScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "article-outline.js");
+            var outlineScriptHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "article-outline.js"));
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(outlineScriptHref)).AppendLine("\" defer></script>");
-            var commentsScriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "article-comments.js");
+            var commentsScriptHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "article-comments.js"));
             sb.Append("<script src=\"").Append(WebUtility.HtmlEncode(commentsScriptHref)).AppendLine("\" defer></script>");
         }
         AppendNavAccordionScript(sb);
@@ -675,7 +686,7 @@ internal static class HtmlLayout
         sb.AppendLine("<div class=\"nav-cal-fold-body\">");
         sb.AppendLine("<div class=\"nav-cal-root\">");
 
-        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Year).OrderBy(g => g.Key))
+        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Year).OrderBy(g => g.Key))
         {
             var year = yg.Key;
             var yHref = SitePathHelper.RelFromTo(currentPageWebPath, names.GetCalendarYearPage(year));
@@ -688,7 +699,7 @@ internal static class HtmlLayout
                 .AppendLine("</a></summary>");
             sb.AppendLine("<div class=\"nav-cal-body\">");
 
-            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Month).OrderBy(g => g.Key))
+            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Month).OrderBy(g => g.Key))
             {
                 var month = mg.Key;
                 var mHref = SitePathHelper.RelFromTo(currentPageWebPath, names.GetCalendarMonthPage(year, month));
@@ -701,7 +712,7 @@ internal static class HtmlLayout
                     .AppendLine("</a></summary>");
                 sb.AppendLine("<div class=\"nav-cal-body\">");
 
-                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Date).OrderBy(g => g.Key))
+                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Date).OrderBy(g => g.Key))
                 {
                     var date = dg.Key;
                     var dHref = SitePathHelper.RelFromTo(
@@ -723,7 +734,7 @@ internal static class HtmlLayout
                         var cls = string.Equals(activeHtmlFile, hf, StringComparison.OrdinalIgnoreCase)
                             ? " class=\"is-active\""
                             : "";
-                        var clock = art.ReminderAt!.Value.ToLocalTime().ToString("HH:mm");
+                        var clock = art.ReminderAt!.Value.ToSiteLocal().ToString("HH:mm");
                         sb.Append("  <li").Append(cls).Append("><span class=\"nav-cal-time\">")
                             .Append(WebUtility.HtmlEncode(clock))
                             .Append("</span><a href=\"").Append(WebUtility.HtmlEncode(relArt)).Append("\">")
@@ -775,7 +786,7 @@ internal static class HtmlLayout
         SiteFileNames names)
     {
         var dayMap = planned
-            .GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Date)
+            .GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Date)
             .OrderBy(g => g.Key)
             .ToDictionary(g => g.Key, g => g.Count());
         if (dayMap.Count == 0)
@@ -1340,8 +1351,8 @@ internal static class HtmlLayout
             ? "index.html"
             : currentPageWebPath!.Trim().Replace('\\', '/');
 
-        var indexHref = SitePathHelper.RelFromTo(currentPageWebPath, "data/search-index.json");
-        var scriptHref = SitePathHelper.RelFromTo(currentPageWebPath, "search-aside.js");
+        var indexHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "data/search-index.json"));
+        var scriptHref = AssetVersion.Bust(SitePathHelper.RelFromTo(currentPageWebPath, "search-aside.js"));
 
         var sb = new StringBuilder();
         sb.Append("<section class=\"search-aside-wrap\" id=\"site-search-aside\" aria-label=\"全文搜索\"");

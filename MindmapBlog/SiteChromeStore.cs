@@ -128,7 +128,7 @@ internal static class SiteChromeStore
             return null;
 
         var dayMap = planned
-            .GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Date)
+            .GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Date)
             .ToDictionary(g => g.Key, g => g.Count());
 
         var ymList = dayMap.Keys
@@ -154,7 +154,7 @@ internal static class SiteChromeStore
             StringComparer.Ordinal);
 
         var tree = new List<NavCalendarYearDto>();
-        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Year).OrderBy(g => g.Key))
+        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Year).OrderBy(g => g.Key))
         {
             var year = yg.Key;
             var yearDto = new NavCalendarYearDto
@@ -164,7 +164,7 @@ internal static class SiteChromeStore
                 DetailsId = BranchNav.CalendarYearDetailsId(year),
             };
 
-            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Month).OrderBy(g => g.Key))
+            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Month).OrderBy(g => g.Key))
             {
                 var month = mg.Key;
                 var monthDto = new NavCalendarMonthDto
@@ -174,7 +174,7 @@ internal static class SiteChromeStore
                     DetailsId = BranchNav.CalendarMonthDetailsId(year, month),
                 };
 
-                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Date).OrderBy(g => g.Key))
+                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Date).OrderBy(g => g.Key))
                 {
                     var date = dg.Key;
                     var dayDto = new NavCalendarDayDto
@@ -190,7 +190,7 @@ internal static class SiteChromeStore
                         {
                             Href = art.HtmlFileName,
                             Title = art.Title,
-                            Time = art.ReminderAt!.Value.ToLocalTime().ToString("HH:mm", CultureInfo.InvariantCulture),
+                            Time = art.ReminderAt!.Value.ToSiteLocal().ToString("HH:mm", CultureInfo.InvariantCulture),
                         });
                     }
 

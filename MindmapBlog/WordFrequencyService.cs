@@ -99,7 +99,7 @@ internal static class WordFrequencyService
             if (text.Length == 0)
                 continue;
 
-            var timeLabel = c.CommittedAt.ToLocalTime()
+            var timeLabel = c.CommittedAt.ToSiteLocal()
                 .ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
             list.Add(new WordFrequencyDocument(
                 "提交记录 · " + timeLabel,

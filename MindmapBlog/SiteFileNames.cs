@@ -93,18 +93,18 @@ internal sealed class SiteFileNames
             return;
 
         const string calRoot = "计划";
-        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Year).OrderBy(g => g.Key))
+        foreach (var yg in planned.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Year).OrderBy(g => g.Key))
         {
             var y = yg.Key;
             map[$"y:{y}"] = SlugUtility.AllocateWebPath(calRoot, y.ToString(), used);
 
-            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Month).OrderBy(g => g.Key))
+            foreach (var mg in yg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Month).OrderBy(g => g.Key))
             {
                 var m = mg.Key;
                 var stemM = $"{y}-{m:D2}";
                 map[$"m:{y}-{m:D2}"] = SlugUtility.AllocateWebPath(calRoot, stemM, used);
 
-                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToLocalTime().Date).OrderBy(g => g.Key))
+                foreach (var dg in mg.GroupBy(a => a.ReminderAt!.Value.ToSiteLocal().Date).OrderBy(g => g.Key))
                 {
                     var dt = dg.Key;
                     map[$"d:{dt:yyyy-MM-dd}"] = SlugUtility.AllocateWebPath(calRoot, $"{dt:yyyy-MM-dd}", used);
