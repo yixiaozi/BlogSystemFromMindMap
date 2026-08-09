@@ -81,8 +81,8 @@ internal static class HtmlLayout
         sb.Append("<title>").Append(WebUtility.HtmlEncode(pageTitle)).AppendLine("</title>");
         sb.Append("<link rel=\"stylesheet\" href=\"").Append(WebUtility.HtmlEncode(cssHref)).AppendLine("\"/>");
         sb.AppendLine("<script>");
-        sb.Append("window.__SITE_ASSET_V__=\"").Append(WebUtility.JavaScriptStringEncode(AssetVersion.Current))
-            .AppendLine("\";");
+        // Current 仅为 yyyyMMddHHmmss 数字，可安全写入 JS 字符串
+        sb.Append("window.__SITE_ASSET_V__=\"").Append(AssetVersion.Current).AppendLine("\";");
         sb.AppendLine(
             "window.MindmapBlogBust=function(u){if(!u||!window.__SITE_ASSET_V__)return u;if(/[?&]v=/.test(u))return u;return u+(u.indexOf(\"?\")>=0?\"&\":\"?\")+\"v=\"+encodeURIComponent(window.__SITE_ASSET_V__);};");
         sb.AppendLine("</script>");
