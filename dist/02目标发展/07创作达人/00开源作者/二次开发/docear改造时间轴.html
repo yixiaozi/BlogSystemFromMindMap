@@ -1,0 +1,682 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" data-asset-v="20260813233228">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<title>Docear改造时间轴</title>
+<link rel="stylesheet" href="../../../../site.css?v=20260813233228"/>
+<script>
+window.__SITE_ASSET_V__="20260813233228";
+window.MindmapBlogBust=function(u){if(!u||!window.__SITE_ASSET_V__)return u;if(/[?&]v=/.test(u))return u;return u+(u.indexOf("?")>=0?"&":"?")+"v="+encodeURIComponent(window.__SITE_ASSET_V__);};
+</script>
+<link rel="icon" href="../../../../media/site-avatar.png" type="image/png"/>
+<link rel="icon" href="../../../../media/site-avatar.jpg" type="image/jpeg"/>
+<link rel="icon" href="../../../../media/site-avatar.jpeg" type="image/jpeg"/>
+<link rel="icon" href="../../../../media/site-avatar.webp" type="image/webp"/>
+<link rel="icon" href="../../../../media/site-avatar.gif" type="image/gif"/>
+<link rel="icon" href="../../../../media/site-avatar.avif" type="image/avif"/>
+<link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../../../../rss.xml"/>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?dced051aaa84ab850909e5607f874760";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body class="site-body" data-page-path="02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html" data-active-article="02目标发展/07创作达人/00开源作者/二次开发/docear改造时间轴.html">
+<header class="site-topbar" role="banner">
+<div class="site-topbar-inner">
+<a class="site-topbar-brand" href="../../../../index.html">
+馒头的思维导图博客</a>
+<div class="site-topbar-mobile-actions">
+<button type="button" class="site-mobile-btn" id="site-mobile-nav-toggle" aria-expanded="false" aria-controls="layout-nav">目录</button>
+<button type="button" class="site-mobile-btn" id="site-mobile-aside-toggle" aria-expanded="false" aria-controls="layout-tags">书签</button>
+</div>
+<div class="site-topbar-controls" role="group" aria-label="强调色、灰度与夜间模式">
+<span class="site-topbar-swatches" aria-hidden="false">
+<button type="button" class="site-topbar-swatch" data-accent="#4338ca" style="--site-swatch:#4338ca" title="靛青" aria-label="强调色：靛青"></button>
+<button type="button" class="site-topbar-swatch" data-accent="#7c3aed" style="--site-swatch:#7c3aed" title="紫" aria-label="强调色：紫"></button>
+<button type="button" class="site-topbar-swatch" data-accent="#0d9488" style="--site-swatch:#0d9488" title="青绿" aria-label="强调色：青绿"></button>
+<button type="button" class="site-topbar-swatch" data-accent="#c2410c" style="--site-swatch:#c2410c" title="琥珀" aria-label="强调色：琥珀"></button>
+</span>
+<label class="site-topbar-color-label" title="自选强调色">
+<span class="visually-hidden">自选强调色</span>
+<input type="color" id="site-accent-picker" class="site-topbar-color-input" value="#4338ca" aria-label="自选强调色"/>
+</label>
+<button type="button" class="site-topbar-chip site-topbar-bw" id="site-theme-bw-toggle" aria-pressed="false" title="灰度模式：全站去色，适合长文阅读">灰度</button>
+<button type="button" class="site-topbar-chip site-topbar-night" id="site-theme-dark-toggle" aria-pressed="false" title="夜间模式">夜间</button>
+</div></div></header>
+<div class="site-mobile-backdrop" id="site-mobile-backdrop" hidden aria-hidden="true"></div>
+<div class="layout-shell">
+<aside class="layout-nav" id="layout-nav" aria-label="目录与导图导航">
+<p class="site-chrome-placeholder" id="site-chrome-nav-host">加载目录…</p>
+</aside>
+<main class="layout-main">
+<div class="article-page">
+<div class="article-header">
+<a class="crumb" href="../../../../index.html">首页</a>
+ <span class="crumb-sep">·</span> 
+<a class="crumb" href="../../../../标签/标签-docear改造.html">Docear改造</a></div>
+<header class="article-title-block">
+<h1>Docear改造时间轴</h1>
+<p class="article-meta-line">「Docear改造」·节点路径 未分区 · 入站 2026-07-13 22:20 · 更新 2026-07-02 09:12 · 修订 <strong>0</strong> 次</p>
+</header>
+<article class="content">
+<div class="article-outline-dock" id="article-outline-dock" hidden></div>
+<p class="mm-block mm-depth-1 mm-date">2026年4月23日</p>
+<p class="mm-block mm-depth-2">第一次使用Cursor成功编译了项目，然后就可以进行我自己的改造了啊，很开心。解决了我不会搭建Java开发环境，不熟悉项目的问题。</p>
+<p class="mm-block mm-depth-2">1、删除了顶部的图标</p>
+<p class="mm-block mm-depth-2">2、给左侧的导航去掉了图标，添加了搜索功能</p>
+<p class="mm-block mm-depth-3">隐藏了~开头的文件和系统隐藏的文件</p>
+<p class="mm-block mm-depth-2">3、在右侧的面板添加了提醒功能和所有提醒功能</p>
+<p class="mm-block mm-depth-1 mm-date">2026年5月19日</p>
+<p class="mm-block mm-depth-2">1、右侧选项卡的字体和时间提醒模块去掉了，因为里面的功能基本不用，且其他地方都可以设置</p>
+<p class="mm-block mm-depth-3">去掉右侧的References标签</p>
+<p class="mm-block mm-depth-2">2、软件启动Logo，去掉</p>
+<p class="mm-block mm-depth-2">3、对于一些文件的隐藏</p>
+<p class="mm-block mm-depth-3">隐藏.drawio.png文件</p>
+<p class="mm-block mm-depth-3">在提醒里，也把bin给过滤掉</p>
+<p class="mm-block mm-depth-3">提醒扫描也不扫描.开头的文件夹的任务</p>
+<p class="mm-block mm-depth-2">4、将我常用的快捷键写到了软件默认设置了，以后不用担心快捷键丢失了</p>
+<p class="mm-block mm-depth-2">5、增加了皮肤功能</p>
+<p class="mm-block mm-depth-1 mm-date">2026年5月20日</p>
+<p class="mm-block mm-depth-2">添加复制节点URL的快捷键：Alt+x</p>
+<p class="mm-block mm-depth-2">使用Alt+12345进行下方的Tab页的切换</p>
+<p class="mm-block mm-depth-3">其实Alt+左右键切换也挺快的</p>
+<p class="mm-block mm-depth-4">这个是切换节点的</p>
+<p class="mm-block mm-depth-2">希望增加一个功能，把所有待办的事情都列出来，但是没必要设置时间</p>
+<p class="mm-block mm-depth-2">添加了全部发布功能</p>
+<p class="mm-block mm-depth-2">全局搜索功能</p>
+<p class="mm-block mm-depth-3">- 在所有思维导图中搜索关键词</p>
+<p class="mm-block mm-depth-3">- 支持搜索节点文本、备注、标签等</p>
+<p class="mm-block mm-depth-3">- 显示搜索结果的上下文预览</p>
+<p class="mm-block mm-depth-3">- 点击搜索结果直接跳转到对应节点</p>
+<p class="mm-block mm-depth-2">解决Bug</p>
+<p class="mm-block mm-depth-3">在所有提醒中，如果某个思维导图改名，或者切换目录，那么提醒就会一直在里面。</p>
+<p class="mm-block mm-depth-1 mm-date">2026年5月21日</p>
+<p class="mm-block mm-depth-2">添加周期提醒Tab，解决一些周期任务会影响查看效率的问题，周期任务一般都算不很紧急</p>
+<p class="mm-block mm-depth-2">提醒也区分单次提醒和循环提醒，这样哪些循环的提醒，就不总是被我看到了</p>
+<p class="mm-block mm-depth-2">添加最近修改Tab，方便回顾我最近都在做什么</p>
+<p class="mm-block mm-depth-2">Bug修复</p>
+<p class="mm-block mm-depth-3">待办里面的层级问题</p>
+<p class="mm-block mm-depth-1 mm-date">2026年6月4日</p>
+<p class="mm-block mm-depth-2">修复Bug</p>
+<p class="mm-block mm-depth-3">外部添加完任务后，导图循环打开</p>
+<p class="mm-block mm-depth-3">Alt+Up的快捷键失效了，为什么呢？</p>
+<p class="mm-block mm-depth-2">快速捕获（全局快捷键）</p>
+<p class="mm-block mm-depth-3">任意时刻：Ctrl+Shift+Space 弹出小窗 鈫锟锟� 选项目/文件夹 鈫锟锟� 追加到「收件箱」导图某节点（带时间戳）。
+收益：灵感、链接、一句话不会散落在微信/记事本里。</p>
+<p class="mm-block mm-depth-1 mm-date">2026年6月5日</p>
+<p class="mm-block mm-depth-2">添加了收件箱功能：Ctrl+Shift+Space唤起</p>
+<p class="mm-block mm-depth-2">平衡了左侧Tab了右侧Tab的数量，避免换行</p>
+<p class="mm-block mm-depth-2">思维导图标签/分类系统</p>
+<p class="mm-block mm-depth-3">- 给思维导图添加自定义标签（如：工作、生活、学习、重要等）</p>
+<p class="mm-block mm-depth-3">- 在右侧面板添加&quot;标签筛选&quot;Tab</p>
+<p class="mm-block mm-depth-3">- 支持按标签快速过滤思维导图</p>
+<p class="mm-block mm-depth-3">书签/收藏夹（推荐优先级：鈽呪槄鈽呪槅鈽锟锟�）
+- 功能描述 ：收藏常用节点或地图，快速访问
+- 适用场景 ：频繁访问特定内容</p>
+<p class="mm-block mm-depth-4">节点收藏已经有待办了，目前就不需要了</p>
+<p class="mm-block mm-depth-2">收藏与快捷访问</p>
+<p class="mm-block mm-depth-3">- 添加&quot;收藏&quot;功能，标记常用的思维导图</p>
+<p class="mm-block mm-depth-3">- 在右侧面板添加&quot;收藏&quot;Tab</p>
+<p class="mm-block mm-depth-3">- 支持拖拽排序，置顶重要的思维导图</p>
+<p class="mm-block mm-depth-2">下方的Tab可以进行拖拽</p>
+<p class="mm-block mm-depth-3">在 Tab 标题栏上按住鼠标左键拖动（例如从「收藏」拖到「搜索」前面），松开后即完成排序。</p>
+<p class="mm-block mm-depth-1 mm-date">2026年6月8日</p>
+<p class="mm-block mm-depth-2">每次打开导图选中最后修改节点</p>
+<p class="mm-block mm-depth-3">1. 记住「上次选中的节点」（而不只是最后修改）
+你已支持按 MODIFIED 选节点；日常更常用的是「上次看到这里」。
+建议在导图或用户配置里存 lastSelectedNodeId，重开时优先恢复；没有记录时再退回「最后修改节点」。
+收益：续读、续写几乎零成本。</p>
+<p class="mm-block mm-depth-2">左侧的思维导图树中去掉_开头的文件夹</p>
+<p class="mm-block mm-depth-2">在最近修改中，去掉纯数字，因为哪些往往都是年月日之类的数字，没有意义</p>
+<p class="mm-block mm-depth-2">时间管理窗口，真的不好用，希望尽量简洁</p>
+<p class="mm-block mm-depth-2">节点标签功能</p>
+<p class="mm-block mm-depth-3">节点级「书签 / 钉选」
+在重要节点上加星标或书签列表（跨导图），侧边栏「我的钉选」固定显示。
+收益：大型导图里不用靠记忆或搜索找「总入口」「总纲」「进行中」节点。</p>
+<p class="mm-block mm-depth-3">标签 / 状态体系（而不只靠图标）
+统一标签：#待办 #参考 #已归档 #高优先级，配合筛选与右侧 Tab 过滤。
+收益：同一套导图兼做知识库 + 项目库，检索比纯树形结构稳。</p>
+<p class="mm-block mm-depth-2">目前记录的都是E:\yixiaozi目录，实际不应该这样的</p>
+<p class="mm-block mm-depth-1 mm-date">2026年6月10日</p>
+<p class="mm-block mm-depth-2">添加了AI功能</p>
+<p class="mm-block mm-depth-3">Ctrl+L为什么不是加密节点的快捷键了呢？</p>
+<p class="mm-block mm-depth-1 mm-date">2026年6月16日</p>
+<p class="mm-block mm-depth-2">系统的节点密码基本都是一个，希望想todoist的key一样，保存到文件里，工具每次Ctrl+L自动加密，加密的文件进行展开或者加锁。</p>
+<p class="mm-block mm-depth-1 mm-date">2026年6月23日</p>
+<p class="mm-block mm-depth-2">基础文件版本管理，Git 集成，可以提交，拉取推送</p>
+<p class="mm-block mm-depth-2">修复问题</p>
+<p class="mm-block mm-depth-3">全部发布也有那个问题，思维导图修改名称后，原来的就一直还有，没有刷新</p>
+<p class="mm-block mm-depth-3">全部待办为什么打开文件夹，打开的不对呢？</p>
+<p class="mm-block mm-depth-1 mm-date">2026年6月26日</p>
+<p class="mm-block mm-depth-2">解决全部待办层级和图标问题</p>
+<p class="mm-block mm-depth-2">可以自动导入HashPhotos事件，方便未来回顾整理</p>
+<p class="mm-block mm-depth-1 mm-date">2026年7月1日</p>
+<p class="mm-block mm-depth-2">可以设置周期任务，并添加了日历</p>
+<p class="mm-block mm-depth-2">添加了时间轴Tab，可以查看某天的任务具体是什么</p>
+<p class="mm-block mm-depth-1 mm-date">2026年7月2日</p>
+<p class="mm-block mm-depth-2">添加了MCP功能，让AI可以查看操作我的思维导图</p>
+<p class="mm-block mm-depth-3">解决了很多问题，比如格式，查看会打开文件，不知道查看到导图，不会看哪些节点较新等问题</p>
+</article>
+<section class="article-comments" id="article-comments" aria-label="评论" hidden>
+<div class="article-comments-list-wrap" id="article-comments-list-wrap">
+<h2 class="article-comments-title" hidden>评论<span class="article-comments-count" id="article-comments-count">（0）</span></h2>
+<div id="article-comments-list" class="article-comments-list"></div>
+<p class="article-comments-empty" hidden>加载评论…</p>
+</div>
+<details class="comment-dock">
+<summary class="comment-dock-summary"><span class="comment-dock-title">发表评论</span></summary>
+<div class="comment-dock-panel-wrap">
+<div class="comment-dock-panel">
+<div id="Comments" class="article-comments-host"></div>
+</div>
+</div>
+</details>
+</section>
+<details class="rev-dock">
+<summary class="rev-dock-summary"><span class="rev-dock-title">修订与对比</span></summary>
+<div class="rev-dock-panel-wrap">
+<aside class="rev-aside" aria-label="版本记录">
+<p class="rev-summary">已修订 <strong>0</strong> 次 · 共 <strong>1</strong> 条快照</p>
+<div class="rev-list">
+<details class="rev-item">
+<summary><span class="rev-sum-text">2026-07-13 22:20 · 首发快照</span> <span class="version-stat version-stat-add" title="增加字数">+2056</span> <span class="version-stat version-stat-del" title="删除字数">−0</span> <span class="version-stat version-stat-mod" title="估算的替换字数：同一快照内既有删除又有新增的位置，按字数近似统计（与单纯的加、减不完全相同）">替换0</span><span class="rev-sum-hint">展开正文</span></summary><div class="rev-body">
+<pre class="snapshot-pre">
+2026年4月23日
+第一次使用Cursor成功编译了项目，然后就可以进行我自己的改造了啊，很开心。解决了我不会搭建Java开发环境，不熟悉项目的问题。
+1、删除了顶部的图标
+2、给左侧的导航去掉了图标，添加了搜索功能
+隐藏了~开头的文件和系统隐藏的文件
+3、在右侧的面板添加了提醒功能和所有提醒功能
+2026年5月19日
+1、右侧选项卡的字体和时间提醒模块去掉了，因为里面的功能基本不用，且其他地方都可以设置
+去掉右侧的References标签
+2、软件启动Logo，去掉
+3、对于一些文件的隐藏
+隐藏.drawio.png文件
+在提醒里，也把bin给过滤掉
+提醒扫描也不扫描.开头的文件夹的任务
+4、将我常用的快捷键写到了软件默认设置了，以后不用担心快捷键丢失了
+5、增加了皮肤功能
+2026年5月20日
+添加复制节点URL的快捷键：Alt+x
+使用Alt+12345进行下方的Tab页的切换
+其实Alt+左右键切换也挺快的
+这个是切换节点的
+希望增加一个功能，把所有待办的事情都列出来，但是没必要设置时间
+添加了全部发布功能
+全局搜索功能
+- 在所有思维导图中搜索关键词
+- 支持搜索节点文本、备注、标签等
+- 显示搜索结果的上下文预览
+- 点击搜索结果直接跳转到对应节点
+解决Bug
+在所有提醒中，如果某个思维导图改名，或者切换目录，那么提醒就会一直在里面。
+2026年5月21日
+添加周期提醒Tab，解决一些周期任务会影响查看效率的问题，周期任务一般都算不很紧急
+提醒也区分单次提醒和循环提醒，这样哪些循环的提醒，就不总是被我看到了
+添加最近修改Tab，方便回顾我最近都在做什么
+Bug修复
+待办里面的层级问题
+2026年6月4日
+修复Bug
+外部添加完任务后，导图循环打开
+Alt+Up的快捷键失效了，为什么呢？
+快速捕获（全局快捷键）
+任意时刻：Ctrl+Shift+Space 弹出小窗 鈫锟锟� 选项目/文件夹 鈫锟锟� 追加到「收件箱」导图某节点（带时间戳）。
+收益：灵感、链接、一句话不会散落在微信/记事本里。
+2026年6月5日
+添加了收件箱功能：Ctrl+Shift+Space唤起
+平衡了左侧Tab了右侧Tab的数量，避免换行
+思维导图标签/分类系统
+- 给思维导图添加自定义标签（如：工作、生活、学习、重要等）
+- 在右侧面板添加&quot;标签筛选&quot;Tab
+- 支持按标签快速过滤思维导图
+书签/收藏夹（推荐优先级：鈽呪槄鈽呪槅鈽锟锟�）
+- 功能描述 ：收藏常用节点或地图，快速访问
+- 适用场景 ：频繁访问特定内容
+节点收藏已经有待办了，目前就不需要了
+收藏与快捷访问
+- 添加&quot;收藏&quot;功能，标记常用的思维导图
+- 在右侧面板添加&quot;收藏&quot;Tab
+- 支持拖拽排序，置顶重要的思维导图
+下方的Tab可以进行拖拽
+在 Tab 标题栏上按住鼠标左键拖动（例如从「收藏」拖到「搜索」前面），松开后即完成排序。
+2026年6月8日
+每次打开导图选中最后修改节点
+1. 记住「上次选中的节点」（而不只是最后修改）
+你已支持按 MODIFIED 选节点；日常更常用的是「上次看到这里」。
+建议在导图或用户配置里存 lastSelectedNodeId，重开时优先恢复；没有记录时再退回「最后修改节点」。
+收益：续读、续写几乎零成本。
+左侧的思维导图树中去掉_开头的文件夹
+在最近修改中，去掉纯数字，因为哪些往往都是年月日之类的数字，没有意义
+时间管理窗口，真的不好用，希望尽量简洁
+节点标签功能
+节点级「书签 / 钉选」
+在重要节点上加星标或书签列表（跨导图），侧边栏「我的钉选」固定显示。
+收益：大型导图里不用靠记忆或搜索找「总入口」「总纲」「进行中」节点。
+标签 / 状态体系（而不只靠图标）
+统一标签：#待办 #参考 #已归档 #高优先级，配合筛选与右侧 Tab 过滤。
+收益：同一套导图兼做知识库 + 项目库，检索比纯树形结构稳。
+目前记录的都是E:\yixiaozi目录，实际不应该这样的
+2026年6月10日
+添加了AI功能
+Ctrl+L为什么不是加密节点的快捷键了呢？
+2026年6月16日
+系统的节点密码基本都是一个，希望想todoist的key一样，保存到文件里，工具每次Ctrl+L自动加密，加密的文件进行展开或者加锁。
+2026年6月23日
+基础文件版本管理，Git 集成，可以提交，拉取推送
+修复问题
+全部发布也有那个问题，思维导图修改名称后，原来的就一直还有，没有刷新
+全部待办为什么打开文件夹，打开的不对呢？
+2026年6月26日
+解决全部待办层级和图标问题
+可以自动导入HashPhotos事件，方便未来回顾整理
+2026年7月1日
+可以设置周期任务，并添加了日历
+添加了时间轴Tab，可以查看某天的任务具体是什么
+2026年7月2日
+添加了MCP功能，让AI可以查看操作我的思维导图
+解决了很多问题，比如格式，查看会打开文件，不知道查看到导图，不会看哪些节点较新等问题</pre></div>
+</details>
+</div>
+</aside>
+</div>
+</details>
+</div>
+</main>
+<aside class="layout-tags" id="layout-tags" aria-label="书签、图册与搜索">
+<p class="site-chrome-placeholder" id="site-chrome-aside-host">加载侧栏…</p>
+</aside>
+</div>
+<footer class="site-footer" role="contentinfo">
+<div class="site-footer-inner">
+<div class="site-footer-leading"></div>
+<p class="site-footer-copy">&#169; 2026 WangYang. All rights reserved.</p>
+<div class="site-footer-links gen-aside-links">
+<a href="../../../../generation-history.html" class="gen-aside-main-link">网站生成</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../../../../提交记录.html" class="gen-aside-main-link" title="扫描目录 Git 提交历史">提交记录</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../../../../访问历史.html" class="gen-aside-main-link" title="本机访问足迹">访问历史</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../../../../词频.html" class="gen-aside-main-link" title="全文分词词频">词频</a><span class="gen-aside-sep" aria-hidden="true">·</span><a href="../../../../rss.xml" class="gen-aside-rss-link" title="RSS 订阅">RSS</a></div>
+</div>
+</footer>
+<script src="../../../../site-chrome.js?v=20260813233228" defer></script>
+<script src="../../../../visit-stats.js?v=20260813233228" defer></script>
+<script src="../../../../wordfreq-shared.js?v=20260813233228" defer></script>
+<script src="../../../../wordfreq-highlight.js?v=20260813233228" defer></script>
+<script src="../../../../article-outline.js?v=20260813233228" defer></script>
+<script src="../../../../article-comments.js?v=20260813233228" defer></script>
+<script>
+(function () {
+  window.MindmapBlogInitNav = function () {
+  var KEY_OPEN = "mindmapblog-nav-open-details";
+  var KEY_SCROLL = "mindmapblog-nav-scroll";
+
+  function depth(d) {
+    var n = 0;
+    for (var p = d.parentElement; p; p = p.parentElement) {
+      if (p.matches && p.matches(".nav-tree details")) n++;
+    }
+    return n;
+  }
+
+  function persistOpen() {
+    var ids = [];
+    document.querySelectorAll(".nav-tree details[open]").forEach(function (d) {
+      if (d.id) ids.push(d.id);
+    });
+    try { sessionStorage.setItem(KEY_OPEN, JSON.stringify(ids)); } catch (e) {}
+  }
+
+  function restoreOpen() {
+    var raw = sessionStorage.getItem(KEY_OPEN);
+    if (!raw) return;
+    var ids;
+    try { ids = JSON.parse(raw); } catch (e) { return; }
+    if (!Array.isArray(ids)) return;
+    ids
+      .filter(function (id) {
+        var el = document.getElementById(id);
+        return el && el.tagName === "DETAILS";
+      })
+      .sort(function (a, b) {
+        return depth(document.getElementById(a)) - depth(document.getElementById(b));
+      })
+      .forEach(function (id) {
+        var d = document.getElementById(id);
+        if (d) d.open = true;
+      });
+  }
+
+  function saveScroll() {
+    var aside = document.querySelector(".layout-nav");
+    if (!aside) return;
+    try { sessionStorage.setItem(KEY_SCROLL, String(aside.scrollTop)); } catch (e) {}
+  }
+
+  function restoreScroll() {
+    var aside = document.querySelector(".layout-nav");
+    var raw = sessionStorage.getItem(KEY_SCROLL);
+    if (!aside || raw == null) return;
+    var top = parseInt(raw, 10);
+    if (isNaN(top)) return;
+    requestAnimationFrame(function () {
+      aside.scrollTop = top;
+      requestAnimationFrame(function () {
+        aside.scrollTop = top;
+      });
+    });
+  }
+
+  function bindNavTree() {
+    restoreOpen();
+    persistOpen();
+    restoreScroll();
+
+    var aside = document.querySelector(".layout-nav");
+    if (aside) {
+      var scrollTimer;
+      aside.addEventListener(
+        "scroll",
+        function () {
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(saveScroll, 120);
+        },
+        { passive: true }
+      );
+      aside.addEventListener("click", function (e) {
+        if (e.target.closest && e.target.closest("a")) saveScroll();
+      });
+    }
+    window.addEventListener("beforeunload", saveScroll);
+
+    document.querySelectorAll(".nav-tree details").forEach(function (d) {
+      d.addEventListener("toggle", function () {
+        if (d.open) {
+          var p = d.parentElement;
+          if (p) {
+            p.querySelectorAll(":scope > details").forEach(function (sib) {
+              if (sib !== d) sib.open = false;
+            });
+          }
+        }
+        persistOpen();
+      });
+    });
+  }
+
+  bindNavTree();
+  };
+})();
+</script>
+<script>
+(function () {
+  var MQ = window.matchMedia("(max-width: 960px)");
+  var navBtn = document.getElementById("site-mobile-nav-toggle");
+  var asideBtn = document.getElementById("site-mobile-aside-toggle");
+  var backdrop = document.getElementById("site-mobile-backdrop");
+  var nav = document.getElementById("layout-nav");
+  var tags = document.getElementById("layout-tags");
+  if (!navBtn || !asideBtn) return;
+
+  function setBackdrop(on) {
+    if (!backdrop) return;
+    backdrop.hidden = !on;
+    backdrop.setAttribute("aria-hidden", on ? "false" : "true");
+  }
+
+  function closePanels() {
+    document.body.classList.remove("mobile-nav-open", "mobile-aside-open", "mobile-panel-open");
+    navBtn.classList.remove("is-active");
+    asideBtn.classList.remove("is-active");
+    navBtn.setAttribute("aria-expanded", "false");
+    asideBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(false);
+  }
+
+  function openNav() {
+    document.body.classList.add("mobile-nav-open", "mobile-panel-open");
+    document.body.classList.remove("mobile-aside-open");
+    navBtn.classList.add("is-active");
+    asideBtn.classList.remove("is-active");
+    navBtn.setAttribute("aria-expanded", "true");
+    asideBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(true);
+  }
+
+  function openAside() {
+    document.body.classList.add("mobile-aside-open", "mobile-panel-open");
+    document.body.classList.remove("mobile-nav-open");
+    asideBtn.classList.add("is-active");
+    navBtn.classList.remove("is-active");
+    asideBtn.setAttribute("aria-expanded", "true");
+    navBtn.setAttribute("aria-expanded", "false");
+    setBackdrop(true);
+  }
+
+  navBtn.addEventListener("click", function () {
+    if (!MQ.matches) return;
+    if (document.body.classList.contains("mobile-nav-open")) closePanels();
+    else openNav();
+  });
+
+  asideBtn.addEventListener("click", function () {
+    if (!MQ.matches) return;
+    if (document.body.classList.contains("mobile-aside-open")) closePanels();
+    else openAside();
+  });
+
+  if (backdrop) backdrop.addEventListener("click", closePanels);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closePanels();
+  });
+
+  if (typeof MQ.addEventListener === "function") {
+    MQ.addEventListener("change", function (e) {
+      if (!e.matches) closePanels();
+    });
+  } else if (typeof MQ.addListener === "function") {
+    MQ.addListener(function (e) {
+      if (!e.matches) closePanels();
+    });
+  }
+
+  if (nav) {
+    nav.addEventListener("click", function (e) {
+      if (MQ.matches && e.target.closest && e.target.closest("a")) closePanels();
+    });
+  }
+
+  if (tags) {
+    tags.addEventListener("click", function (e) {
+      if (!MQ.matches || !e.target.closest || !e.target.closest("a")) return;
+      if (e.target.closest(".search-aside-wrap input")) return;
+      closePanels();
+    });
+  }
+})();
+</script>
+<script>
+(function () {
+  function isImg(el) {
+    return el && el.tagName === "IMG";
+  }
+  document.addEventListener(
+    "contextmenu",
+    function (e) {
+      if (isImg(e.target)) e.preventDefault();
+    },
+    false
+  );
+  document.addEventListener(
+    "dragstart",
+    function (e) {
+      if (isImg(e.target)) e.preventDefault();
+    },
+    false
+  );
+})();
+</script>
+<script>
+(function () {
+  var DELAY_MS = 240;
+  document.querySelectorAll(".rev-dock").forEach(function (dock) {
+    var aside = dock.querySelector(".rev-aside");
+    if (!aside) return;
+
+    function clearScroll() {
+      aside.classList.remove("rev-aside--scrollable");
+    }
+
+    dock.addEventListener("toggle", function () {
+      clearScroll();
+      if (!dock.open) return;
+      window.setTimeout(function () {
+        if (dock.open) aside.classList.add("rev-aside--scrollable");
+      }, DELAY_MS);
+    });
+  });
+})();
+</script>
+<script>
+(function () {
+  var KEY_ACCENT = "mindmapblog-accent";
+  var KEY_BW = "mindmapblog-bw";
+  var KEY_DARK = "mindmapblog-dark";
+  var DEFAULT_ACCENT = "#4338ca";
+
+  function hexToRgb(hex) {
+    hex = (hex || "").replace(/^#/, "");
+    if (hex.length === 3)
+      hex = hex.split("").map(function (c) { return c + c; }).join("");
+    var n = parseInt(hex, 16);
+    if (isNaN(n) || hex.length !== 6) return { r: 67, g: 56, b: 202 };
+    return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+  }
+
+  function rgbToHex(r, g, b) {
+    return (
+      "#" +
+      [r, g, b]
+        .map(function (x) {
+          var h = Math.max(0, Math.min(255, Math.round(x))).toString(16);
+          return h.length === 1 ? "0" + h : h;
+        })
+        .join("")
+    );
+  }
+
+  function shadeHex(hex, factor) {
+    var c = hexToRgb(hex);
+    return rgbToHex(c.r * factor, c.g * factor, c.b * factor);
+  }
+
+  function accentSoftRgba(hex, a) {
+    var c = hexToRgb(hex);
+    return "rgba(" + c.r + "," + c.g + "," + c.b + "," + a + ")";
+  }
+
+  function applyAccent(hex) {
+    var root = document.documentElement;
+    if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) hex = DEFAULT_ACCENT;
+    root.style.setProperty("--accent", hex);
+    root.style.setProperty("--accent-deep", shadeHex(hex, 0.82));
+    root.style.setProperty("--accent-soft", accentSoftRgba(hex, 0.11));
+    root.style.setProperty("--accent-glow", accentSoftRgba(hex, 0.35));
+    var picker = document.getElementById("site-accent-picker");
+    if (picker) picker.value = hex;
+    try {
+      localStorage.setItem(KEY_ACCENT, hex);
+    } catch (e) {}
+  }
+
+  function applyBw(on) {
+    var root = document.documentElement;
+    if (on) root.classList.add("theme-bw");
+    else root.classList.remove("theme-bw");
+    var btn = document.getElementById("site-theme-bw-toggle");
+    if (btn) {
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      btn.classList.toggle("is-active", on);
+    }
+    try {
+      localStorage.setItem(KEY_BW, on ? "1" : "0");
+    } catch (e) {}
+  }
+
+  function applyDark(on) {
+    var root = document.documentElement;
+    if (on) root.classList.add("theme-dark");
+    else root.classList.remove("theme-dark");
+    var btn = document.getElementById("site-theme-dark-toggle");
+    if (btn) {
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      btn.classList.toggle("is-active", on);
+    }
+    try {
+      localStorage.setItem(KEY_DARK, on ? "1" : "0");
+    } catch (e) {}
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var accent = DEFAULT_ACCENT;
+    try {
+      accent = localStorage.getItem(KEY_ACCENT) || DEFAULT_ACCENT;
+    } catch (e) {}
+    applyAccent(accent);
+
+    var bw = false;
+    try {
+      bw = localStorage.getItem(KEY_BW) === "1";
+    } catch (e) {}
+    applyBw(bw);
+
+    var dark = false;
+    try {
+      dark = localStorage.getItem(KEY_DARK) === "1";
+    } catch (e) {}
+    applyDark(dark);
+
+    document.querySelectorAll(".site-topbar-swatch").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var h = btn.getAttribute("data-accent");
+        if (h) applyAccent(h);
+      });
+    });
+
+    var picker = document.getElementById("site-accent-picker");
+    if (picker) {
+      picker.addEventListener("input", function () {
+        applyAccent(picker.value);
+      });
+      picker.addEventListener("change", function () {
+        applyAccent(picker.value);
+      });
+    }
+
+    var bwBtn = document.getElementById("site-theme-bw-toggle");
+    if (bwBtn) {
+      bwBtn.addEventListener("click", function () {
+        applyBw(!document.documentElement.classList.contains("theme-bw"));
+      });
+    }
+
+    var darkBtn = document.getElementById("site-theme-dark-toggle");
+    if (darkBtn) {
+      darkBtn.addEventListener("click", function () {
+        applyDark(!document.documentElement.classList.contains("theme-dark"));
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

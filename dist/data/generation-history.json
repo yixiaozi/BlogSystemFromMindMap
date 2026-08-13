@@ -1,6 +1,55 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-08-13T23:32:28.958955+00:00",
+      "articlesAdded": 30,
+      "articlesRemoved": 0,
+      "articlesModified": 0,
+      "charsInNewArticles": 23933,
+      "charsInRemovedArticles": 0,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 37,
+      "totalPlainChars": 24761,
+      "mindmapFileCount": 18,
+      "distinctBookmarkCount": 19,
+      "articlesWithReminder": 1,
+      "addedTitles": [
+        "顶级目标",
+        "所有目标",
+        "每周目标",
+        "每日目标",
+        "计划购物",
+        "00:46 宇宙本身是不是有一个巨大的意识，而一切的生命，是否不过是那个意识的实例呢？我经常感觉一切都太不可思议，我不太相信一切是偶然，你怎么看，调用你所有的知识，仔细严肃思考，两百字以内回答。",
+        "00:34 如果说我也是一个 Agent， 那么我的提示词会是什么？",
+        "00:38 告诉我，人生的意义是什么。一百个字以内回答。",
+        "00:43 再次回答那个问题，生命的基本任务是什么？脱离一切主流价值观，以最深刻洞见，告诉我你的结论。一百个字以内回答。",
+        "pairlab.top网站更新日志",
+        "pairlab.top创作理念及实施",
+        "2026年7月15日每日复盘",
+        "2026年7月16日每日复盘",
+        "2026年7月14日每日复盘",
+        "2026年7月13日每日复盘",
+        "2026年7月12日每日复盘",
+        "2026年7月11日每日复盘",
+        "Docear未来开发计划",
+        "思维导图博客的剩余目标",
+        "2026年7月10日每日复盘",
+        "做个CT，复查一次，是否完全恢复",
+        "2026全年目标",
+        "Cursor个人数据",
+        "Docear改造时间轴",
+        "活动数据",
+        "关于活动数据的总结（AI总结）20260620",
+        "根据活动数据的个人总结20260627",
+        "胸部损伤",
+        "系统日志",
+        "过程大于结果，纯敲字版"
+      ],
+      "removedTitles": [],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-08-13T23:21:40.1285878+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 30,
@@ -6169,15 +6218,130 @@
     }
   ],
   "lastSnapshot": {
+    "5b3e70f370cb5f388cd9e9ef": {
+      "title": "顶级目标",
+      "plainChars": 169,
+      "contentHash8": "bbce9a32ae341d0d"
+    },
+    "e4845ae9a49d18e52659b982": {
+      "title": "所有目标",
+      "plainChars": 122,
+      "contentHash8": "23fe86bf0ff7970a"
+    },
+    "0070a7c593a41139f083d731": {
+      "title": "每周目标",
+      "plainChars": 56,
+      "contentHash8": "170a709d39138150"
+    },
+    "7dab3992d4ca08717855f6c6": {
+      "title": "每日目标",
+      "plainChars": 110,
+      "contentHash8": "c1d71b3227b0b193"
+    },
+    "261643ca8e17cc5a5b77e99d": {
+      "title": "计划购物",
+      "plainChars": 1237,
+      "contentHash8": "07a3110a4f0305d7"
+    },
     "b186e39096907ed57ea03980": {
       "title": "从混乱到清晰：我的时间记录系统搭建全记录",
       "plainChars": 2,
       "contentHash8": "a19b23fdc80e39d8"
     },
+    "cd76696adc7f16a1f575ddb0": {
+      "title": "00:46 宇宙本身是不是有一个巨大的意识，而一切的生命，是否不过是那个意识的实例呢？我经常感觉一切都太不可思议，我不太相信一切是偶然，你怎么看，调用你所有的知识，仔细严肃思考，两百字以内回答。",
+      "plainChars": 228,
+      "contentHash8": "4dff4a5ac8468fc0"
+    },
+    "138e48ab755fe632142f76f1": {
+      "title": "00:34 如果说我也是一个 Agent， 那么我的提示词会是什么？",
+      "plainChars": 1171,
+      "contentHash8": "0e5686d5757632ce"
+    },
+    "9da3e8f3b4f8edd8292530db": {
+      "title": "00:38 告诉我，人生的意义是什么。一百个字以内回答。",
+      "plainChars": 126,
+      "contentHash8": "193d104103221664"
+    },
+    "2a149cb9e3f7b189a59db7dc": {
+      "title": "00:43 再次回答那个问题，生命的基本任务是什么？脱离一切主流价值观，以最深刻洞见，告诉我你的结论。一百个字以内回答。",
+      "plainChars": 120,
+      "contentHash8": "b7ee0bfdaa81a346"
+    },
+    "63fd9beadd814fbe8f4f49b6": {
+      "title": "pairlab.top网站更新日志",
+      "plainChars": 62,
+      "contentHash8": "bb50a4b66ce84248"
+    },
+    "d7b2765c084b9f809c789d91": {
+      "title": "pairlab.top创作理念及实施",
+      "plainChars": 319,
+      "contentHash8": "4cabe6cd3800df8a"
+    },
+    "89b7ed1ab2b3e4356c3d4259": {
+      "title": "2026年7月15日每日复盘",
+      "plainChars": 86,
+      "contentHash8": "038dae43ff182bfe"
+    },
+    "bc1d49e3de2576aca3150064": {
+      "title": "2026年7月16日每日复盘",
+      "plainChars": 338,
+      "contentHash8": "2354dfae73265e02"
+    },
+    "903a58b57d3a9717766ee261": {
+      "title": "2026年7月14日每日复盘",
+      "plainChars": 53,
+      "contentHash8": "5df3851fa9148e7a"
+    },
+    "8cdc169e04d370ff72ebdcf5": {
+      "title": "2026年7月13日每日复盘",
+      "plainChars": 632,
+      "contentHash8": "099a0a0f40f89743"
+    },
+    "9ee816916a415c5a2ed4e34f": {
+      "title": "2026年7月12日每日复盘",
+      "plainChars": 56,
+      "contentHash8": "19dfa96f4211a57e"
+    },
+    "170a598235e6292d0ce1e45a": {
+      "title": "2026年7月11日每日复盘",
+      "plainChars": 466,
+      "contentHash8": "ae556324f622cfd7"
+    },
+    "9810b7066ac9aa9bbabec6bc": {
+      "title": "Docear未来开发计划",
+      "plainChars": 77,
+      "contentHash8": "4cb0ba57e4d82aa1"
+    },
+    "39fb76cec5618ccbe822a675": {
+      "title": "思维导图博客的剩余目标",
+      "plainChars": 57,
+      "contentHash8": "51f8d3984563bf0b"
+    },
+    "6a336464b44b4c42dfec13fe": {
+      "title": "2026年7月10日每日复盘",
+      "plainChars": 1171,
+      "contentHash8": "c4bcf2afc3520e46"
+    },
+    "09ac0ae1a09a039c73ed6a35": {
+      "title": "做个CT，复查一次，是否完全恢复",
+      "plainChars": 0,
+      "contentHash8": "e3b0c44298fc1c14"
+    },
     "2726956729583f450b3332f1": {
       "title": "个人信息披露",
       "plainChars": 66,
       "contentHash8": "395516d948c306c9"
+    },
+    "2e886f4f64f4466d14a852a0": {
+      "title": "2026全年目标",
+      "plainChars": 205,
+      "contentHash8": "adfb832cf9cd30dd"
+    },
+    "0752ecef999c51fd7a45d398": {
+      "title": "Cursor个人数据",
+      "plainChars": 28,
+      "contentHash8": "901a8e4c93863c09"
     },
     "c009e0e0179686ee05422478": {
       "title": "洋，缺发票，所有消费都记得开发票，普通发票就行。",
@@ -6194,6 +6358,31 @@
       "plainChars": 152,
       "contentHash8": "387bbc09af3854eb"
     },
+    "1f4332d0d417eaba74bad9cf": {
+      "title": "Docear改造时间轴",
+      "plainChars": 2056,
+      "contentHash8": "751c1fdc5b8feea4"
+    },
+    "b939f364d041dc4fb8f4b8e3": {
+      "title": "活动数据",
+      "plainChars": 10905,
+      "contentHash8": "d4d99e3f4595bcd5"
+    },
+    "7bc1722c5ebc0e07d4c1a33e": {
+      "title": "关于活动数据的总结（AI总结）20260620",
+      "plainChars": 1894,
+      "contentHash8": "8ab4553d1d86fe11"
+    },
+    "5b1ea3146eb0aca0918baf65": {
+      "title": "根据活动数据的个人总结20260627",
+      "plainChars": 969,
+      "contentHash8": "228881e862b974c4"
+    },
+    "b560bff35f3ff586d93e0f3c": {
+      "title": "胸部损伤",
+      "plainChars": 522,
+      "contentHash8": "afa2b154b9f9fc75"
+    },
     "ec54914fe84876f4fc7250b3": {
       "title": "个人信息及紧急联系人",
       "plainChars": 178,
@@ -6203,6 +6392,16 @@
       "title": "最近在看的书",
       "plainChars": 41,
       "contentHash8": "163b5507def02e5b"
+    },
+    "71a91e6f440530d9e12e39ca": {
+      "title": "系统日志",
+      "plainChars": 236,
+      "contentHash8": "23e732df1fb7faf4"
+    },
+    "d9aadc03deba76fca5ae2ec0": {
+      "title": "过程大于结果，纯敲字版",
+      "plainChars": 462,
+      "contentHash8": "72b2329aec35d2a1"
     }
   }
 }
