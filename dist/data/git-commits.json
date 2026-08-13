@@ -1,9 +1,6 @@
 {
-  "isGitRepo": true,
+  "isGitRepo": false,
   "scanRoot": "/data/mindmaps",
-  "repoRoot": "/root/Dropbox/mindmaps",
-  "branch": "master",
-  "logScopeRelative": "../../../data/mindmaps",
-  "collectedAtUtc": "2026-08-13T23:02:17.0457754+00:00",
+  "collectedAtUtc": "2026-08-13T23:21:42.7669148+00:00",
   "commits": []
 }

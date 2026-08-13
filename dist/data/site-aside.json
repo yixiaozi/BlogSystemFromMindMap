@@ -6,31 +6,6 @@
   },
   "tags": [
     {
-      "name": "2026-07-31",
-      "page": "标签/标签-2026-07-31.html",
-      "count": 4
-    },
-    {
-      "name": "Cursor",
-      "page": "标签/标签-cursor.html",
-      "count": 1
-    },
-    {
-      "name": "Docear改造",
-      "page": "标签/标签-docear改造.html",
-      "count": 2
-    },
-    {
-      "name": "HashPhotos",
-      "page": "标签/标签-hashphotos.html",
-      "count": 3
-    },
-    {
-      "name": "pairLab.top",
-      "page": "标签/标签-pairlabtop.html",
-      "count": 2
-    },
-    {
       "name": "交换礼物",
       "page": "标签/标签-交换礼物.html",
       "count": 1
@@ -51,33 +26,8 @@
       "count": 1
     },
     {
-      "name": "思维导图博客",
-      "page": "标签/标签-思维导图博客.html",
-      "count": 1
-    },
-    {
       "name": "收藏文章",
       "page": "标签/标签-收藏文章.html",
-      "count": 1
-    },
-    {
-      "name": "每天一千字",
-      "page": "标签/标签-每天一千字.html",
-      "count": 1
-    },
-    {
-      "name": "每日复盘",
-      "page": "标签/标签-每日复盘.html",
-      "count": 7
-    },
-    {
-      "name": "目标管理",
-      "page": "标签/标签-目标管理.html",
-      "count": 5
-    },
-    {
-      "name": "系统日志",
-      "page": "标签/标签-系统日志.html",
       "count": 1
     },
     {
@@ -89,35 +39,12 @@
       "name": "网络世界的我",
       "page": "标签/标签-网络世界的我.html",
       "count": 1
-    },
-    {
-      "name": "购物",
-      "page": "标签/标签-购物.html",
-      "count": 1
-    },
-    {
-      "name": "身体",
-      "page": "标签/标签-身体.html",
-      "count": 2
     }
   ],
   "gallery": {
     "page": "图册.html",
-    "total": 2,
-    "preview": [
-      {
-        "media": "media/b560bff35f3ff586d93e0f3c_0.png",
-        "article": "07有条不紊/07饮食健康/05身体状况/胸部损伤.html",
-        "imageIndex": 0,
-        "caption": "20260629CT报告.png"
-      },
-      {
-        "media": "media/d9aadc03deba76fca5ae2ec0_0.png",
-        "article": "02目标发展/07创作达人/01写作思维/过程大于结果纯敲字版.html",
-        "imageIndex": 0,
-        "caption": "美丽的楸树.png"
-      }
-    ]
+    "total": 0,
+    "preview": []
   },
   "search": {
     "page": "搜索.html",
