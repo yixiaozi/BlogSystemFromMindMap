@@ -2,11 +2,63 @@
   "pagePath": "02目标发展/09目标管理/导图-09目标管理-目标管理.html",
   "documentTitle": "导图：目标管理.mm（全部） · 分支文章",
   "heading": "导图：目标管理.mm（全部）",
-  "subLine": "共 1 篇（该节点及以下全部文章）",
+  "subLine": "共 5 篇（该节点及以下全部文章）",
   "wrapperClass": "page-branch page-with-timeline",
   "enableSortTabs": true,
   "timeSource": "published",
   "items": [
+    {
+      "href": "02目标发展/09目标管理/顶级目标.html",
+      "title": "顶级目标",
+      "published": "2026-08-14T05:01:09",
+      "modified": "2026-08-09T12:41:16",
+      "bookmarks": [
+        "目标管理"
+      ],
+      "bookmarkPages": {
+        "目标管理": "标签/标签-目标管理.html"
+      },
+      "excerpt": "身体健康，至少六十岁之前没毛病，活到八十岁\n娶一个好的老婆，共度一生。\n通过技术做一些有用的事，比如信息安全"
+    },
+    {
+      "href": "02目标发展/09目标管理/所有目标.html",
+      "title": "所有目标",
+      "published": "2026-08-14T05:01:09",
+      "modified": "2026-08-09T12:40:41",
+      "bookmarks": [
+        "目标管理"
+      ],
+      "bookmarkPages": {
+        "目标管理": "标签/标签-目标管理.html"
+      },
+      "excerpt": "Docear软件进行发布\n第二阶段：以Obsidian为竞品进行升级\n第三阶段：打磨推广，朋友10人，总人数1000使用"
+    },
+    {
+      "href": "02目标发展/09目标管理/每周目标.html",
+      "title": "每周目标",
+      "published": "2026-08-14T05:01:09",
+      "modified": "2026-08-09T12:40:31",
+      "bookmarks": [
+        "目标管理"
+      ],
+      "bookmarkPages": {
+        "目标管理": "标签/标签-目标管理.html"
+      },
+      "excerpt": "至少爬一次山，或者出去旅游"
+    },
+    {
+      "href": "02目标发展/09目标管理/每日目标.html",
+      "title": "每日目标",
+      "published": "2026-08-14T05:01:09",
+      "modified": "2026-08-09T12:40:24",
+      "bookmarks": [
+        "目标管理"
+      ],
+      "bookmarkPages": {
+        "目标管理": "标签/标签-目标管理.html"
+      },
+      "excerpt": "每天学习5个技术文档，工具或技巧\n每天看两本书（粗略看完大概理解）\n每天看5个视频，认真吸收"
+    },
     {
       "href": "02目标发展/09目标管理/2026全年目标.html",
       "title": "2026全年目标",

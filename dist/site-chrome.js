@@ -18,6 +18,16 @@
     return i < 0 ? webPath : webPath.substring(i + 1);
   }
 
+  function bust(url) {
+    return typeof MindmapBlogBust === "function" ? MindmapBlogBust(url) : url;
+  }
+
+  function bustAsset(url) {
+    if (!url || !/\.(json|js|css)(\?|$)/i.test(url)) return url;
+    if (/[?&]v=/.test(url)) return url;
+    return bust(url);
+  }
+
   function relFromTo(currentPageWebPath, targetWebPathFromRoot) {
     currentPageWebPath = normalizeWebPath(currentPageWebPath);
     targetWebPathFromRoot = normalizeWebPath(targetWebPathFromRoot);
@@ -37,7 +47,7 @@
     for (var u = 0; u < up; u++) sb += "../";
     for (var j = i; j < toParts.length; j++) sb += toParts[j] + "/";
     sb += toFile;
-    return sb;
+    return bustAsset(sb);
   }
 
   function esc(s) {
