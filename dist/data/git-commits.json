@@ -2,8 +2,8 @@
   "isGitRepo": true,
   "scanRoot": "/data/mindmaps",
   "repoRoot": "/root/Dropbox/mindmaps",
-  "branch": "cursor/krishnamurti-dialogue-c963",
+  "branch": "master",
   "logScopeRelative": "../../../data/mindmaps",
-  "collectedAtUtc": "2026-08-18T04:42:43.1036556+00:00",
+  "collectedAtUtc": "2026-08-18T04:53:32.7784808+00:00",
   "commits": []
 }
