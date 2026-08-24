@@ -164,46 +164,6 @@
                 ],
                 "mindmaps": []
               }
-            },
-            {
-              "name": "09目标管理",
-              "listPage": "02目标发展/09目标管理/分支列表.html",
-              "detailsId": "nav-det-9bcaa7a16792",
-              "children": {
-                "dirs": [],
-                "mindmaps": [
-                  {
-                    "label": "目标管理.mm",
-                    "listPage": "02目标发展/09目标管理/导图-09目标管理-目标管理.html",
-                    "detailsId": "nav-det-82a16fe55fd2",
-                    "root": {
-                      "segments": [],
-                      "articles": [
-                        {
-                          "href": "02目标发展/09目标管理/顶级目标.html",
-                          "title": "顶级目标"
-                        },
-                        {
-                          "href": "02目标发展/09目标管理/所有目标.html",
-                          "title": "所有目标"
-                        },
-                        {
-                          "href": "02目标发展/09目标管理/每周目标.html",
-                          "title": "每周目标"
-                        },
-                        {
-                          "href": "02目标发展/09目标管理/每日目标.html",
-                          "title": "每日目标"
-                        },
-                        {
-                          "href": "02目标发展/09目标管理/2026全年目标.html",
-                          "title": "2026全年目标"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
             }
           ],
           "mindmaps": []

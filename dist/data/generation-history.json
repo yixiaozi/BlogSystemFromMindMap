@@ -1,6 +1,30 @@
 {
   "runs": [
     {
+      "generatedAtUtc": "2026-08-24T05:20:22.9296893+00:00",
+      "articlesAdded": 0,
+      "articlesRemoved": 5,
+      "articlesModified": 0,
+      "charsInNewArticles": 0,
+      "charsInRemovedArticles": 662,
+      "charsAddedByEdits": 0,
+      "charsRemovedByEdits": 0,
+      "totalArticles": 25,
+      "totalPlainChars": 21297,
+      "mindmapFileCount": 16,
+      "distinctBookmarkCount": 17,
+      "articlesWithReminder": 1,
+      "addedTitles": [],
+      "removedTitles": [
+        "顶级目标",
+        "所有目标",
+        "每周目标",
+        "每日目标",
+        "2026全年目标"
+      ],
+      "modifiedTitles": []
+    },
+    {
       "generatedAtUtc": "2026-08-24T05:10:23.9305012+00:00",
       "articlesAdded": 0,
       "articlesRemoved": 0,
@@ -32308,26 +32332,6 @@
     }
   ],
   "lastSnapshot": {
-    "5b3e70f370cb5f388cd9e9ef": {
-      "title": "顶级目标",
-      "plainChars": 169,
-      "contentHash8": "bbce9a32ae341d0d"
-    },
-    "e4845ae9a49d18e52659b982": {
-      "title": "所有目标",
-      "plainChars": 122,
-      "contentHash8": "23fe86bf0ff7970a"
-    },
-    "0070a7c593a41139f083d731": {
-      "title": "每周目标",
-      "plainChars": 56,
-      "contentHash8": "170a709d39138150"
-    },
-    "7dab3992d4ca08717855f6c6": {
-      "title": "每日目标",
-      "plainChars": 110,
-      "contentHash8": "c1d71b3227b0b193"
-    },
     "261643ca8e17cc5a5b77e99d": {
       "title": "计划购物",
       "plainChars": 1237,
@@ -32387,11 +32391,6 @@
       "title": "个人信息披露",
       "plainChars": 66,
       "contentHash8": "395516d948c306c9"
-    },
-    "2e886f4f64f4466d14a852a0": {
-      "title": "2026全年目标",
-      "plainChars": 205,
-      "contentHash8": "adfb832cf9cd30dd"
     },
     "0752ecef999c51fd7a45d398": {
       "title": "Cursor个人数据",
