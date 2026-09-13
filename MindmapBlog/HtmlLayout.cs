@@ -106,6 +106,7 @@ internal static class HtmlLayout
         if (!string.IsNullOrEmpty(headExtra))
             sb.AppendLine(headExtra);
         AppendBaiduAnalytics(sb);
+        AppendUmamiAnalytics(sb);
         sb.AppendLine("</head>");
         sb.Append("<body class=\"site-body\"");
         if (!string.IsNullOrEmpty(currentPageWebPath))
@@ -213,6 +214,17 @@ internal static class HtmlLayout
         sb.AppendLine("  s.parentNode.insertBefore(hm, s);");
         sb.AppendLine("})();");
         sb.AppendLine("</script>");
+    }
+
+    private static void AppendUmamiAnalytics(StringBuilder sb)
+    {
+        const string websiteId = "55896d8d-924d-485e-a092-b004f4c9b793";
+        sb.Append("<script defer src=\"https://umami.mantoublog.top/script.js\" data-website-id=\"")
+            .Append(websiteId)
+            .AppendLine("\"></script>");
+        sb.Append("<script defer src=\"https://umami.mantoublog.top/recorder.js\" data-website-id=\"")
+            .Append(websiteId)
+            .AppendLine("\"></script>");
     }
 
     /// <summary>
